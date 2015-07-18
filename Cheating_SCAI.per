@@ -1,0 +1,32 @@
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; (Priority 3) - Cheating
+; Description: The AI is given 2000 resources of each type. (I give extra gold to research spies if the maximum value is reached.)
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+(defrule
+	(food-amount <= 1999)
+	=>
+	(cc-add-resource food 2000)
+	(chat-local-to-self "-- AI: Free 2000 Food --")
+)
+
+(defrule
+	(wood-amount <= 1999)
+	=>
+	(cc-add-resource wood 2000)
+	(chat-local-to-self "-- AI: Free 2000 Wood --")
+)
+
+(defrule
+	(stone-amount <= 1999)
+	=>
+	(cc-add-resource stone 2000)
+	(chat-local-to-self "-- AI: Free 2000 Stone --")
+)
+
+(defrule
+	(gold-amount <= 29999)
+	=>
+	(cc-add-resource gold 30000)
+	(chat-local-to-self "-- AI: Free 30000 Gold --")
+)

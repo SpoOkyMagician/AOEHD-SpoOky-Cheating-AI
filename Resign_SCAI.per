@@ -1,0 +1,18 @@
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; (Priority 10) - Resign
+; Description: Only resign if it's pointless to continue.
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+(defrule
+	(building-type-count wonder < 1)
+	(building-type-count monastery < 1)
+	(building-type-count town-center < 1)
+	(building-type-count 826 < 1)
+	(unit-type-count-total villager < 1)
+	(unit-type-count-total 434 < 1)
+	=>
+	(chat-to-all "My empire is destroyed! ...I shall resign.")
+	(chat-local-to-self "-- AI: Resigned --")
+	(resign)
+	(disable-self)
+)
