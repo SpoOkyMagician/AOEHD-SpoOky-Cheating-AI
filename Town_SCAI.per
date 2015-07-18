@@ -15,6 +15,7 @@
 	(enable-timer 9 840)
 	(enable-timer 10 960)
 	(enable-timer 11 1080)
+	(enable-timer 12 1200)
 	(disable-self)
 )
 
@@ -84,7 +85,7 @@
 	(disable-timer 9)
 	(chat-local-to-self "-- AI: Seventh Resize Timing --")
 	(set-strategic-number sn-minimum-town-size 0)
-	(set-strategic-number sn-maximum-town-size 50)
+	(set-strategic-number sn-maximum-town-size 45)
 	(disable-self)
 )
 
@@ -94,7 +95,7 @@
 	(disable-timer 10)
 	(chat-local-to-self "-- AI: Eighth Resize Timing --")
 	(set-strategic-number sn-minimum-town-size 0)
-	(set-strategic-number sn-maximum-town-size 100)
+	(set-strategic-number sn-maximum-town-size 50)
 	(disable-self)
 )
 
@@ -104,6 +105,16 @@
 	(disable-timer 11)
 	(chat-local-to-self "-- AI: Ninth Resize Timing --")
 	(set-strategic-number sn-minimum-town-size 0)
-	(set-strategic-number sn-maximum-town-size 255)
+	(set-strategic-number sn-maximum-town-size 55)
+	(disable-self)
+)
+
+(defrule
+	(timer-triggered 12)
+=>
+	(disable-timer 12)
+	(chat-local-to-self "-- AI: Tenth Resize Timing --")
+	(set-strategic-number sn-minimum-town-size 0)
+	(set-strategic-number sn-maximum-town-size 60)
 	(disable-self)
 )
