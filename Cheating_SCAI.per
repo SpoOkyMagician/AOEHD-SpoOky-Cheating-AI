@@ -1,8 +1,136 @@
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ; (Priority 3) - Cheating
-; Description: The AI is given 2000 resources of each type. (I give extra gold to research spies if the maximum value is reached.)
+; Description: The AI is given resources of each type. More/Less depends on difficulty.
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: Edited for difficulty:
+; Hardest - 2000, 30,000
+; Hard - 1000, 15,000
+; Moderate - 500, 7,500
+; Easy - 250, 3,750
+; Easiest - 125, 1,875
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+#load-if-defined DIFFICULTY-EASIEST
+(defrule
+	(food-amount <= 124)
+	=>
+	(cc-add-resource food 125)
+	(chat-local-to-self "-- AI: Free 125 Food --")
+)
+
+(defrule
+	(wood-amount <= 124)
+	=>
+	(cc-add-resource wood 125)
+	(chat-local-to-self "-- AI: Free 125 Wood --")
+)
+
+(defrule
+	(stone-amount <= 124)
+	=>
+	(cc-add-resource stone 125)
+	(chat-local-to-self "-- AI: Free 125 Stone --")
+)
+
+(defrule
+	(gold-amount <= 1874)
+	=>
+	(cc-add-resource gold 1875)
+	(chat-local-to-self "-- AI: Free 1875 Gold --")
+)
+#end-if
+
+#load-if-defined DIFFICULTY-EASY
+(defrule
+	(food-amount <= 249)
+	=>
+	(cc-add-resource food 250)
+	(chat-local-to-self "-- AI: Free 250 Food --")
+)
+
+(defrule
+	(wood-amount <= 249)
+	=>
+	(cc-add-resource wood 250)
+	(chat-local-to-self "-- AI: Free 250 Wood --")
+)
+
+(defrule
+	(stone-amount <= 249)
+	=>
+	(cc-add-resource stone 250)
+	(chat-local-to-self "-- AI: Free 250 Stone --")
+)
+
+(defrule
+	(gold-amount <= 3749)
+	=>
+	(cc-add-resource gold 3750)
+	(chat-local-to-self "-- AI: Free 3750 Gold --")
+)
+#end-if
+
+#load-if-defined DIFFICULTY-MODERATE
+(defrule
+	(food-amount <= 499)
+	=>
+	(cc-add-resource food 500)
+	(chat-local-to-self "-- AI: Free 500 Food --")
+)
+
+(defrule
+	(wood-amount <= 499)
+	=>
+	(cc-add-resource wood 500)
+	(chat-local-to-self "-- AI: Free 500 Wood --")
+)
+
+(defrule
+	(stone-amount <= 499)
+	=>
+	(cc-add-resource stone 500)
+	(chat-local-to-self "-- AI: Free 500 Stone --")
+)
+
+(defrule
+	(gold-amount <= 7499)
+	=>
+	(cc-add-resource gold 7500)
+	(chat-local-to-self "-- AI: Free 7500 Gold --")
+)
+#end-if
+
+#load-if-defined DIFFICULTY-HARD
+(defrule
+	(food-amount <= 999)
+	=>
+	(cc-add-resource food 1000)
+	(chat-local-to-self "-- AI: Free 1000 Food --")
+)
+
+(defrule
+	(wood-amount <= 999)
+	=>
+	(cc-add-resource wood 1000)
+	(chat-local-to-self "-- AI: Free 1000 Wood --")
+)
+
+(defrule
+	(stone-amount <= 999)
+	=>
+	(cc-add-resource stone 1000)
+	(chat-local-to-self "-- AI: Free 1000 Stone --")
+)
+
+(defrule
+	(gold-amount <= 14999)
+	=>
+	(cc-add-resource gold 15000)
+	(chat-local-to-self "-- AI: Free 15000 Gold --")
+)
+#end-if
+
+#load-if-defined DIFFICULTY-HARDEST
 (defrule
 	(food-amount <= 1999)
 	=>
@@ -30,3 +158,4 @@
 	(cc-add-resource gold 30000)
 	(chat-local-to-self "-- AI: Free 30000 Gold --")
 )
+#end-if

@@ -1,5 +1,5 @@
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-; SpoOky Cheating AI Balance V 3.8
+; SpoOky Cheating AI Civilization V 3.8
 ; Created By: SpoOkyMagician
 ; Description: This AI plays any land based map. (Making water map AI's is tough.) It can play on Land Nomad but, it has issues at times trying to build a starting town center. (You have been warned.)
 ; It will play any game type as well. However, keep in mind that this is a Cheating AI. Normal Games are not recommended unless, it's 7 vs 1. (1 being the AI, 7 being players/computers.)
@@ -9,7 +9,7 @@
 (defrule
 	(true)
 	=>
-	(chat-local-to-self "SpoOky Cheating AI Balance (Version 3.8)")
+	(chat-local-to-self "SpoOky Cheating AI Civilization (Version 3.8)")
 	(chat-local-to-self "Created by: SpoOkyMagician")
 	(chat-local-to-self "-- AI: Setting Strategic Numbers --")
 	(disable-self)
@@ -230,7 +230,115 @@
 ; (Priority 6) - Training Units
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+(load "Villagers_SCAI")
+
+(load "Unique_SCAI")
+
+#load-if-defined AZTEC-CIV
+(load "Infantry_SCAI")
+(load "Monks_SCAI")
+(load "Siege_SCAI")
+#end-if
+
+#load-if-defined BRITON-CIV
+(load "Archers_SCAI")
+(load "Infantry_SCAI")
+(load "Siege_SCAI")
+#end-if
+
+#load-if-defined BYZANTINE-CIV
 (load "Units_SCAI")
+#end-if
+
+#load-if-defined CELTIC-CIV
+(load "Infantry_SCAI")
+(load "Cavalry_SCAI")
+(load "Siege_SCAI")
+#end-if
+
+#load-if-defined CHINESE-CIV
+(load "Archers_SCAI")
+(load "Cavalry_SCAI")
+(load "Siege_SCAI")
+#end-if
+
+#load-if-defined FRANKISH-CIV
+(load "Infantry_SCAI")
+(load "Cavalry_SCAI")
+(load "Siege_SCAI")
+#end-if
+
+#load-if-defined GOTHIC-CIV
+(load "Infantry_SCAI")
+(load "Archers_SCAI")
+(load "Siege_SCAI")
+#end-if
+
+#load-if-defined HUN-CIV
+(load "Archers_SCAI")
+(load "Cavalry_SCAI")
+(load "Siege_SCAI")
+#end-if
+
+#load-if-defined JAPANESE-CIV
+(load "Infantry_SCAI")
+(load "Archers_SCAI")
+(load "Siege_SCAI")
+#end-if
+
+#load-if-defined KOREAN-CIV
+(load "Infantry_SCAI")
+(load "Archers_SCAI")
+(load "Siege_SCAI")
+#end-if
+
+#load-if-defined MAYAN-CIV
+(load "Infantry_SCAI")
+(load "Archers_SCAI")
+(load "Siege_SCAI")
+#end-if
+
+#load-if-defined MONGOL-CIV
+(load "Archers_SCAI")
+(load "Cavalry_SCAI")
+(load "Siege_SCAI")
+#end-if
+
+#load-if-defined PERSIAN-CIV
+(load "Archers_SCAI")
+(load "Cavalry_SCAI")
+(load "Siege_SCAI")
+#end-if
+
+#load-if-defined SARACEN-CIV
+(load "Archers_SCAI")
+(load "Cavalry_SCAI")
+(load "Siege_SCAI")
+#end-if
+
+#load-if-defined SPANISH-CIV
+(load "Archers_SCAI")
+(load "Monks_SCAI")
+(load "Siege_SCAI")
+#end-if
+
+#load-if-defined TEUTONIC-CIV
+(load "Infantry_SCAI")
+(load "Monks_SCAI")
+(load "Siege_SCAI")
+#end-if
+
+#load-if-defined TURKISH-CIV
+(load "Archers_SCAI")
+(load "Cavalry_SCAI")
+(load "Siege_SCAI")
+#end-if
+
+#load-if-defined VIKING-CIV
+(load "Infantry_SCAI")
+(load "Archers_SCAI")
+(load "Siege_SCAI")
+#end-if
 
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ; (Priority 7) - Attacking

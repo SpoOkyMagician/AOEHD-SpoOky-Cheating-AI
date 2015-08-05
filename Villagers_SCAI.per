@@ -1,0 +1,34 @@
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; (Priority 6) - Training Units
+; Description: Train villagers, soldiers, siege, etc.
+; Note: This is for a balanced AI. Feel free to experiment with this if you wish. However, I am going to stick with this.
+; Note: This is a modified version to create villager units only.
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: Let's go ahead and get villager production out of the way first. It's pretty important.
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+(defrule
+	(unit-type-count-total villager <= 9)
+	(current-age <= feudal-age)
+	(can-train villager)
+	=>
+	(train villager)
+)
+
+(defrule
+	(unit-type-count-total villager <= 24)
+	(current-age == castle-age)
+	(can-train villager)
+	=>
+	(train villager)
+)
+
+(defrule
+	(unit-type-count-total villager <= 49)
+	(current-age >= imperial-age)
+	(can-train villager)
+	=>
+	(train villager)
+)

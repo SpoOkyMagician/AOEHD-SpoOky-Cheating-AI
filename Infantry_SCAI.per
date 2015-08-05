@@ -1,0 +1,279 @@
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; (Priority 6) - Training Units
+; Description: Train villagers, soldiers, siege, etc.
+; Note: This is for a balanced AI. Feel free to experiment with this if you wish. However, I am going to stick with this.
+; Note: This is a modified version to create infantry units only.
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: Dark Age
+; Note: There is very little to train in this age so...
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+(defrule
+	(unit-type-count-total militiaman-line < 450)
+	(current-age == dark-age)
+	(can-train militiaman-line)
+	=>
+	(train militiaman-line)
+)
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: Feudal Age
+; Note: Let's get a balance of units out.
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+(defrule
+	(unit-type-count-total militiaman-line < 225)
+	(current-age == feudal-age)
+	(can-train militiaman-line)
+	=>
+	(train militiaman-line)
+)
+
+(defrule
+	(unit-type-count-total spearman-line < 225)
+	(current-age == feudal-age)
+	(can-train spearman-line)
+	=>
+	(train spearman-line)
+)
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: Castle Age
+; Note: Gonna balance it out a bit more...
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+(defrule
+	(unit-type-count-total militiaman-line < 150)
+	(current-age == castle-age)
+	(can-train militiaman-line)
+	=>
+	(train militiaman-line)
+)
+
+(defrule
+	(unit-type-count-total spearman-line < 150)
+	(current-age == castle-age)
+	(can-train spearman-line)
+	=>
+	(train spearman-line)
+)
+
+(defrule
+	(unit-type-count-total eagle-warrior-line < 150)
+	(current-age == castle-age)
+	(can-train eagle-warrior-line)
+	=>
+	(train eagle-warrior-line)
+)
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: This is the unit creation loop. This is important. Once in imperial, start doing this from now on.
+; Let's try to organize this create/counter unit stuff... infantry, archers, cavalry, siege, and finally buildings...
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: + INFANTRY
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: + INFANTRY - MILITIA
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+(defrule
+	(unit-type-count-total militiaman-line < 150)
+	(current-age >= imperial-age)
+	(can-train militiaman-line)
+	=>
+	(train militiaman-line)
+)
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: Let's counter!
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+(defrule
+	(unit-type-count-total militiaman-line < 40)
+	(current-age >= imperial-age)
+	(can-train militiaman-line)
+	(players-unit-type-count any-enemy spearman-line >= 10)
+	=>
+	(train militiaman-line)
+)
+
+(defrule
+	(unit-type-count-total militiaman-line < 40)
+	(current-age >= imperial-age)
+	(can-train militiaman-line)
+	(players-unit-type-count any-enemy woad-raider >= 10)
+	=>
+	(train militiaman-line)
+)
+
+(defrule
+	(unit-type-count-total militiaman-line < 40)
+	(current-age >= imperial-age)
+	(can-train militiaman-line)
+	(players-unit-type-count any-enemy elite-woad-raider >= 10)
+	=>
+	(train militiaman-line)
+)
+
+(defrule
+	(unit-type-count-total militiaman-line < 40)
+	(current-age >= imperial-age)
+	(can-train militiaman-line)
+	(players-unit-type-count any-enemy huskarl >= 10)
+	=>
+	(train militiaman-line)
+)
+
+(defrule
+	(unit-type-count-total militiaman-line < 40)
+	(current-age >= imperial-age)
+	(can-train militiaman-line)
+	(players-unit-type-count any-enemy elite-huskarl >= 10)
+	=>
+	(train militiaman-line)
+)
+
+(defrule
+	(unit-type-count-total militiaman-line < 40)
+	(current-age >= imperial-age)
+	(can-train militiaman-line)
+	(players-unit-type-count any-enemy samurai >= 10)
+	=>
+	(train militiaman-line)
+)
+
+(defrule
+	(unit-type-count-total militiaman-line < 40)
+	(current-age >= imperial-age)
+	(can-train militiaman-line)
+	(players-unit-type-count any-enemy elite-samurai >= 10)
+	=>
+	(train militiaman-line)
+)
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: + INFANTRY - SPEARMAN
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+(defrule
+	(unit-type-count-total spearman-line < 150)
+	(current-age >= imperial-age)
+	(can-train spearman-line)
+	=>
+	(train spearman-line)
+)
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: Let's counter!
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+(defrule
+	(unit-type-count-total spearman-line < 40)
+	(current-age >= imperial-age)
+	(can-train spearman-line)
+	(players-unit-type-count any-enemy scout-cavalry-line >= 10)
+	=>
+	(train spearman-line)
+)
+
+(defrule
+	(unit-type-count-total spearman-line < 40)
+	(current-age >= imperial-age)
+	(can-train spearman-line)
+	(players-unit-type-count any-enemy knight-line >= 10)
+	=>
+	(train spearman-line)
+)
+
+(defrule
+	(unit-type-count-total spearman-line < 40)
+	(current-age >= imperial-age)
+	(can-train spearman-line)
+	(players-unit-type-count any-enemy cataphract >= 10)
+	=>
+	(train spearman-line)
+)
+
+(defrule
+	(unit-type-count-total spearman-line < 40)
+	(current-age >= imperial-age)
+	(can-train spearman-line)
+	(players-unit-type-count any-enemy elite-cataphract >= 10)
+	=>
+	(train spearman-line)
+)
+
+(defrule
+	(unit-type-count-total spearman-line < 40)
+	(current-age >= imperial-age)
+	(can-train spearman-line)
+	(players-unit-type-count any-enemy tarkan >= 10)
+	=>
+	(train spearman-line)
+)
+
+(defrule
+	(unit-type-count-total spearman-line < 40)
+	(current-age >= imperial-age)
+	(can-train spearman-line)
+	(players-unit-type-count any-enemy elite-tarkan >= 10)
+	=>
+	(train spearman-line)
+)
+
+(defrule
+	(unit-type-count-total spearman-line < 40)
+	(current-age >= imperial-age)
+	(can-train spearman-line)
+	(players-unit-type-count any-enemy mameluke >= 10)
+	=>
+	(train spearman-line)
+)
+
+(defrule
+	(unit-type-count-total spearman-line < 40)
+	(current-age >= imperial-age)
+	(can-train spearman-line)
+	(players-unit-type-count any-enemy elite-mameluke >= 10)
+	=>
+	(train spearman-line)
+)
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: + INFANTRY - EAGLE WARRIOR
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+(defrule
+	(unit-type-count-total eagle-warrior-line < 150)
+	(current-age >= imperial-age)
+	(can-train eagle-warrior-line)
+	=>
+	(train eagle-warrior-line)
+)
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: Let's counter!
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+(defrule
+	(unit-type-count-total eagle-warrior-line < 40)
+	(current-age >= imperial-age)
+	(can-train eagle-warrior-line)
+	(players-unit-type-count any-enemy monk >= 10)
+	=>
+	(train eagle-warrior-line)
+)
+
+(defrule
+	(unit-type-count-total eagle-warrior-line < 40)
+	(current-age >= imperial-age)
+	(can-train eagle-warrior-line)
+	(players-unit-type-count any-enemy missionary >= 10)
+	=>
+	(train eagle-warrior-line)
+)

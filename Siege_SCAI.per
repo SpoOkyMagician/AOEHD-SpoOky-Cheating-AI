@@ -1,0 +1,379 @@
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; (Priority 6) - Training Units
+; Description: Train villagers, soldiers, siege, etc.
+; Note: This is for a balanced AI. Feel free to experiment with this if you wish. However, I am going to stick with this.
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: Dark Age
+; Note: There is very little to train in this age so...
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: Feudal Age
+; Note: Let's get a balance of units out.
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: Castle Age
+; Note: Gonna balance it out a bit more...
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+(defrule
+	(unit-type-count-total battering-ram-line < 150)
+	(current-age == castle-age)
+	(can-train battering-ram-line)
+	=>
+	(train battering-ram-line)
+)
+
+(defrule
+	(unit-type-count-total mangonel-line < 150)
+	(current-age == castle-age)
+	(can-train mangonel-line)
+	=>
+	(train mangonel-line)
+)
+
+(defrule
+	(unit-type-count-total scorpion-line < 150)
+	(current-age == castle-age)
+	(can-train scorpion-line)
+	=>
+	(train scorpion-line)
+)
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: This is the unit creation loop. This is important. Once in imperial, start doing this from now on.
+; Let's try to organize this create/counter unit stuff... infantry, archers, cavalry, siege, and finally buildings...
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: + SIEGE
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: + SIEGE - RAM
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+(defrule
+	(unit-type-count-total battering-ram-line < 120)
+	(current-age >= imperial-age)
+	(can-train battering-ram-line)
+	=>
+	(train battering-ram-line)
+)
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: Let's counter!
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+(defrule
+	(unit-type-count-total battering-ram-line < 40)
+	(current-age >= imperial-age)
+	(can-train bombard-cannon)
+	(players-building-type-count any-enemy watch-tower-line >= 1)
+	=>
+	(train battering-ram-line)
+)
+
+(defrule
+	(unit-type-count-total battering-ram-line < 40)
+	(current-age >= imperial-age)
+	(can-train bombard-cannon)
+	(players-building-type-count any-enemy bombard-tower >= 1)
+	=>
+	(train battering-ram-line)
+)
+
+(defrule
+	(unit-type-count-total battering-ram-line < 40)
+	(current-age >= imperial-age)
+	(can-train bombard-cannon)
+	(players-building-type-count any-enemy castle >= 1)
+	=>
+	(train battering-ram-line)
+)
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: + SIEGE - MANGONEL
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+(defrule
+	(unit-type-count-total mangonel-line < 100)
+	(current-age >= imperial-age)
+	(can-train mangonel-line)
+	=>
+	(train mangonel-line)
+)
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: Let's counter!
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+(defrule
+	(unit-type-count-total mangonel-line < 40)
+	(current-age >= imperial-age)
+	(can-train mangonel-line)
+	(players-unit-type-count any-enemy archer-line >= 10)
+	=>
+	(train mangonel-line)
+)
+
+(defrule
+	(unit-type-count-total mangonel-line < 40)
+	(current-age >= imperial-age)
+	(can-train mangonel-line)
+	(players-unit-type-count any-enemy skirmisher-line >= 10)
+	=>
+	(train mangonel-line)
+)
+
+(defrule
+	(unit-type-count-total mangonel-line < 40)
+	(current-age >= imperial-age)
+	(can-train mangonel-line)
+	(players-unit-type-count any-enemy hand-cannoneer >= 10)
+	=>
+	(train mangonel-line)
+)
+
+(defrule
+	(unit-type-count-total mangonel-line < 40)
+	(current-age >= imperial-age)
+	(can-train mangonel-line)
+	(players-unit-type-count any-enemy militiaman-line >= 10)
+	=>
+	(train mangonel-line)
+)
+
+(defrule
+	(unit-type-count-total mangonel-line < 40)
+	(current-age >= imperial-age)
+	(can-train mangonel-line)
+	(players-unit-type-count any-enemy spearman-line >= 10)
+	=>
+	(train mangonel-line)
+)
+
+(defrule
+	(unit-type-count-total mangonel-line < 40)
+	(current-age >= imperial-age)
+	(can-train mangonel-line)
+	(players-unit-type-count any-enemy longbowman >= 10)
+	=>
+	(train mangonel-line)
+)
+
+(defrule
+	(unit-type-count-total mangonel-line < 40)
+	(current-age >= imperial-age)
+	(can-train mangonel-line)
+	(players-unit-type-count any-enemy elite-longbowman >= 10)
+	=>
+	(train mangonel-line)
+)
+
+(defrule
+	(unit-type-count-total mangonel-line < 40)
+	(current-age >= imperial-age)
+	(can-train mangonel-line)
+	(players-unit-type-count any-enemy chu-ko-nu >= 10)
+	=>
+	(train mangonel-line)
+)
+
+(defrule
+	(unit-type-count-total mangonel-line < 40)
+	(current-age >= imperial-age)
+	(can-train mangonel-line)
+	(players-unit-type-count any-enemy elite-chu-ko-nu >= 10)
+	=>
+	(train mangonel-line)
+)
+
+(defrule
+	(unit-type-count-total mangonel-line < 40)
+	(current-age >= imperial-age)
+	(can-train mangonel-line)
+	(players-unit-type-count any-enemy war-wagon >= 10)
+	=>
+	(train mangonel-line)
+)
+
+(defrule
+	(unit-type-count-total mangonel-line < 40)
+	(current-age >= imperial-age)
+	(can-train mangonel-line)
+	(players-unit-type-count any-enemy elite-war-wagon >= 10)
+	=>
+	(train mangonel-line)
+)
+
+(defrule
+	(unit-type-count-total mangonel-line < 40)
+	(current-age >= imperial-age)
+	(can-train mangonel-line)
+	(players-unit-type-count any-enemy plumed-archer >= 10)
+	=>
+	(train mangonel-line)
+)
+
+(defrule
+	(unit-type-count-total mangonel-line < 40)
+	(current-age >= imperial-age)
+	(can-train mangonel-line)
+	(players-unit-type-count any-enemy elite-plumed-archer >= 10)
+	=>
+	(train mangonel-line)
+)
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: + SIEGE - SCORPION
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+(defrule
+	(unit-type-count-total scorpion-line < 100)
+	(current-age >= imperial-age)
+	(can-train scorpion-line)
+	=>
+	(train scorpion-line)
+)
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: Let's counter!
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+(defrule
+	(unit-type-count-total scorpion-line < 40)
+	(current-age >= imperial-age)
+	(can-train scorpion-line)
+	(players-unit-type-count any-enemy militiaman-line >= 10)
+	=>
+	(train scorpion-line)
+)
+
+(defrule
+	(unit-type-count-total scorpion-line < 40)
+	(current-age >= imperial-age)
+	(can-train scorpion-line)
+	(players-unit-type-count any-enemy spearman-line >= 10)
+	=>
+	(train scorpion-line)
+)
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: + SIEGE - BOMBARD CANNON
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+(defrule
+	(unit-type-count-total bombard-cannon < 100)
+	(current-age >= imperial-age)
+	(can-train bombard-cannon)
+	=>
+	(train bombard-cannon)
+)
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: Let's counter!
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+(defrule
+	(unit-type-count-total bombard-cannon < 40)
+	(current-age >= imperial-age)
+	(can-train bombard-cannon)
+	(players-building-type-count any-enemy watch-tower-line >= 1)
+	=>
+	(train bombard-cannon)
+)
+
+(defrule
+	(unit-type-count-total bombard-cannon < 40)
+	(current-age >= imperial-age)
+	(can-train bombard-cannon)
+	(players-building-type-count any-enemy bombard-tower >= 1)
+	=>
+	(train bombard-cannon)
+)
+
+(defrule
+	(unit-type-count-total bombard-cannon < 40)
+	(current-age >= imperial-age)
+	(can-train bombard-cannon)
+	(players-building-type-count any-enemy castle >= 1)
+	=>
+	(train bombard-cannon)
+)
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: + SIEGE - PETARD
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: Only make a few of these or they will be created forever...
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+(defrule
+	(unit-type-count-total petard < 100)
+	(can-train petard)
+	=>
+	(train petard)
+)
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: These are bugged... Packed/Unpacked are different units so count is not calculated correctly... Use these carefully... 42 is the packed trebuchet.
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+(defrule
+	(unit-type-count-total trebuchet < 10)
+	(unit-type-count-total 42 < 10)
+	(current-age >= imperial-age)
+	(can-train trebuchet)
+	=>
+	(train trebuchet)
+)
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: Let's Counter!
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+(defrule
+	(unit-type-count-total trebuchet < 10)
+	(unit-type-count-total 42 < 10)
+	(current-age >= imperial-age)
+	(can-train trebuchet)
+	(players-building-type-count any-enemy wonder >= 1)
+	=>
+	(train trebuchet)
+)
+
+(defrule
+	(unit-type-count-total trebuchet < 10)
+	(unit-type-count-total 42 < 10)
+	(current-age >= imperial-age)
+	(can-train trebuchet)
+	(players-building-type-count any-enemy watch-tower-line >= 1)
+	=>
+	(train trebuchet)
+)
+
+(defrule
+	(unit-type-count-total trebuchet < 10)
+	(unit-type-count-total 42 < 10)
+	(current-age >= imperial-age)
+	(can-train trebuchet)
+	(players-building-type-count any-enemy bombard-tower >= 1)
+	=>
+	(train trebuchet)
+)
+
+(defrule
+	(unit-type-count-total trebuchet < 10)
+	(unit-type-count-total 42 < 10)
+	(current-age >= imperial-age)
+	(can-train trebuchet)
+	(players-building-type-count any-enemy castle >= 1)
+	=>
+	(train trebuchet)
+)
