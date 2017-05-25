@@ -1,0 +1,6042 @@
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; SpoOky Cheating AI Balance V 5.0
+; Created By: SpoOkyMagician
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Description: This AI plays any land based map. (Making good water map AI's is tough/annoying.) It can play on Land Nomad but, it has issues at times trying to build a starting town center. (You have been warned.)
+;
+; Note: It will play any game type as well. However, keep in mind that this is a Cheating AI. Normal Games are not recommended unless, it's 7 vs 1. (1 being the AI, 7 being players/computers.)
+;
+; Note: The AI will always have at least 2000 resources. (Cheating Part. Depending on Difficulty, it will be lower.) This is so the AI can build, train, etc. anything without having to worry about resources required.
+; Update: This has changed. It now depends on difficulty.
+;
+; Update: I was using load script here but, there is a problem... Reverting back to once only.
+;
+; Update: Now checks for expansion units/techs.
+;
+; Update: Training was updated. Also, AI now builds walls/gates.
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: Oddly enough, these are not defined... Weird...
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+; units
+
+(defconst genitour-placeholder 1079)
+(defconst genitour 1010)
+(defconst elite-genitour 1012)
+(defconst slinger 185)
+(defconst condottiero 184)
+
+; castle unique techs...
+
+(defconst ri-atlatl 460)
+(defconst ri-kasbah 578)
+; yeomen
+;(defconst ri-howdah 626)
+(defconst ri-greek-fire 464)
+(defconst ri-stronghold 482)
+(defconst ri-great-wall 462)
+(defconst ri-royal-heirs 574)
+(defconst ri-chivalry 493)
+(defconst ri-anarchy 16)
+(defconst ri-marauders 483)
+(defconst ri-andean-sling 516)
+(defconst ri-sultans 506)
+(defconst ri-pavise 494)
+(defconst ri-yasama 484)
+;(defconst ri-tusk-swords 622)
+(defconst ri-panokseon 486)
+(defconst ri-mercenaries 514)
+;(defconst ri-thalassocracy 624)
+(defconst ri-tigui 576)
+(defconst ri-obsidian-arrows 485)
+(defconst ri-nomads 487)
+(defconst ri-boiling-oil 488)
+(defconst ri-carrack 572)
+(defconst ri-madrasah 490)
+(defconst ri-orthodoxy 512)
+(defconst ri-inquisition 492)
+(defconst ri-ironclad 489)
+(defconst ri-sipahi 491)
+;(defconst ri-chatras 628)
+(defconst ri-chieftains 463)
+
+; imperial unique techs...
+
+; garland wars
+(defconst ri-maghrabi-camels 579)
+(defconst ri-war-wolf 461)
+(defconst ri-manipur-cavalry 627)
+; logistica
+; furor celtica
+; rocketry
+(defconst ri-torsion-engines 575)
+; bearded axe
+; perfusion
+; atheism
+(defconst ri-couriers 517)
+(defconst ri-shatagni 507)
+(defconst ri-silk-road 499)
+; kataparuto
+(defconst ri-double-crossbow 623)
+; shinkichon
+(defconst ri-recurve-bow 515)
+(defconst ri-forced-levy 625)
+(defconst ri-farimba 577)
+; el dorado
+; drill
+; mahouts
+(defconst ri-arquebus 573)
+; zealotry
+(defconst ri-druzhina 513)
+; supremacy
+; crenellations
+; artillery
+(defconst ri-paper-money 629)
+; berserkergang
+
+; others...
+
+;(defconst ri-arson 602)
+(defconst ri-expeditions 578)
+
+(defrule
+	(true)
+	=>
+	(chat-local-to-self "SpoOky Cheating AI Balance (Version 5.0)")
+	(chat-local-to-self "Created by: SpoOkyMagician")
+	(chat-local-to-self "-- AI: Setting Strategic Numbers --")
+	(disable-self)
+)
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; (Priority 1) - Setup Strategic Numbers
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Description: We need to setup the strategy to use for land based maps. I found these as default works for now...
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+(defrule
+	(true)
+	=>
+	(set-strategic-number sn-percent-civilian-explorers 10)
+	(set-strategic-number sn-percent-civilian-builders 60)
+	(set-strategic-number sn-percent-civilian-gatherers 30)
+	(set-strategic-number sn-cap-civilian-explorers 5)
+	(set-strategic-number sn-cap-civilian-builders 30)
+	(set-strategic-number sn-cap-civilian-gatherers 15)
+	(set-strategic-number sn-total-number-explorers 5)
+	(set-strategic-number sn-minimum-civilian-explorers 1)
+	(set-strategic-number sn-food-gatherer-percentage  35)
+	(set-strategic-number sn-gold-gatherer-percentage  20)
+	(set-strategic-number sn-stone-gatherer-percentage 10)
+	(set-strategic-number sn-wood-gatherer-percentage  35)
+	(set-strategic-number sn-number-enemy-objects-required 8)
+	(set-strategic-number sn-retask-gather-amount 10)
+	(set-strategic-number sn-max-retask-gather-amount 100)
+	(set-strategic-number sn-initial-exploration-required 0)
+	(set-strategic-number sn-use-by-type-max-gathering 1)
+	(set-strategic-number sn-percent-half-exploration 50)
+	(set-strategic-number sn-minimum-boar-hunt-group-size 10)
+	(set-strategic-number sn-number-forward-builders 0)
+	(set-strategic-number sn-group-commander-selection-method 0)
+	(set-strategic-number sn-consecutive-idle-unit-limit 0)
+	(set-strategic-number sn-task-ungrouped-soldiers 0)
+	(set-strategic-number sn-number-attack-groups 500)
+	(set-strategic-number sn-minimum-attack-group-size 1)
+	(set-strategic-number sn-maximum-attack-group-size 1)
+	(set-strategic-number sn-group-form-distance 1)
+	(set-strategic-number sn-scale-minimum-attack-group-size 1)
+	(set-strategic-number sn-scale-maximum-attack-group-size 1)
+	(set-strategic-number sn-attack-group-size-randomness 0)
+	(disable-self)
+)
+
+(defrule
+	(true)
+	=>
+	(set-strategic-number sn-attack-group-gather-spacing 1)
+	(set-strategic-number sn-group-leader-defense-distance 1)
+	(set-strategic-number sn-percent-attack-soldiers 100)
+	(set-strategic-number sn-percent-attack-boats 0)
+	(set-strategic-number sn-percent-enemy-sighted-response 100)
+	(set-strategic-number sn-enemy-sighted-response-distance 144)
+	(set-strategic-number sn-blot-exploration-map 1)
+	(set-strategic-number sn-blot-size 5)
+	(set-strategic-number sn-maximum-gaia-attack-response 5)
+	(set-strategic-number sn-attack-separation-time-randomness 5)
+	(set-strategic-number sn-attack-intelligence 1)
+	(set-strategic-number sn-initial-attack-delay 10)
+	(set-strategic-number sn-initial-attack-delay-type 0)
+	(set-strategic-number sn-garrison-rams 1)
+	(set-strategic-number sn-number-defend-groups 500)
+	(set-strategic-number sn-minimum-defend-group-size 1)
+	(set-strategic-number sn-maximum-defend-group-size 1)
+	(set-strategic-number sn-gold-defend-priority 7)
+	(set-strategic-number sn-stone-defend-priority 5)
+	(set-strategic-number sn-forage-defend-priority 1)
+	(set-strategic-number sn-relic-defend-priority 3)
+	(set-strategic-number sn-town-defend-priority 1)
+	(set-strategic-number sn-defense-distance 5)
+	(set-strategic-number sn-sentry-distance 5)
+	(set-strategic-number sn-sentry-distance-variation 5)
+	(set-strategic-number sn-defend-overlap-distance 5)
+	(set-strategic-number sn-gather-idle-soldiers-at-center 0)
+	(set-strategic-number sn-number-explore-groups 500)
+	(set-strategic-number sn-minimum-explore-group-size 1)
+	(set-strategic-number sn-maximum-explore-group-size 1)
+	(disable-self)
+)
+
+(defrule
+	(true)
+	=>
+	(set-strategic-number sn-number-boat-attack-groups 0)
+	(set-strategic-number sn-minimum-boat-attack-group-size 0)
+	(set-strategic-number sn-maximum-boat-attack-group-size 0)
+	(set-strategic-number sn-number-boat-defend-groups 0)
+	(set-strategic-number sn-minimum-boat-defend-group-size 0)
+	(set-strategic-number sn-maximum-boat-defend-group-size 0)
+	(set-strategic-number sn-dock-defend-priority 0)
+	(set-strategic-number sn-number-boat-explore-groups 0)
+	(set-strategic-number sn-minimum-boat-explore-group-size 0)
+	(set-strategic-number sn-maximum-boat-explore-group-size 0)
+	(set-strategic-number sn-minimum-town-size 0)
+	(set-strategic-number sn-maximum-town-size 10)
+	(set-strategic-number sn-camp-max-distance 255)
+	(set-strategic-number sn-mill-max-distance 255)
+	(set-strategic-number sn-minimum-water-body-size-for-dock 10)
+	(set-strategic-number sn-max-build-plan-gatherer-percentage 100)
+	(set-strategic-number sn-food-dropsite-distance 3)
+	(set-strategic-number sn-wood-dropsite-distance 3)
+	(set-strategic-number sn-stone-dropsite-distance 3)
+	; I have to thank cheeseontoast for pointing these out to me.
+	(set-strategic-number sn-wall-targeting-mode 1)
+	(set-strategic-number sn-enable-patrol-attack 1)
+	(set-strategic-number sn-local-targeting-mode 1)
+	; end thanks
+	(set-strategic-number sn-gold-dropsite-distance 3)
+	(set-strategic-number sn-minimum-dropsite-buffer 1)
+	(set-strategic-number sn-random-placement-factor 5)
+	(set-strategic-number sn-required-forest-tiles 1)
+	(disable-self)
+)
+
+; highest to lowest
+
+; note: I noticed that this effects the ai the most. Time for some experimenting...
+
+; let's try to target buildings first. In case of wonders or relics.
+; let's come up with a multiplier system that is doubled. Might help target things better...
+
+; multiplier range...
+
+; 32768 - highest
+; 16384
+; 8192
+; 4096 
+; 2048
+; 1024
+; 512
+; 256
+; 128 - medium
+; 64
+; 32
+; 16
+; 8
+; 4
+; 2
+; 1 
+; 0 - lowest
+
+; |highest|
+
+; (set-strategic-number sn-target-evaluation-hitpoints 32768)
+; (set-strategic-number sn-target-evaluation-distance 16384)
+; (set-strategic-number sn-target-evaluation-damage-capability 8192)
+; (set-strategic-number sn-target-evaluation-rof 4096)
+; (set-strategic-number sn-target-evaluation-range 2048)
+; (set-strategic-number sn-target-evaluation-siege-weapon 1024)
+
+; |moderate|
+
+; (set-strategic-number sn-target-evaluation-ally-proximity 512)
+; (set-strategic-number sn-target-evaluation-time-kill-ratio 256)
+; (set-strategic-number sn-target-evaluation-kills 128)
+; (set-strategic-number sn-target-evaluation-in-progress 64)
+; (set-strategic-number sn-target-evaluation-continent 32)
+
+; |lowest|
+
+; (set-strategic-number sn-target-evaluation-attack-attempts 16)
+; (set-strategic-number sn-target-evaluation-boat 8)
+; (set-strategic-number sn-target-evaluation-randomness 4)
+
+; let's test something... is lower numbers just as effective? high numbers causes lag.
+
+; |highest|
+
+; (set-strategic-number sn-target-evaluation-hitpoints 14)
+; (set-strategic-number sn-target-evaluation-distance 13)
+; (set-strategic-number sn-target-evaluation-damage-capability 12)
+; (set-strategic-number sn-target-evaluation-rof 11)
+; (set-strategic-number sn-target-evaluation-range 10)
+; (set-strategic-number sn-target-evaluation-siege-weapon 9)
+
+; |moderate|
+
+; (set-strategic-number sn-target-evaluation-ally-proximity 8)
+; (set-strategic-number sn-target-evaluation-time-kill-ratio 7)
+; (set-strategic-number sn-target-evaluation-kills 6)
+; (set-strategic-number sn-target-evaluation-in-progress 5)
+; (set-strategic-number sn-target-evaluation-continent 4)
+
+; |lowest|
+
+; (set-strategic-number sn-target-evaluation-attack-attempts 3)
+; (set-strategic-number sn-target-evaluation-boat 2)
+; (set-strategic-number sn-target-evaluation-randomness 1)
+
+(defrule
+	(true)
+	=>
+	(set-strategic-number sn-target-evaluation-distance 13)
+	(set-strategic-number sn-target-evaluation-hitpoints 14)
+	(set-strategic-number sn-target-evaluation-damage-capability 12)
+	(set-strategic-number sn-target-evaluation-kills 6)
+	(set-strategic-number sn-target-evaluation-ally-proximity 8)
+	(set-strategic-number sn-target-evaluation-rof 11)
+	(set-strategic-number sn-target-evaluation-randomness 1)
+	(set-strategic-number sn-target-evaluation-attack-attempts 3)
+	(set-strategic-number sn-target-evaluation-range 10)
+;	(set-strategic-number sn-special-attack-type2 wonder)
+;	(set-strategic-number sn-special-attack-influence2 1)
+	(set-strategic-number sn-target-evaluation-continent 4)
+	(set-strategic-number sn-target-evaluation-siege-weapon 9)
+	(set-strategic-number sn-target-evaluation-boat 2)
+	(set-strategic-number sn-target-evaluation-time-kill-ratio 7)
+	(set-strategic-number sn-target-evaluation-in-progress 5)
+	(set-strategic-number sn-do-not-scale-for-difficulty-level 0)
+	(set-strategic-number sn-relic-return-distance 255)
+	(set-strategic-number sn-minimum-peace-like-level 50)
+	(set-strategic-number sn-percent-exploration-required 1)
+	(set-strategic-number sn-zero-priority-distance 144)
+	(set-strategic-number sn-scaling-frequency 1)
+	(set-strategic-number sn-build-frequency 255)
+;	(set-strategic-number sn-save-scenario-information 1)
+	(set-strategic-number sn-number-build-attempts-before-skip 5)
+	(set-strategic-number sn-max-skips-per-attempt 1)
+	(set-strategic-number sn-minimum-amount-for-trading 0)
+	(set-strategic-number sn-hits-before-alliance-change 1)
+	(set-strategic-number sn-attack-diplomacy-impact 50)
+	(set-strategic-number sn-easiest-reaction-percentage 25)
+	(set-strategic-number sn-easier-reaction-percentage 50)
+;	(set-strategic-number sn-track-player-history 1)
+	(set-strategic-number sn-attack-winning-player 1)
+	(set-strategic-number sn-coop-share-information 1)
+	(disable-self)
+)
+
+(defrule
+	(true)
+	=>
+	(set-strategic-number sn-attack-winning-player-factor 75)
+	(set-strategic-number sn-coop-share-attacking 1)
+	(set-strategic-number sn-coop-share-attacking-interval 30)
+	(set-strategic-number sn-percentage-explore-exterminators 1)
+	(set-strategic-number sn-maximum-wood-drop-distance 255)
+	(set-strategic-number sn-maximum-food-drop-distance 255)
+	(set-strategic-number sn-maximum-hunt-drop-distance 255)
+	(set-strategic-number sn-maximum-fish-boat-drop-distance 0)
+	(set-strategic-number sn-maximum-gold-drop-distance 255)
+	(set-strategic-number sn-maximum-stone-drop-distance 255)
+	(set-strategic-number sn-enable-new-building-system 1)
+;	(set-strategic-number sn-enable-training-queue 1)
+	(set-strategic-number sn-percent-building-cancellation 75)
+	(enable-wall-placement 2)
+	(disable-self)
+)
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; (Priority 2) - Setup Special Goals
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Description: I am experimenting with unit training goals here. I need to determine what units I should train if that civ is good for it. Otherwise, don't.
+; Note: HOWEVER, it can still counter with those units. :)
+; Note: I also added a random function in case there are more than one type of unit it likes to train.
+; 
+; Goal 2: (Make Archers) 0 or 1. (boolean)
+; Goal 3: (Make Skirmishers) 0 or 1. (boolean)
+; Goal 4: (Make Cavalry Archers) 0 or 1. (boolean)
+; Goal 5: (Make Hand Cannoneers) 0 or 1. (boolean)
+; 
+; Goal 6: (Make Militia) 0 or 1. (boolean)
+; Goal 7: (Make Spearmen) 0 or 1. (boolean)
+; Goal 8: (Make Eagle Warrior) 0 or 1. (boolean)
+; 
+; Goal 9: (Make Scout Cavalry) 0 or 1. (boolean)
+; Goal 10: (Make Knights) 0 or 1. (boolean)
+; Goal 11: (Make Camels) 0 or 1. (boolean)
+; Goal 12: (Make Battle Elephants) 0 or 1. (boolean)
+; 
+; Goal 13: (Make Monks) 0 or 1. (boolean)
+; 
+; Goal 14: (Make Rams) 0 or 1. (boolean)
+; Goal 15: (Make Mangonels) 0 or 1. (boolean)
+; Goal 16: (Make Scorpions) 0 or 1. (boolean)
+; Goal 17: (Make Bombard Cannons) 0 or 1. (boolean)
+;
+; Goal 18: (Random Barracks Goal) 1-4 (integer)
+; Goal 19: (Random Archery Range Goal) 1-5 (integer)
+; Goal 20: (Random Stable Goal) 1-4 (integer)
+; Goal 21: (Random Monastery Goal) 1-2 (integer)
+; Goal 22: (Random Siege Workshop Goal) 1-4 (integer)
+; Goal 23: (Random Castle Goal) 1-3 (integer)
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; ARCHERY RANGE
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+(defrule
+	(true)
+	=>
+	(generate-random-number 5)
+)
+
+(defrule
+	(random-number == 1)
+	=>
+	(set-goal 19 1)
+)
+
+(defrule
+	(random-number == 2)
+	=>
+	(set-goal 19 2)
+)
+
+(defrule
+	(random-number == 3)
+	=>
+	(set-goal 19 3)
+)
+
+(defrule
+	(random-number == 4)
+	=>
+	(set-goal 19 4)
+)
+
+(defrule
+	(random-number == 5)
+	=>
+	(set-goal 19 5)
+)
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; BARRACKS, STABLE, AND SIEGE WORKSHOP
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+(defrule
+	(true)
+	=>
+	(generate-random-number 4)
+)
+
+(defrule
+	(random-number == 1)
+	=>
+	(set-goal 18 1)
+	(set-goal 20 1)
+	(set-goal 22 1)
+)
+
+(defrule
+	(random-number == 2)
+	=>
+	(set-goal 18 2)
+	(set-goal 20 2)
+	(set-goal 22 2)
+)
+
+(defrule
+	(random-number == 3)
+	=>
+	(set-goal 18 3)
+	(set-goal 20 3)
+	(set-goal 22 3)
+)
+
+(defrule
+	(random-number == 4)
+	=>
+	(set-goal 18 4)
+	(set-goal 20 4)
+	(set-goal 22 4)
+)
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; CASTLE
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+(defrule
+	(true)
+	=>
+	(generate-random-number 3)
+)
+
+(defrule
+	(random-number == 1)
+	=>
+	(set-goal 23 1)
+)
+
+(defrule
+	(random-number == 2)
+	=>
+	(set-goal 23 2)
+)
+
+(defrule
+	(random-number == 3)
+	=>
+	(set-goal 23 3)
+)
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; MONASTERY
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+(defrule
+	(true)
+	=>
+	(generate-random-number 2)
+)
+
+(defrule
+	(random-number == 1)
+	=>
+	(set-goal 21 1)
+)
+
+(defrule
+	(random-number == 2)
+	=>
+	(set-goal 21 2)
+)
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; CIV SPECIFIC GOALS
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+(defrule
+	(true)
+	=>
+	(set-goal 2 0)
+	(set-goal 3 0)
+	(set-goal 4 0)
+	(set-goal 5 0)
+	(set-goal 6 0)
+	(set-goal 7 0)
+	(set-goal 8 0)
+	(set-goal 9 0)
+	(set-goal 10 0)
+	(set-goal 11 0)
+	(set-goal 12 0)
+	(set-goal 13 0)
+	(set-goal 14 0)
+	(set-goal 15 0)
+	(set-goal 16 0)
+	(set-goal 17 0)
+	(disable-self)
+)
+
+#load-if-defined AZTEC-CIV
+(defrule
+	(true)
+	=>
+	(set-goal 2 0)
+	(set-goal 3 1)
+	(set-goal 4 0)
+	(set-goal 5 0)
+	(set-goal 6 1)
+	(set-goal 7 0)
+	(set-goal 8 1)
+	(set-goal 9 0)
+	(set-goal 10 0)
+	(set-goal 11 0)
+	(set-goal 12 0)
+	(set-goal 13 1)
+	(set-goal 14 1)
+	(set-goal 15 1)
+	(set-goal 16 0)
+	(set-goal 17 0)
+	(disable-self)
+)
+#end-if
+
+#load-if-defined BERBERS-CIV
+(defrule
+	(true)
+	=>
+	(set-goal 2 0)
+	(set-goal 3 1)
+	(set-goal 4 1)
+	(set-goal 5 1)
+	(set-goal 6 1)
+	(set-goal 7 0)
+	(set-goal 8 0)
+	(set-goal 9 1)
+	(set-goal 10 0)
+	(set-goal 11 1)
+	(set-goal 12 0)
+	(set-goal 13 0)
+	(set-goal 14 0)
+	(set-goal 15 0)
+	(set-goal 16 1)
+	(set-goal 17 1)
+	(disable-self)
+)
+#end-if
+
+#load-if-defined BRITON-CIV
+(defrule
+	(true)
+	=>
+	(set-goal 2 1)
+	(set-goal 3 1)
+	(set-goal 4 1)
+	(set-goal 5 0)
+	(set-goal 6 1)
+	(set-goal 7 1)
+	(set-goal 8 0)
+	(set-goal 9 0)
+	(set-goal 10 0)
+	(set-goal 11 0)
+	(set-goal 12 0)
+	(set-goal 13 0)
+	(set-goal 14 0)
+	(set-goal 15 0)
+	(set-goal 16 0)
+	(set-goal 17 0)
+	(disable-self)
+)
+#end-if
+
+#load-if-defined BURMESE-CIV
+(defrule
+	(true)
+	=>
+	(set-goal 2 0)
+	(set-goal 3 1)
+	(set-goal 4 1)
+	(set-goal 5 0)
+	(set-goal 6 1)
+	(set-goal 7 1)
+	(set-goal 8 0)
+	(set-goal 9 1)
+	(set-goal 10 0)
+	(set-goal 11 0)
+	(set-goal 12 1)
+	(set-goal 13 1)
+	(set-goal 14 0)
+	(set-goal 15 0)
+	(set-goal 16 1)
+	(set-goal 17 1)
+	(disable-self)
+)
+#end-if
+
+#load-if-defined BYZANTINE-CIV
+(defrule
+	(true)
+	=>
+	(set-goal 2 1)
+	(set-goal 3 1)
+	(set-goal 4 1)
+	(set-goal 5 1)
+	(set-goal 6 1)
+	(set-goal 7 1)
+	(set-goal 8 0)
+	(set-goal 9 1)
+	(set-goal 10 1)
+	(set-goal 11 1)
+	(set-goal 12 0)
+	(set-goal 13 1)
+	(set-goal 14 1)
+	(set-goal 15 0)
+	(set-goal 16 0)
+	(set-goal 17 1)
+	(disable-self)
+)
+#end-if
+
+#load-if-defined CELTIC-CIV
+(defrule
+	(true)
+	=>
+	(set-goal 2 0)
+	(set-goal 3 1)
+	(set-goal 4 1)
+	(set-goal 5 0)
+	(set-goal 6 1)
+	(set-goal 7 1)
+	(set-goal 8 0)
+	(set-goal 9 1)
+	(set-goal 10 1)
+	(set-goal 11 0)
+	(set-goal 12 0)
+	(set-goal 13 0)
+	(set-goal 14 1)
+	(set-goal 15 1)
+	(set-goal 16 1)
+	(set-goal 17 0)
+	(disable-self)
+)
+#end-if
+
+#load-if-defined CHINESE-CIV
+(defrule
+	(true)
+	=>
+	(set-goal 2 1)
+	(set-goal 3 1)
+	(set-goal 4 1)
+	(set-goal 5 0)
+	(set-goal 6 1)
+	(set-goal 7 1)
+	(set-goal 8 0)
+	(set-goal 9 0)
+	(set-goal 10 0)
+	(set-goal 11 1)
+	(set-goal 12 0)
+	(set-goal 13 0)
+	(set-goal 14 1)
+	(set-goal 15 0)
+	(set-goal 16 1)
+	(set-goal 17 0)
+	(disable-self)
+)
+#end-if
+
+#load-if-defined ETHIOPIAN-CIV
+(defrule
+	(true)
+	=>
+	(set-goal 2 1)
+	(set-goal 3 1)
+	(set-goal 4 1)
+	(set-goal 5 0)
+	(set-goal 6 0)
+	(set-goal 7 1)
+	(set-goal 8 0)
+	(set-goal 9 1)
+	(set-goal 10 0)
+	(set-goal 11 1)
+	(set-goal 12 0)
+	(set-goal 13 0)
+	(set-goal 14 1)
+	(set-goal 15 1)
+	(set-goal 16 1)
+	(set-goal 17 1)
+	(disable-self)
+)
+#end-if
+
+#load-if-defined FRANKISH-CIV
+(defrule
+	(true)
+	=>
+	(set-goal 2 0)
+	(set-goal 3 1)
+	(set-goal 4 1)
+	(set-goal 5 1)
+	(set-goal 6 1)
+	(set-goal 7 1)
+	(set-goal 8 0)
+	(set-goal 9 0)
+	(set-goal 10 1)
+	(set-goal 11 0)
+	(set-goal 12 0)
+	(set-goal 13 0)
+	(set-goal 14 0)
+	(set-goal 15 0)
+	(set-goal 16 1)
+	(set-goal 17 1)
+	(disable-self)
+)
+#end-if
+
+#load-if-defined GOTHIC-CIV
+(defrule
+	(true)
+	=>
+	(set-goal 2 0)
+	(set-goal 3 1)
+	(set-goal 4 1)
+	(set-goal 5 1)
+	(set-goal 6 1)
+	(set-goal 7 1)
+	(set-goal 8 0)
+	(set-goal 9 1)
+	(set-goal 10 0)
+	(set-goal 11 0)
+	(set-goal 12 0)
+	(set-goal 13 0)
+	(set-goal 14 0)
+	(set-goal 15 0)
+	(set-goal 16 1)
+	(set-goal 17 1)
+	(disable-self)
+)
+#end-if
+
+#load-if-defined HUN-CIV
+(defrule
+	(true)
+	=>
+	(set-goal 2 0)
+	(set-goal 3 1)
+	(set-goal 4 1)
+	(set-goal 5 0)
+	(set-goal 6 0)
+	(set-goal 7 1)
+	(set-goal 8 0)
+	(set-goal 9 1)
+	(set-goal 10 1)
+	(set-goal 11 0)
+	(set-goal 12 0)
+	(set-goal 13 0)
+	(set-goal 14 1)
+	(set-goal 15 0)
+	(set-goal 16 0)
+	(set-goal 17 0)
+	(disable-self)
+)
+#end-if
+
+#load-if-defined INCAN-CIV
+(defrule
+	(true)
+	=>
+	(set-goal 2 1)
+	(set-goal 3 1)
+	(set-goal 4 0)
+	(set-goal 5 0)
+	(set-goal 6 1)
+	(set-goal 7 1)
+	(set-goal 8 1)
+	(set-goal 9 0)
+	(set-goal 10 0)
+	(set-goal 11 0)
+	(set-goal 12 0)
+	(set-goal 13 1)
+	(set-goal 14 1)
+	(set-goal 15 0)
+	(set-goal 16 1)
+	(set-goal 17 0)
+	(disable-self)
+)
+#end-if
+
+#load-if-defined INDIAN-CIV
+(defrule
+	(true)
+	=>
+	(set-goal 2 1)
+	(set-goal 3 1)
+	(set-goal 4 1)
+	(set-goal 5 1)
+	(set-goal 6 1)
+	(set-goal 7 1)
+	(set-goal 8 0)
+	(set-goal 9 1)
+	(set-goal 10 0)
+	(set-goal 11 1)
+	(set-goal 12 0)
+	(set-goal 13 0)
+	(set-goal 14 0)
+	(set-goal 15 0)
+	(set-goal 16 0)
+	(set-goal 17 1)
+	(disable-self)
+)
+#end-if
+
+#load-if-defined ITALIAN-CIV
+(defrule
+	(true)
+	=>
+	(set-goal 2 1)
+	(set-goal 3 1)
+	(set-goal 4 0)
+	(set-goal 5 1)
+	(set-goal 6 1)
+	(set-goal 7 0)
+	(set-goal 8 0)
+	(set-goal 9 1)
+	(set-goal 10 0)
+	(set-goal 11 0)
+	(set-goal 12 0)
+	(set-goal 13 0)
+	(set-goal 14 0)
+	(set-goal 15 0)
+	(set-goal 16 0)
+	(set-goal 17 1)
+	(disable-self)
+)
+#end-if
+
+#load-if-defined JAPANESE-CIV
+(defrule
+	(true)
+	=>
+	(set-goal 2 1)
+	(set-goal 3 1)
+	(set-goal 4 1)
+	(set-goal 5 1)
+	(set-goal 6 1)
+	(set-goal 7 1)
+	(set-goal 8 0)
+	(set-goal 9 0)
+	(set-goal 10 0)
+	(set-goal 11 0)
+	(set-goal 12 0)
+	(set-goal 13 1)
+	(set-goal 14 0)
+	(set-goal 15 0)
+	(set-goal 16 1)
+	(set-goal 17 0)
+	(disable-self)
+)
+#end-if
+
+#load-if-defined KHMER-CIV
+(defrule
+	(true)
+	=>
+	(set-goal 2 0)
+	(set-goal 3 1)
+	(set-goal 4 1)
+	(set-goal 5 1)
+	(set-goal 6 0)
+	(set-goal 7 1)
+	(set-goal 8 0)
+	(set-goal 9 0)
+	(set-goal 10 0)
+	(set-goal 11 0)
+	(set-goal 12 1)
+	(set-goal 13 0)
+	(set-goal 14 1)
+	(set-goal 15 0)
+	(set-goal 16 1)
+	(set-goal 17 1)
+	(disable-self)
+)
+#end-if
+
+#load-if-defined KOREAN-CIV
+(defrule
+	(true)
+	=>
+	(set-goal 2 1)
+	(set-goal 3 1)
+	(set-goal 4 1)
+	(set-goal 5 1)
+	(set-goal 6 1)
+	(set-goal 7 1)
+	(set-goal 8 0)
+	(set-goal 9 1)
+	(set-goal 10 0)
+	(set-goal 11 0)
+	(set-goal 12 0)
+	(set-goal 13 0)
+	(set-goal 14 0)
+	(set-goal 15 1)
+	(set-goal 16 0)
+	(set-goal 17 1)
+	(disable-self)
+)
+#end-if
+
+#load-if-defined MAGYAR-CIV
+(defrule
+	(true)
+	=>
+	(set-goal 2 1)
+	(set-goal 3 1)
+	(set-goal 4 1)
+	(set-goal 5 0)
+	(set-goal 6 1)
+	(set-goal 7 1)
+	(set-goal 8 0)
+	(set-goal 9 1)
+	(set-goal 10 1)
+	(set-goal 11 0)
+	(set-goal 12 0)
+	(set-goal 13 0)
+	(set-goal 14 0)
+	(set-goal 15 0)
+	(set-goal 16 1)
+	(set-goal 17 0)
+	(disable-self)
+)
+#end-if
+
+#load-if-defined MALAY-CIV
+(defrule
+	(true)
+	=>
+	(set-goal 2 1)
+	(set-goal 3 1)
+	(set-goal 4 0)
+	(set-goal 5 0)
+	(set-goal 6 0)
+	(set-goal 7 1)
+	(set-goal 8 0)
+	(set-goal 9 0)
+	(set-goal 10 0)
+	(set-goal 11 0)
+	(set-goal 12 1)
+	(set-goal 13 1)
+	(set-goal 14 0)
+	(set-goal 15 0)
+	(set-goal 16 1)
+	(set-goal 17 1)
+	(disable-self)
+)
+#end-if
+
+#load-if-defined MALIAN-CIV
+(defrule
+	(true)
+	=>
+	(set-goal 2 1)
+	(set-goal 3 1)
+	(set-goal 4 1)
+	(set-goal 5 1)
+	(set-goal 6 1)
+	(set-goal 7 0)
+	(set-goal 8 0)
+	(set-goal 9 0)
+	(set-goal 10 0)
+	(set-goal 11 1)
+	(set-goal 12 0)
+	(set-goal 13 1)
+	(set-goal 14 0)
+	(set-goal 15 1)
+	(set-goal 16 0)
+	(set-goal 17 1)
+	(disable-self)
+)
+#end-if
+
+#load-if-defined MAYAN-CIV
+(defrule
+	(true)
+	=>
+	(set-goal 2 1)
+	(set-goal 3 1)
+	(set-goal 4 0)
+	(set-goal 5 0)
+	(set-goal 6 0)
+	(set-goal 7 1)
+	(set-goal 8 1)
+	(set-goal 9 0)
+	(set-goal 10 0)
+	(set-goal 11 0)
+	(set-goal 12 0)
+	(set-goal 13 1)
+	(set-goal 14 1)
+	(set-goal 15 0)
+	(set-goal 16 1)
+	(set-goal 17 0)
+	(disable-self)
+)
+#end-if
+
+#load-if-defined MONGOL-CIV
+(defrule
+	(true)
+	=>
+	(set-goal 2 1)
+	(set-goal 3 1)
+	(set-goal 4 1)
+	(set-goal 5 0)
+	(set-goal 6 1)
+	(set-goal 7 0)
+	(set-goal 8 0)
+	(set-goal 9 1)
+	(set-goal 10 0)
+	(set-goal 11 1)
+	(set-goal 12 0)
+	(set-goal 13 0)
+	(set-goal 14 1)
+	(set-goal 15 1)
+	(set-goal 16 1)
+	(set-goal 17 0)
+	(disable-self)
+)
+#end-if
+
+#load-if-defined PERSIAN-CIV
+(defrule
+	(true)
+	=>
+	(set-goal 2 0)
+	(set-goal 3 1)
+	(set-goal 4 1)
+	(set-goal 5 1)
+	(set-goal 6 0)
+	(set-goal 7 1)
+	(set-goal 8 0)
+	(set-goal 9 1)
+	(set-goal 10 1)
+	(set-goal 11 1)
+	(set-goal 12 0)
+	(set-goal 13 0)
+	(set-goal 14 1)
+	(set-goal 15 0)
+	(set-goal 16 1)
+	(set-goal 17 1)
+	(disable-self)
+)
+#end-if
+
+#load-if-defined PORTUGUESE-CIV
+(defrule
+	(true)
+	=>
+	(set-goal 2 1)
+	(set-goal 3 1)
+	(set-goal 4 0)
+	(set-goal 5 1)
+	(set-goal 6 1)
+	(set-goal 7 1)
+	(set-goal 8 0)
+	(set-goal 9 0)
+	(set-goal 10 0)
+	(set-goal 11 0)
+	(set-goal 12 0)
+	(set-goal 13 1)
+	(set-goal 14 0)
+	(set-goal 15 0)
+	(set-goal 16 0)
+	(set-goal 17 1)
+	(disable-self)
+)
+#end-if
+
+#load-if-defined SARACEN-CIV
+(defrule
+	(true)
+	=>
+	(set-goal 2 1)
+	(set-goal 3 1)
+	(set-goal 4 1)
+	(set-goal 5 1)
+	(set-goal 6 1)
+	(set-goal 7 0)
+	(set-goal 8 0)
+	(set-goal 9 1)
+	(set-goal 10 0)
+	(set-goal 11 1)
+	(set-goal 12 0)
+	(set-goal 13 1)
+	(set-goal 14 1)
+	(set-goal 15 1)
+	(set-goal 16 0)
+	(set-goal 17 1)
+	(disable-self)
+)
+#end-if
+
+#load-if-defined SLAVIC-CIV
+(defrule
+	(true)
+	=>
+	(set-goal 2 0)
+	(set-goal 3 1)
+	(set-goal 4 1)
+	(set-goal 5 0)
+	(set-goal 6 1)
+	(set-goal 7 1)
+	(set-goal 8 0)
+	(set-goal 9 1)
+	(set-goal 10 0)
+	(set-goal 11 0)
+	(set-goal 12 0)
+	(set-goal 13 1)
+	(set-goal 14 1)
+	(set-goal 15 1)
+	(set-goal 16 1)
+	(set-goal 17 0)
+	(disable-self)
+)
+#end-if
+
+#load-if-defined SPANISH-CIV
+(defrule
+	(true)
+	=>
+	(set-goal 2 0)
+	(set-goal 3 1)
+	(set-goal 4 1)
+	(set-goal 5 1)
+	(set-goal 6 1)
+	(set-goal 7 1)
+	(set-goal 8 0)
+	(set-goal 9 1)
+	(set-goal 10 1)
+	(set-goal 11 0)
+	(set-goal 12 0)
+	(set-goal 13 1)
+	(set-goal 14 1)
+	(set-goal 15 0)
+	(set-goal 16 0)
+	(set-goal 17 1)
+	(disable-self)
+)
+#end-if
+
+#load-if-defined TEUTONIC-CIV
+(defrule
+	(true)
+	=>
+	(set-goal 2 0)
+	(set-goal 3 1)
+	(set-goal 4 0)
+	(set-goal 5 1)
+	(set-goal 6 1)
+	(set-goal 7 1)
+	(set-goal 8 0)
+	(set-goal 9 0)
+	(set-goal 10 1)
+	(set-goal 11 0)
+	(set-goal 12 0)
+	(set-goal 13 1)
+	(set-goal 14 0)
+	(set-goal 15 1)
+	(set-goal 16 1)
+	(set-goal 17 1)
+	(disable-self)
+)
+#end-if
+
+#load-if-defined TURKISH-CIV
+(defrule
+	(true)
+	=>
+	(set-goal 2 0)
+	(set-goal 3 0)
+	(set-goal 4 1)
+	(set-goal 5 1)
+	(set-goal 6 1)
+	(set-goal 7 0)
+	(set-goal 8 0)
+	(set-goal 9 1)
+	(set-goal 10 0)
+	(set-goal 11 1)
+	(set-goal 12 0)
+	(set-goal 13 0)
+	(set-goal 14 1)
+	(set-goal 15 0)
+	(set-goal 16 1)
+	(set-goal 17 1)
+	(disable-self)
+)
+#end-if
+
+#load-if-defined VIETNAMESE-CIV
+(defrule
+	(true)
+	=>
+	(set-goal 2 1)
+	(set-goal 3 1)
+	(set-goal 4 1)
+	(set-goal 5 0)
+	(set-goal 6 1)
+	(set-goal 7 1)
+	(set-goal 8 0)
+	(set-goal 9 0)
+	(set-goal 10 0)
+	(set-goal 11 0)
+	(set-goal 12 1)
+	(set-goal 13 0)
+	(set-goal 14 0)
+	(set-goal 15 0)
+	(set-goal 16 0)
+	(set-goal 17 1)
+	(disable-self)
+)
+#end-if
+
+#load-if-defined VIKING-CIV
+(defrule
+	(true)
+	=>
+	(set-goal 2 1)
+	(set-goal 3 1)
+	(set-goal 4 0)
+	(set-goal 5 0)
+	(set-goal 6 1)
+	(set-goal 7 0)
+	(set-goal 8 0)
+	(set-goal 9 0)
+	(set-goal 10 0)
+	(set-goal 11 0)
+	(set-goal 12 0)
+	(set-goal 13 0)
+	(set-goal 14 1)
+	(set-goal 15 0)
+	(set-goal 16 1)
+	(set-goal 17 0)
+	(disable-self)
+)
+#end-if
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; (Priority 3) - Cheating
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Description: The AI is given resources of each type. More/Less depends on difficulty.
+;
+; Note: Edited for difficulty:
+;
+; Hardest - 2000, 30,000
+; Hard - 1000, 15,000
+; Moderate - 500, 7,500
+; Easy - 250, 3,750
+; Easiest - 125, 1,875
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+#load-if-defined DIFFICULTY-EASIEST
+(defrule
+	(food-amount <= 124)
+	=>
+	(cc-add-resource food 125)
+	(chat-local-to-self "-- AI: Free 125 Food --")
+)
+
+(defrule
+	(wood-amount <= 124)
+	=>
+	(cc-add-resource wood 125)
+	(chat-local-to-self "-- AI: Free 125 Wood --")
+)
+
+(defrule
+	(stone-amount <= 124)
+	=>
+	(cc-add-resource stone 125)
+	(chat-local-to-self "-- AI: Free 125 Stone --")
+)
+
+(defrule
+	(gold-amount <= 1874)
+	=>
+	(cc-add-resource gold 1875)
+	(chat-local-to-self "-- AI: Free 1875 Gold --")
+)
+#end-if
+
+#load-if-defined DIFFICULTY-EASY
+(defrule
+	(food-amount <= 249)
+	=>
+	(cc-add-resource food 250)
+	(chat-local-to-self "-- AI: Free 250 Food --")
+)
+
+(defrule
+	(wood-amount <= 249)
+	=>
+	(cc-add-resource wood 250)
+	(chat-local-to-self "-- AI: Free 250 Wood --")
+)
+
+(defrule
+	(stone-amount <= 249)
+	=>
+	(cc-add-resource stone 250)
+	(chat-local-to-self "-- AI: Free 250 Stone --")
+)
+
+(defrule
+	(gold-amount <= 3749)
+	=>
+	(cc-add-resource gold 3750)
+	(chat-local-to-self "-- AI: Free 3750 Gold --")
+)
+#end-if
+
+#load-if-defined DIFFICULTY-MODERATE
+(defrule
+	(food-amount <= 499)
+	=>
+	(cc-add-resource food 500)
+	(chat-local-to-self "-- AI: Free 500 Food --")
+)
+
+(defrule
+	(wood-amount <= 499)
+	=>
+	(cc-add-resource wood 500)
+	(chat-local-to-self "-- AI: Free 500 Wood --")
+)
+
+(defrule
+	(stone-amount <= 499)
+	=>
+	(cc-add-resource stone 500)
+	(chat-local-to-self "-- AI: Free 500 Stone --")
+)
+
+(defrule
+	(gold-amount <= 7499)
+	=>
+	(cc-add-resource gold 7500)
+	(chat-local-to-self "-- AI: Free 7500 Gold --")
+)
+#end-if
+
+#load-if-defined DIFFICULTY-HARD
+(defrule
+	(food-amount <= 999)
+	=>
+	(cc-add-resource food 1000)
+	(chat-local-to-self "-- AI: Free 1000 Food --")
+)
+
+(defrule
+	(wood-amount <= 999)
+	=>
+	(cc-add-resource wood 1000)
+	(chat-local-to-self "-- AI: Free 1000 Wood --")
+)
+
+(defrule
+	(stone-amount <= 999)
+	=>
+	(cc-add-resource stone 1000)
+	(chat-local-to-self "-- AI: Free 1000 Stone --")
+)
+
+(defrule
+	(gold-amount <= 14999)
+	=>
+	(cc-add-resource gold 15000)
+	(chat-local-to-self "-- AI: Free 15000 Gold --")
+)
+#end-if
+
+#load-if-defined DIFFICULTY-HARDEST
+(defrule
+	(food-amount <= 1999)
+	=>
+	(cc-add-resource food 2000)
+	(chat-local-to-self "-- AI: Free 2000 Food --")
+)
+
+(defrule
+	(wood-amount <= 1999)
+	=>
+	(cc-add-resource wood 2000)
+	(chat-local-to-self "-- AI: Free 2000 Wood --")
+)
+
+(defrule
+	(stone-amount <= 1999)
+	=>
+	(cc-add-resource stone 2000)
+	(chat-local-to-self "-- AI: Free 2000 Stone --")
+)
+
+(defrule
+	(gold-amount <= 29999)
+	=>
+	(cc-add-resource gold 30000)
+	(chat-local-to-self "-- AI: Free 30000 Gold --")
+)
+#end-if
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; (Priority 4) - Research
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Description: All the research you will ever need in the game. This is going to be very long...
+; 
+; Note: DO NOT USE ri- for unique stuff! It doesn't work! Use my-unique-research and my-unique-unit-upgrade instead.
+; Note: Notice that I do not disable many of these below. I found if they are disabled and fail, they are never triggered again. (Be careful with the disable-self.)
+;
+; Note: When using conditionals that loop forever, you should not use chat related things. The chat sound will be repeated in a loop. (It will get on your nerves.) I leave them out for most research/units/buildings.
+;
+; Note: Let's sort this by age/importance...
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; DARK AGE
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+(defrule
+	(not (research-completed feudal-age) )
+	(can-research feudal-age)
+	=>
+	(research feudal-age)
+)
+
+(defrule
+	(not (research-completed ri-loom) )
+	(can-research ri-loom)
+	=>
+	(research ri-loom)
+)
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; FEUDAL AGE
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+(defrule
+	(not (research-completed castle-age) )
+	(can-research castle-age)
+	=>
+	(research castle-age)
+)
+
+(defrule
+	(not (research-completed ri-wheel-barrow) )
+	(can-research ri-wheel-barrow)
+	=>
+	(research ri-wheel-barrow)
+)
+
+(defrule
+	(not (research-completed ri-double-bit-axe) )
+	(can-research ri-double-bit-axe)
+	=>
+	(research ri-double-bit-axe)
+)
+
+(defrule
+	(not (research-completed ri-horse-collar) )
+	(can-research ri-horse-collar)
+	=>
+	(research ri-horse-collar)
+)
+
+(defrule
+	(not (research-completed ri-gold-mining) )
+	(can-research ri-gold-mining)
+	=>
+	(research ri-gold-mining)
+)
+
+(defrule
+	(not (research-completed ri-stone-mining) )
+	(can-research ri-stone-mining)
+	=>
+	(research ri-stone-mining)
+)
+
+(defrule
+	(not (research-completed ri-man-at-arms) )
+	(can-research ri-man-at-arms)
+	=>
+	(research ri-man-at-arms)
+)
+
+(defrule
+	(not (research-completed ri-scale-mail) )
+	(can-research ri-scale-mail)
+	=>
+	(research ri-scale-mail)
+)
+
+(defrule
+	(not (research-completed ri-padded-archer-armor) )
+	(can-research ri-padded-archer-armor)
+	=>
+	(research ri-padded-archer-armor)
+)
+
+(defrule
+	(not (research-completed ri-scale-barding) )
+	(can-research ri-scale-barding)
+	=>
+	(research ri-scale-barding)
+)
+
+(defrule
+	(not (research-completed ri-forging) )
+	(can-research ri-forging)
+	=>
+	(research ri-forging)
+)
+
+(defrule
+	(not (research-completed ri-fletching) )
+	(can-research ri-fletching)
+	=>
+	(research ri-fletching)
+)
+
+(defrule
+	(not (research-completed ri-bloodlines) )
+	(can-research ri-bloodlines)
+	=>
+	(research ri-bloodlines)
+)
+
+(defrule
+	(not (research-completed ri-tracking) )
+	(can-research ri-tracking)
+	=>
+	(research ri-tracking)
+)
+
+(defrule
+	(not (research-completed ri-cartography) )
+	(can-research ri-cartography)
+	=>
+	(research ri-cartography)
+)
+
+(defrule
+	(not (research-completed ri-town-watch) )
+	(can-research ri-town-watch)
+	=>
+	(research ri-town-watch)
+)
+
+(defrule
+	(not (research-completed ri-coinage) )
+	(can-research ri-coinage)
+	=>
+	(research ri-coinage)
+)
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; CASTLE AGE
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+(defrule
+	(not (research-completed imperial-age) )
+	(can-research imperial-age)
+	=>
+	(research imperial-age)
+)
+
+(defrule
+	(not (research-completed ri-hand-cart) )
+	(can-research ri-hand-cart)
+	=>
+	(research ri-hand-cart)
+)
+
+(defrule
+	(not (research-completed ri-bow-saw) )
+	(can-research ri-bow-saw)
+	=>
+	(research ri-bow-saw)
+)
+
+(defrule
+	(not (research-completed ri-heavy-plow) )
+	(can-research ri-heavy-plow)
+	=>
+	(research ri-heavy-plow)
+)
+
+(defrule
+	(not (research-completed ri-gold-shaft-mining) )
+	(can-research ri-gold-shaft-mining)
+	=>
+	(research ri-gold-shaft-mining)
+)
+
+(defrule
+	(not (research-completed ri-stone-shaft-mining) )
+	(can-research ri-stone-shaft-mining)
+	=>
+	(research ri-stone-shaft-mining)
+)
+
+(defrule
+	(not (research-completed ri-chain-mail) )
+	(can-research ri-chain-mail)
+	=>
+	(research ri-chain-mail)
+)
+
+(defrule
+	(not (research-completed ri-leather-archer-armor) )
+	(can-research ri-leather-archer-armor)
+	=>
+	(research ri-leather-archer-armor)
+)
+
+(defrule
+	(not (research-completed ri-chain-barding) )
+	(can-research ri-chain-barding)
+	=>
+	(research ri-chain-barding)
+)
+
+(defrule
+	(not (research-completed ri-iron-casting) )
+	(can-research ri-iron-casting)
+	=>
+	(research ri-iron-casting)
+)
+
+(defrule
+	(not (research-completed ri-bodkin-arrow) )
+	(can-research ri-bodkin-arrow)
+	=>
+	(research ri-bodkin-arrow)
+)
+
+(defrule
+	(not (research-completed ri-crossbow) )
+	(can-research ri-crossbow)
+	=>
+	(research ri-crossbow)
+)
+
+(defrule
+	(not (research-completed ri-elite-skirmisher) )
+	(can-research ri-elite-skirmisher)
+	=>
+	(research ri-elite-skirmisher)
+)
+
+(defrule
+	(not (research-completed ri-long-swordsman) )
+	(can-research ri-long-swordsman)
+	=>
+	(research ri-long-swordsman)
+)
+
+(defrule
+	(not (research-completed ri-pikeman) )
+	(can-research ri-pikeman)
+	=>
+	(research ri-pikeman)
+)
+
+(defrule
+	(not (research-completed ri-eagle-warrior) )
+	(can-research ri-eagle-warrior)
+	=>
+	(research ri-eagle-warrior)
+)
+
+(defrule
+	(not (research-completed ri-light-cavalry) )
+	(can-research ri-light-cavalry)
+	=>
+	(research ri-light-cavalry)
+)
+
+(defrule
+	(not (research-completed ri-squires) )
+	(can-research ri-squires)
+	=>
+	(research ri-squires)
+)
+
+(defrule
+	(not (research-completed ri-thumb-ring) )
+	(can-research ri-thumb-ring)
+	=>
+	(research ri-thumb-ring)
+)
+
+(defrule
+	(not (research-completed ri-husbandry) )
+	(can-research ri-husbandry)
+	=>
+	(research ri-husbandry)
+)
+
+;(defrule
+;	(not (research-completed ri-redemption) )
+;	(can-research ri-redemption)
+;	=>
+;	(research ri-redemption)
+;)
+
+(defrule
+	(not (research-completed ri-fervor) )
+	(can-research ri-fervor)
+	=>
+	(research ri-fervor)
+)
+
+(defrule
+	(not (research-completed ri-sanctity) )
+	(can-research ri-sanctity)
+	=>
+	(research ri-sanctity)
+)
+
+(defrule
+	(not (research-completed ri-atonement) )
+	(can-research ri-atonement)
+	=>
+	(research ri-atonement)
+)
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: Herbal Medicine seems to be 441. I found this in another AI. (I have yet to find a way to figure out the research constants yet...)
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+(defrule
+	(not (research-completed 441) )
+	(can-research 441)
+	=>
+	(research 441)
+)
+
+;(defrule
+;	(not (research-completed ri-heresy) )
+;	(can-research ri-heresy)
+;	=>
+;	(research ri-heresy)
+;)
+
+(defrule
+	(not (research-completed ri-ballistics) )
+	(can-research ri-ballistics)
+	=>
+	(research ri-ballistics)
+)
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: stonecutting i believe is treadmill-crane. Dunno why they named it this...
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+(defrule
+	(not (research-completed ri-stonecutting) )
+	(can-research ri-stonecutting)
+	=>
+	(research ri-stonecutting)
+)
+
+(defrule
+	(not (research-completed ri-masonry) )
+	(can-research ri-masonry)
+	=>
+	(research ri-masonry)
+)
+
+(defrule
+	(not (research-completed ri-fortified-wall) )
+	(can-research ri-fortified-wall)
+	=>
+	(research ri-fortified-wall)
+)
+
+(defrule
+	(not (research-completed ri-guard-tower) )
+	(can-research ri-guard-tower)
+	=>
+	(research ri-guard-tower)
+)
+
+(defrule
+	(not (research-completed ri-murder-holes) )
+	(can-research ri-murder-holes)
+	=>
+	(research ri-murder-holes)
+)
+
+(defrule
+	(not (research-completed ri-heated-shot) )
+	(can-research ri-heated-shot)
+	=>
+	(research ri-heated-shot)
+)
+
+(defrule
+	(not (research-completed ri-caravan) )
+	(can-research ri-caravan)
+	=>
+	(research ri-caravan)
+)
+
+(defrule
+	(not (research-completed ri-banking) )
+	(can-research ri-banking)
+	=>
+	(research ri-banking)
+)
+
+(defrule
+	(not (research-completed ri-town-patrol) )
+	(can-research ri-town-patrol)
+	=>
+	(research ri-town-patrol)
+)
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; EXPANSION TECHS
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+; castle age unique tech...
+
+(defrule
+	(not (research-completed ri-arson) )
+	(can-research ri-arson)
+	=>
+	(research ri-arson)
+)
+
+(defrule
+	(not (research-completed ri-atlatl) )
+	(can-research ri-atlatl)
+	=>
+	(research ri-atlatl)
+)
+
+(defrule
+	(not (research-completed ri-kasbah) )
+	(can-research ri-kasbah)
+	=>
+	(research ri-kasbah)
+)
+
+(defrule
+	(not (research-completed ri-expeditions) )
+	(can-research ri-expeditions)
+	=>
+	(research ri-expeditions)
+)
+
+(defrule
+	(not (research-completed ri-war-wolf) )
+	(can-research ri-war-wolf)
+	=>
+	(research ri-war-wolf)
+)
+
+(defrule
+	(not (research-completed ri-howdah) )
+	(can-research ri-howdah)
+	=>
+	(research ri-howdah)
+)
+
+(defrule
+	(not (research-completed ri-greek-fire) )
+	(can-research ri-greek-fire)
+	=>
+	(research ri-greek-fire)
+)
+
+(defrule
+	(not (research-completed ri-stronghold) )
+	(can-research ri-stronghold)
+	=>
+	(research ri-stronghold)
+)
+
+(defrule
+	(not (research-completed ri-great-wall) )
+	(can-research ri-great-wall)
+	=>
+	(research ri-great-wall)
+)
+
+(defrule
+	(not (research-completed ri-royal-heirs) )
+	(can-research ri-royal-heirs)
+	=>
+	(research ri-royal-heirs)
+)
+
+(defrule
+	(not (research-completed ri-chivalry) )
+	(can-research ri-chivalry)
+	=>
+	(research ri-chivalry)
+)
+
+(defrule
+	(not (research-completed ri-anarchy) )
+	(can-research ri-anarchy)
+	=>
+	(research ri-anarchy)
+)
+
+(defrule
+	(not (research-completed ri-marauders) )
+	(can-research ri-marauders)
+	=>
+	(research ri-marauders)
+)
+
+(defrule
+	(not (research-completed ri-andean-sling) )
+	(can-research ri-andean-sling)
+	=>
+	(research ri-andean-sling)
+)
+
+(defrule
+	(not (research-completed ri-sultans) )
+	(can-research ri-sultans)
+	=>
+	(research ri-sultans)
+)
+
+(defrule
+	(not (research-completed ri-pavise) )
+	(can-research ri-pavise)
+	=>
+	(research ri-pavise)
+)
+
+(defrule
+	(not (research-completed ri-yasama) )
+	(can-research ri-yasama)
+	=>
+	(research ri-yasama)
+)
+
+(defrule
+	(not (research-completed ri-tusk-swords) )
+	(can-research ri-tusk-swords)
+	=>
+	(research ri-tusk-swords)
+)
+
+(defrule
+	(not (research-completed ri-panokseon) )
+	(can-research ri-panokseon)
+	=>
+	(research ri-panokseon)
+)
+
+(defrule
+	(not (research-completed ri-mercenaries) )
+	(can-research ri-mercenaries)
+	=>
+	(research ri-mercenaries)
+)
+
+(defrule
+	(not (research-completed ri-thalassocracy) )
+	(can-research ri-thalassocracy)
+	=>
+	(research ri-thalassocracy)
+)
+
+(defrule
+	(not (research-completed ri-tigui) )
+	(can-research ri-tigui)
+	=>
+	(research ri-tigui)
+)
+
+(defrule
+	(not (research-completed ri-obsidian-arrows) )
+	(can-research ri-obsidian-arrows)
+	=>
+	(research ri-obsidian-arrows)
+)
+
+(defrule
+	(not (research-completed ri-nomads) )
+	(can-research ri-nomads)
+	=>
+	(research ri-nomads)
+)
+
+(defrule
+	(not (research-completed ri-boiling-oil) )
+	(can-research ri-boiling-oil)
+	=>
+	(research ri-boiling-oil)
+)
+
+(defrule
+	(not (research-completed ri-carrack) )
+	(can-research ri-carrack)
+	=>
+	(research ri-carrack)
+)
+
+(defrule
+	(not (research-completed ri-madrasah) )
+	(can-research ri-madrasah)
+	=>
+	(research ri-madrasah)
+)
+
+(defrule
+	(not (research-completed ri-orthodoxy) )
+	(can-research ri-orthodoxy)
+	=>
+	(research ri-orthodoxy)
+)
+
+(defrule
+	(not (research-completed ri-inquisition) )
+	(can-research ri-inquisition)
+	=>
+	(research ri-inquisition)
+)
+
+(defrule
+	(not (research-completed ri-ironclad) )
+	(can-research ri-ironclad)
+	=>
+	(research ri-ironclad)
+)
+
+(defrule
+	(not (research-completed ri-sipahi) )
+	(can-research ri-sipahi)
+	=>
+	(research ri-sipahi)
+)
+
+(defrule
+	(not (research-completed ri-chatras) )
+	(can-research ri-chatras)
+	=>
+	(research ri-chatras)
+)
+
+(defrule
+	(not (research-completed ri-chieftains) )
+	(can-research ri-chieftains)
+	=>
+	(research ri-chieftains)
+)
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; IMPERIAL AGE
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+(defrule
+	(not (research-completed ri-two-man-saw) )
+	(can-research ri-two-man-saw)
+	=>
+	(research ri-two-man-saw)
+)
+
+(defrule
+	(not (research-completed ri-crop-rotation) )
+	(can-research ri-crop-rotation)
+	=>
+	(research ri-crop-rotation)
+)
+
+(defrule
+	(not (research-completed ri-plate-mail) )
+	(can-research ri-plate-mail)
+	=>
+	(research ri-plate-mail)
+)
+
+(defrule
+	(not (research-completed ri-ring-archer-armor) )
+	(can-research ri-ring-archer-armor)
+	=>
+	(research ri-ring-archer-armor)
+)
+
+(defrule
+	(not (research-completed ri-plate-barding) )
+	(can-research ri-plate-barding)
+	=>
+	(research ri-plate-barding)
+)
+
+(defrule
+	(not (research-completed ri-blast-furnace) )
+	(can-research ri-blast-furnace)
+	=>
+	(research ri-blast-furnace)
+)
+
+(defrule
+	(not (research-completed ri-bracer) )
+	(can-research ri-bracer)
+	=>
+	(research ri-bracer)
+)
+
+(defrule
+	(not (research-completed ri-arbalest) )
+	(can-research ri-arbalest)
+	=>
+	(research ri-arbalest)
+)
+
+(defrule
+	(not (research-completed ri-hand-cannon) )
+	(can-research ri-hand-cannon)
+	=>
+	(research ri-hand-cannon)
+)
+
+(defrule
+	(not (research-completed ri-heavy-cavalry-archer) )
+	(can-research ri-heavy-cavalry-archer)
+	=>
+	(research ri-heavy-cavalry-archer)
+)
+
+(defrule
+	(not (research-completed ri-halberdier) )
+	(can-research ri-halberdier)
+	=>
+	(research ri-halberdier)
+)
+
+(defrule
+	(not (research-completed ri-two-handed-swordsman) )
+	(can-research ri-two-handed-swordsman)
+	=>
+	(research ri-two-handed-swordsman)
+)
+
+(defrule
+	(not (research-completed ri-champion) )
+	(can-research ri-champion)
+	=>
+	(research ri-champion)
+)
+
+(defrule
+	(not (research-completed ri-elite-eagle-warrior) )
+	(can-research ri-elite-eagle-warrior)
+	=>
+	(research ri-elite-eagle-warrior)
+)
+
+(defrule
+	(not (research-completed ri-cavalier) )
+	(can-research ri-cavalier)
+	=>
+	(research ri-cavalier)
+)
+
+(defrule
+	(not (research-completed ri-paladin) )
+	(can-research ri-paladin)
+	=>
+	(research ri-paladin)
+)
+
+(defrule
+	(not (research-completed ri-hussar) )
+	(can-research ri-hussar)
+	=>
+	(research ri-hussar)
+)
+
+(defrule
+	(not (research-completed ri-heavy-camel) )
+	(can-research ri-heavy-camel)
+	=>
+	(research ri-heavy-camel)
+)
+
+(defrule
+	(not (research-completed ri-capped-ram) )
+	(can-research ri-capped-ram)
+	=>
+	(research ri-capped-ram)
+)
+
+(defrule
+	(not (research-completed ri-siege-ram) )
+	(can-research ri-siege-ram)
+	=>
+	(research ri-siege-ram)
+)
+
+(defrule
+	(not (research-completed ri-heavy-scorpion) )
+	(can-research ri-heavy-scorpion)
+	=>
+	(research ri-heavy-scorpion)
+)
+
+(defrule
+	(not (research-completed ri-onager) )
+	(can-research ri-onager)
+	=>
+	(research ri-onager)
+)
+
+(defrule
+	(not (research-completed ri-siege-onager) )
+	(can-research ri-siege-onager)
+	=>
+	(research ri-siege-onager)
+)
+
+(defrule
+	(not (research-completed ri-parthian-tactics) )
+	(can-research ri-parthian-tactics)
+	=>
+	(research ri-parthian-tactics)
+)
+
+(defrule
+	(not (research-completed ri-block-printing) )
+	(can-research ri-block-printing)
+	=>
+	(research ri-block-printing)
+)
+
+(defrule
+	(not (research-completed ri-illumination) )
+	(can-research ri-illumination)
+	=>
+	(research ri-illumination)
+)
+
+(defrule
+	(not (research-completed ri-faith) )
+	(can-research ri-faith)
+	=>
+	(research ri-faith)
+)
+
+(defrule
+	(not (research-completed ri-theocracy) )
+	(can-research ri-theocracy)
+	=>
+	(research ri-theocracy)
+)
+
+(defrule
+	(not (research-completed my-unique-research) )
+	(can-research my-unique-research)
+	=>
+	(research my-unique-research)
+)
+
+(defrule
+	(not (research-completed my-unique-unit-upgrade) )
+	(can-research my-unique-unit-upgrade)
+	=>
+	(research my-unique-unit-upgrade)
+)
+
+(defrule
+	(not (research-completed ri-architecture) )
+	(can-research ri-architecture)
+	=>
+	(research ri-architecture)
+)
+
+(defrule
+	(not (research-completed ri-chemistry) )
+	(can-research ri-chemistry)
+	=>
+	(research ri-chemistry)
+)
+
+(defrule
+	(not (research-completed ri-bombard-tower) )
+	(can-research ri-bombard-tower)
+	=>
+	(research ri-bombard-tower)
+)
+
+(defrule
+	(not (research-completed ri-siege-engineers) )
+	(can-research ri-siege-engineers)
+	=>
+	(research ri-siege-engineers)
+)
+
+(defrule
+	(not (research-completed ri-keep) )
+	(can-research ri-keep)
+	=>
+	(research ri-keep)
+)
+
+(defrule
+	(not (research-completed ri-hoardings) )
+	(can-research ri-hoardings)
+	=>
+	(research ri-hoardings)
+)
+
+(defrule
+	(not (research-completed ri-sappers) )
+	(can-research ri-sappers)
+	=>
+	(research ri-sappers)
+)
+
+(defrule
+	(not (research-completed ri-conscription) )
+	(can-research ri-conscription)
+	=>
+	(research ri-conscription)
+)
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: Spies seems to be 408. I found this in another AI. (I have yet to find a way to figure out the research constants yet...)
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+(defrule
+	(not (research-completed 408) )
+	(can-research 408)
+	=>
+	(research 408)
+)
+
+(defrule
+	(not (research-completed ri-guilds) )
+	(can-research ri-guilds)
+	=>
+	(research ri-guilds)
+)
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; EXPANSION TECHS
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+(defrule
+	(not (research-completed ri-arrowslits) )
+	(can-research ri-arrowslits)
+	=>
+	(research ri-arrowslits)
+)
+
+(defrule
+	(not (research-completed ri-elite-genitour) )
+	(can-research ri-elite-genitour)
+	=>
+	(research ri-elite-genitour)
+)
+
+(defrule
+	(not (research-completed ri-imperial-skirmisher) )
+	(can-research ri-imperial-skirmisher)
+	=>
+	(research ri-imperial-skirmisher)
+)
+
+(defrule
+	(not (research-completed ri-imperial-camel) )
+	(can-research ri-imperial-camel)
+	=>
+	(research ri-imperial-camel)
+)
+
+(defrule
+	(not (research-completed ri-elite-battle-elephant) )
+	(can-research ri-elite-battle-elephant)
+	=>
+	(research ri-elite-battle-elephant)
+)
+
+; these will probably be fixed later in my-unique-research... for now, I will leave this be.
+
+;(defconst ri-maghrabi-camels 579) :(
+;(defconst ri-war-wolf 461) :)
+;(defconst ri-manipur-cavalry 627) :)
+;(defconst ri-torsion-engines 575) :(
+;(defconst ri-couriers 517) :(
+;(defconst ri-shatagni 507) :(
+;(defconst ri-silk-road 499) :(
+;(defconst ri-double-crossbow 623) :)
+;(defconst ri-recurve-bow 515) :(
+;(defconst ri-forced-levy 625) :)
+;(defconst ri-farimba 577) :(
+;(defconst ri-arquebus 573) :(
+;(defconst ri-druzhina 513) :(
+;(defconst ri-paper-money 629) :)
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; (Priority 5) - Building
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Description: Building your town from nothing to something.
+;
+; Note: I found it's best to organize this code by age. If you try to do things all it once, priority seems to get screwy... Things never get done the way you intent...
+; Update: I think the new system should figure out by age. Time for some testing...
+;
+; Note: You may wonder why I don't build more than one building type until later. The reasoning behind this is the AI limitation. You cannot build more than one of each building type at a time.
+; Update: Trying the new building system.
+;
+; Note: You also need to be careful to not get your AI stuck in a loop. If you tell your AI to build more than one type, it will get stuck in that section of code. It's better to build one of each type first.
+;
+; Note: Once you have at least one of each, then you can build multiple buildings of whatever type you want. The only special case here is houses... More on this later...
+;
+; Note: Interesting fact, if you don't have certain buildings built, you cannot build other types. Keep this in mind.
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: HOUSING PRIORITY - I need custom house building. This is driving me nuts...
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+; POPULATION-CAP-25
+; POPULATION-CAP-50
+; POPULATION-CAP-75
+; POPULATION-CAP-100
+; POPULATION-CAP-125
+; POPULATION-CAP-150
+; POPULATION-CAP-175
+; POPULATION-CAP-200
+
+; POPULATION-CAP-250
+; POPULATION-CAP-300
+; POPULATION-CAP-400
+; POPULATION-CAP-500
+
+#load-if-defined POPULATION-CAP-25
+(defrule
+	(building-type-count house <= 5)
+	(up-pending-objects c: house <= 5)
+	(population-headroom >= 5)
+	(can-build house)
+	=>
+	(build house)
+)
+#end-if
+
+#load-if-defined POPULATION-CAP-50
+(defrule
+	(building-type-count house <= 10)
+	(up-pending-objects c: house <= 5)
+	(population-headroom >= 5)
+	(can-build house)
+	=>
+	(build house)
+)
+#end-if
+
+#load-if-defined POPULATION-CAP-75
+(defrule
+	(building-type-count house <= 15)
+	(up-pending-objects c: house <= 5)
+	(population-headroom >= 5)
+	(can-build house)
+	=>
+	(build house)
+)
+#end-if
+
+#load-if-defined POPULATION-CAP-100
+(defrule
+	(building-type-count house <= 20)
+	(up-pending-objects c: house <= 5)
+	(population-headroom >= 5)
+	(can-build house)
+	=>
+	(build house)
+)
+#end-if
+
+#load-if-defined POPULATION-CAP-125
+(defrule
+	(building-type-count house <= 25)
+	(up-pending-objects c: house <= 5)
+	(population-headroom >= 5)
+	(can-build house)
+	=>
+	(build house)
+)
+#end-if
+
+#load-if-defined POPULATION-CAP-150
+(defrule
+	(building-type-count house <= 30)
+	(up-pending-objects c: house <= 5)
+	(population-headroom >= 5)
+	(can-build house)
+	=>
+	(build house)
+)
+#end-if
+
+#load-if-defined POPULATION-CAP-175
+(defrule
+	(building-type-count house <= 35)
+	(up-pending-objects c: house <= 5)
+	(population-headroom >= 5)
+	(can-build house)
+	=>
+	(build house)
+)
+#end-if
+
+#load-if-defined POPULATION-CAP-200
+(defrule
+	(building-type-count house <= 40)
+	(up-pending-objects c: house <= 5)
+	(population-headroom >= 5)
+	(can-build house)
+	=>
+	(build house)
+)
+#end-if
+
+#load-if-defined POPULATION-CAP-250
+(defrule
+	(building-type-count house <= 50)
+	(up-pending-objects c: house <= 5)
+	(population-headroom >= 5)
+	(can-build house)
+	=>
+	(build house)
+)
+#end-if
+
+#load-if-defined POPULATION-CAP-300
+(defrule
+	(building-type-count house <= 60)
+	(up-pending-objects c: house <= 5)
+	(population-headroom >= 5)
+	(can-build house)
+	=>
+	(build house)
+)
+#end-if
+
+#load-if-defined POPULATION-CAP-400
+(defrule
+	(building-type-count house <= 80)
+	(up-pending-objects c: house <= 5)
+	(population-headroom >= 5)
+	(can-build house)
+	=>
+	(build house)
+)
+#end-if
+
+#load-if-defined POPULATION-CAP-500
+(defrule
+	(building-type-count house <= 100)
+	(up-pending-objects c: house <= 5)
+	(population-headroom >= 5)
+	(can-build house)
+	=>
+	(build house)
+)
+#end-if
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: DARK AGE
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+(defrule
+	(current-age == dark-age)
+	(building-type-count town-center == 0)
+	(up-pending-objects c: town-center < 1)
+	(can-build town-center)
+	=>
+	(build town-center)
+)
+
+(defrule
+	(current-age == dark-age)
+	(building-type-count mill == 0)
+	(up-pending-objects c: mill < 1)
+	(can-build mill)
+	=>
+	(build mill)
+)
+
+(defrule
+	(current-age == dark-age)
+	(building-type-count lumber-camp == 0)
+	(up-pending-objects c: lumber-camp < 1)
+	(can-build lumber-camp)
+	=>
+	(build lumber-camp)
+)
+
+(defrule
+	(current-age == dark-age)
+	(building-type-count mining-camp == 0)
+	(up-pending-objects c: mining-camp < 1)
+	(can-build mining-camp)
+	=>
+	(build mining-camp)
+)
+
+(defrule
+	(current-age == dark-age)
+	(building-type-count barracks == 0)
+	(up-pending-objects c: barracks < 1)
+	(can-build barracks)
+	=>
+	(build barracks)
+)
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: DARK AGE - Multiple Buildings
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+(defrule
+	(current-age == dark-age)
+	(building-type-count mill >= 1)
+	(building-type-count lumber-camp >= 1)
+	(building-type-count mining-camp >= 1)
+	(building-type-count barracks >= 1)
+	(building-type-count town-center >= 1)
+	(building-type-count barracks <= 3)
+	(up-pending-objects c: barracks <= 3)
+	(can-build barracks)
+	=>
+	(build barracks)
+)
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: FEUDAL AGE
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+(defrule
+	(current-age == feudal-age)
+	(building-type-count town-center == 0)
+	(up-pending-objects c: town-center < 1)
+	(can-build town-center)
+	=>
+	(build town-center)
+)
+
+(defrule
+	(current-age == feudal-age)
+	(building-type-count archery-range == 0)
+	(up-pending-objects c: archery-range < 1)
+	(can-build archery-range)
+	=>
+	(build archery-range)
+)
+
+(defrule
+	(current-age == feudal-age)
+	(building-type-count stable == 0)
+	(up-pending-objects c: stable < 1)
+	(can-build stable)
+	=>
+	(build stable)
+)
+
+(defrule
+	(current-age == feudal-age)
+	(building-type-count blacksmith == 0)
+	(up-pending-objects c: blacksmith < 1)
+	(can-build blacksmith)
+	=>
+	(build blacksmith)
+)
+
+(defrule
+	(current-age == feudal-age)
+	(building-type-count market == 0)
+	(up-pending-objects c: market < 1)
+	(can-build market)
+	=>
+	(build market)
+)
+
+(defrule
+	(current-age == feudal-age)
+	(can-build-wall 2 stone-wall-line)
+	=>
+	(build-wall 2 stone-wall-line)
+)
+
+(defrule
+	(current-age == feudal-age)
+	(can-build-gate 2)
+	=>
+	(build-gate 2)
+)
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: FEUDAL AGE - Multiple Buildings
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+(defrule
+	(current-age == feudal-age)
+	(building-type-count mill >= 1)
+	(building-type-count lumber-camp >= 1)
+	(building-type-count mining-camp >= 1)
+	(building-type-count barracks >= 1)
+	(building-type-count archery-range >= 1)
+	(building-type-count blacksmith >= 1)
+	(building-type-count market >= 1)
+	(building-type-count town-center >= 1)
+	(building-type-count barracks <= 3)
+	(up-pending-objects c: barracks <= 3)
+	(can-build barracks)
+	=>
+	(build barracks)
+)
+
+(defrule
+	(current-age == feudal-age)
+	(building-type-count mill >= 1)
+	(building-type-count lumber-camp >= 1)
+	(building-type-count mining-camp >= 1)
+	(building-type-count barracks >= 1)
+	(building-type-count archery-range >= 1)
+	(building-type-count blacksmith >= 1)
+	(building-type-count market >= 1)
+	(building-type-count town-center >= 1)
+	(building-type-count archery-range <= 3)
+	(up-pending-objects c: archery-range <= 3)
+	(can-build archery-range)
+	=>
+	(build archery-range)
+)
+
+(defrule
+	(current-age == feudal-age)
+	(building-type-count mill >= 1)
+	(building-type-count lumber-camp >= 1)
+	(building-type-count mining-camp >= 1)
+	(building-type-count barracks >= 1)
+	(building-type-count archery-range >= 1)
+	(building-type-count blacksmith >= 1)
+	(building-type-count market >= 1)
+	(building-type-count town-center >= 1)
+	(building-type-count stable <= 3)
+	(up-pending-objects c: stable <= 3)
+	(can-build stable)
+	=>
+	(build stable)
+)
+
+(defrule
+	(current-age == feudal-age)
+	(building-type-count mill >= 1)
+	(building-type-count lumber-camp >= 1)
+	(building-type-count mining-camp >= 1)
+	(building-type-count barracks >= 1)
+	(building-type-count archery-range >= 1)
+	(building-type-count blacksmith >= 1)
+	(building-type-count market >= 1)
+	(building-type-count town-center >= 1)
+	(building-type-count watch-tower-line <= 5)
+	(up-pending-objects c: watch-tower-line < 5)
+	(can-build watch-tower-line)
+	=>
+	(build watch-tower-line)
+)
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: CASTLE AGE
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+(defrule
+	(current-age == castle-age)
+	(building-type-count town-center == 0)
+	(up-pending-objects c: town-center < 1)
+	(can-build town-center)
+	=>
+	(build town-center)
+)
+
+(defrule
+	(current-age == castle-age)
+	(building-type-count university == 0)
+	(up-pending-objects c: university < 1)
+	(can-build university)
+	=>
+	(build university)
+)
+
+(defrule
+	(current-age == castle-age)
+	(building-type-count monastery == 0)
+	(up-pending-objects c: monastery < 1)
+	(can-build monastery)
+	=>
+	(build monastery)
+)
+
+(defrule
+	(current-age == castle-age)
+	(building-type-count siege-workshop == 0)
+	(up-pending-objects c: siege-workshop < 1)
+	(can-build siege-workshop)
+	=>
+	(build siege-workshop)
+)
+
+(defrule
+	(current-age == castle-age)
+	(building-type-count castle == 0)
+	(up-pending-objects c: castle < 1)
+	(can-build castle)
+	=>
+	(build castle)
+)
+
+(defrule
+	(current-age == castle-age)
+	(can-build-wall 2 stone-wall-line)
+	=>
+	(build-wall 2 stone-wall-line)
+)
+
+(defrule
+	(current-age == castle-age)
+	(can-build-gate 2)
+	=>
+	(build-gate 2)
+)
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: CASTLE AGE - Multiple Buildings
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+(defrule
+	(current-age == castle-age)
+	(building-type-count mill >= 1)
+	(building-type-count lumber-camp >= 1)
+	(building-type-count mining-camp >= 1)
+	(building-type-count barracks >= 1)
+	(building-type-count archery-range >= 1)
+	(building-type-count blacksmith >= 1)
+	(building-type-count market >= 1)
+	(building-type-count university >= 1)
+	(building-type-count monastery >= 1)
+	(building-type-count siege-workshop >= 1)
+	(building-type-count castle >= 1)
+	(building-type-count town-center >= 1)
+	(building-type-count town-center <= 2)
+	(up-pending-objects c: town-center <= 2)
+	(can-build town-center)
+	=>
+	(build town-center)
+)
+
+(defrule
+	(current-age == castle-age)
+	(building-type-count mill >= 1)
+	(building-type-count lumber-camp >= 1)
+	(building-type-count mining-camp >= 1)
+	(building-type-count barracks >= 1)
+	(building-type-count archery-range >= 1)
+	(building-type-count blacksmith >= 1)
+	(building-type-count market >= 1)
+	(building-type-count university >= 1)
+	(building-type-count monastery >= 1)
+	(building-type-count siege-workshop >= 1)
+	(building-type-count castle >= 1)
+	(building-type-count town-center >= 1)
+	(building-type-count barracks <= 7)
+	(up-pending-objects c: barracks <= 7)
+	(can-build barracks)
+	=>
+	(build barracks)
+)
+
+(defrule
+	(current-age == castle-age)
+	(building-type-count mill >= 1)
+	(building-type-count lumber-camp >= 1)
+	(building-type-count mining-camp >= 1)
+	(building-type-count barracks >= 1)
+	(building-type-count archery-range >= 1)
+	(building-type-count blacksmith >= 1)
+	(building-type-count market >= 1)
+	(building-type-count university >= 1)
+	(building-type-count monastery >= 1)
+	(building-type-count siege-workshop >= 1)
+	(building-type-count castle >= 1)
+	(building-type-count town-center >= 1)
+	(building-type-count archery-range <= 7)
+	(up-pending-objects c: archery-range <= 7)
+	(can-build archery-range)
+	=>
+	(build archery-range)
+)
+
+(defrule
+	(current-age == castle-age)
+	(building-type-count mill >= 1)
+	(building-type-count lumber-camp >= 1)
+	(building-type-count mining-camp >= 1)
+	(building-type-count barracks >= 1)
+	(building-type-count archery-range >= 1)
+	(building-type-count blacksmith >= 1)
+	(building-type-count market >= 1)
+	(building-type-count university >= 1)
+	(building-type-count monastery >= 1)
+	(building-type-count siege-workshop >= 1)
+	(building-type-count castle >= 1)
+	(building-type-count town-center >= 1)
+	(building-type-count stable <= 7)
+	(up-pending-objects c: stable <= 7)
+	(can-build stable)
+	=>
+	(build stable)
+)
+
+(defrule
+	(current-age == castle-age)
+	(building-type-count mill >= 1)
+	(building-type-count lumber-camp >= 1)
+	(building-type-count mining-camp >= 1)
+	(building-type-count barracks >= 1)
+	(building-type-count archery-range >= 1)
+	(building-type-count blacksmith >= 1)
+	(building-type-count market >= 1)
+	(building-type-count university >= 1)
+	(building-type-count monastery >= 1)
+	(building-type-count siege-workshop >= 1)
+	(building-type-count castle >= 1)
+	(building-type-count town-center >= 1)
+	(building-type-count monastery <= 7)
+	(up-pending-objects c: monastery <= 7)
+	(can-build monastery)
+	=>
+	(build monastery)
+)
+
+(defrule
+	(current-age == castle-age)
+	(building-type-count mill >= 1)
+	(building-type-count lumber-camp >= 1)
+	(building-type-count mining-camp >= 1)
+	(building-type-count barracks >= 1)
+	(building-type-count archery-range >= 1)
+	(building-type-count blacksmith >= 1)
+	(building-type-count market >= 1)
+	(building-type-count university >= 1)
+	(building-type-count monastery >= 1)
+	(building-type-count siege-workshop >= 1)
+	(building-type-count castle >= 1)
+	(building-type-count town-center >= 1)
+	(building-type-count siege-workshop <= 7)
+	(up-pending-objects c: siege-workshop <= 7)
+	(can-build siege-workshop)
+	=>
+	(build siege-workshop)
+)
+
+(defrule
+	(current-age == castle-age)
+	(building-type-count mill >= 1)
+	(building-type-count lumber-camp >= 1)
+	(building-type-count mining-camp >= 1)
+	(building-type-count barracks >= 1)
+	(building-type-count archery-range >= 1)
+	(building-type-count blacksmith >= 1)
+	(building-type-count market >= 1)
+	(building-type-count university >= 1)
+	(building-type-count monastery >= 1)
+	(building-type-count siege-workshop >= 1)
+	(building-type-count castle >= 1)
+	(building-type-count town-center >= 1)
+	(building-type-count castle <= 7)
+	(up-pending-objects c: castle <= 7)
+	(can-build castle)
+	=>
+	(build castle)
+)
+
+(defrule
+	(current-age == castle-age)
+	(building-type-count mill >= 1)
+	(building-type-count lumber-camp >= 1)
+	(building-type-count mining-camp >= 1)
+	(building-type-count barracks >= 1)
+	(building-type-count archery-range >= 1)
+	(building-type-count blacksmith >= 1)
+	(building-type-count market >= 1)
+	(building-type-count university >= 1)
+	(building-type-count monastery >= 1)
+	(building-type-count siege-workshop >= 1)
+	(building-type-count castle >= 1)
+	(building-type-count town-center >= 1)
+	(building-type-count watch-tower-line <= 10)
+	(up-pending-objects c: watch-tower-line < 10)
+	(can-build watch-tower-line)
+	=>
+	(build watch-tower-line)
+)
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: IMPERIAL AGE / POST IMPERIAL AGE
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+(defrule
+	(current-age >= imperial-age)
+	(building-type-count town-center == 0)
+	(up-pending-objects c: town-center < 1)
+	(can-build town-center)
+	=>
+	(build town-center)
+)
+
+(defrule
+	(current-age >= imperial-age)
+	(building-type-count mill == 0)
+	(up-pending-objects c: mill < 1)
+	(can-build mill)
+	=>
+	(build mill)
+)
+
+(defrule
+	(current-age >= imperial-age)
+	(building-type-count lumber-camp == 0)
+	(up-pending-objects c: lumber-camp < 1)
+	(can-build lumber-camp)
+	=>
+	(build lumber-camp)
+)
+
+(defrule
+	(current-age >= imperial-age)
+	(building-type-count mining-camp == 0)
+	(up-pending-objects c: mining-camp < 1)
+	(can-build mining-camp)
+	=>
+	(build mining-camp)
+)
+
+(defrule
+	(current-age >= imperial-age)
+	(building-type-count barracks == 0)
+	(up-pending-objects c: barracks < 1)
+	(can-build barracks)
+	=>
+	(build barracks)
+)
+
+(defrule
+	(current-age >= imperial-age)
+	(building-type-count archery-range == 0)
+	(up-pending-objects c: archery-range < 1)
+	(can-build archery-range)
+	=>
+	(build archery-range)
+)
+
+(defrule
+	(current-age >= imperial-age)
+	(building-type-count stable == 0)
+	(up-pending-objects c: stable < 1)
+	(can-build stable)
+	=>
+	(build stable)
+)
+
+(defrule
+	(current-age >= imperial-age)
+	(building-type-count blacksmith == 0)
+	(up-pending-objects c: blacksmith < 1)
+	(can-build blacksmith)
+	=>
+	(build blacksmith)
+)
+
+(defrule
+	(current-age >= imperial-age)
+	(building-type-count market == 0)
+	(up-pending-objects c: market < 1)
+	(can-build market)
+	=>
+	(build market)
+)
+
+(defrule
+	(current-age >= imperial-age)
+	(building-type-count university == 0)
+	(up-pending-objects c: university < 1)
+	(can-build university)
+	=>
+	(build university)
+)
+
+(defrule
+	(current-age >= imperial-age)
+	(building-type-count monastery == 0)
+	(up-pending-objects c: monastery < 1)
+	(can-build monastery)
+	=>
+	(build monastery)
+)
+
+(defrule
+	(current-age >= imperial-age)
+	(building-type-count siege-workshop == 0)
+	(up-pending-objects c: siege-workshop < 1)
+	(can-build siege-workshop)
+	=>
+	(build siege-workshop)
+)
+
+(defrule
+	(current-age >= imperial-age)
+	(building-type-count castle == 0)
+	(up-pending-objects c: castle < 1)
+	(can-build castle)
+	=>
+	(build castle)
+)
+
+#load-if-defined VICTORY-STANDARD
+(defrule
+	(building-type-count wonder == 0)
+	(up-pending-objects c: wonder < 1)
+	(can-build wonder)
+	=>
+	(build wonder)
+)
+#end-if
+
+(defrule
+	(current-age >= imperial-age)
+	(can-build-wall 2 stone-wall-line)
+	=>
+	(build-wall 2 stone-wall-line)
+)
+
+(defrule
+	(current-age >= imperial-age)
+	(can-build-gate 2)
+	=>
+	(build-gate 2)
+)
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: IMPERIAL AGE / POST IMPERIAL AGE - Multiple Buildings
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+(defrule
+	(current-age >= imperial-age)
+	(building-type-count mill >= 1)
+	(building-type-count lumber-camp >= 1)
+	(building-type-count mining-camp >= 1)
+	(building-type-count barracks >= 1)
+	(building-type-count archery-range >= 1)
+	(building-type-count blacksmith >= 1)
+	(building-type-count market >= 1)
+	(building-type-count university >= 1)
+	(building-type-count monastery >= 1)
+	(building-type-count siege-workshop >= 1)
+	(building-type-count castle >= 1)
+	(building-type-count town-center >= 1)
+	(building-type-count town-center <= 2)
+	(up-pending-objects c: town-center < 2)
+	(can-build town-center)
+	=>
+	(build town-center)
+)
+
+(defrule
+	(current-age >= imperial-age)
+	(building-type-count mill >= 1)
+	(building-type-count lumber-camp >= 1)
+	(building-type-count mining-camp >= 1)
+	(building-type-count barracks >= 1)
+	(building-type-count archery-range >= 1)
+	(building-type-count blacksmith >= 1)
+	(building-type-count market >= 1)
+	(building-type-count university >= 1)
+	(building-type-count monastery >= 1)
+	(building-type-count siege-workshop >= 1)
+	(building-type-count castle >= 1)
+	(building-type-count town-center >= 1)
+	(building-type-count barracks <= 7)
+	(up-pending-objects c: barracks < 7)
+	(can-build barracks)
+	=>
+	(build barracks)
+)
+
+(defrule
+	(current-age >= imperial-age)
+	(building-type-count mill >= 1)
+	(building-type-count lumber-camp >= 1)
+	(building-type-count mining-camp >= 1)
+	(building-type-count barracks >= 1)
+	(building-type-count archery-range >= 1)
+	(building-type-count blacksmith >= 1)
+	(building-type-count market >= 1)
+	(building-type-count university >= 1)
+	(building-type-count monastery >= 1)
+	(building-type-count siege-workshop >= 1)
+	(building-type-count castle >= 1)
+	(building-type-count town-center >= 1)
+	(building-type-count archery-range <= 7)
+	(up-pending-objects c: archery-range < 7)
+	(can-build archery-range)
+	=>
+	(build archery-range)
+)
+
+(defrule
+	(current-age >= imperial-age)
+	(building-type-count mill >= 1)
+	(building-type-count lumber-camp >= 1)
+	(building-type-count mining-camp >= 1)
+	(building-type-count barracks >= 1)
+	(building-type-count archery-range >= 1)
+	(building-type-count blacksmith >= 1)
+	(building-type-count market >= 1)
+	(building-type-count university >= 1)
+	(building-type-count monastery >= 1)
+	(building-type-count siege-workshop >= 1)
+	(building-type-count castle >= 1)
+	(building-type-count town-center >= 1)
+	(building-type-count stable <= 7)
+	(up-pending-objects c: stable < 7)
+	(can-build stable)
+	=>
+	(build stable)
+)
+
+(defrule
+	(current-age >= imperial-age)
+	(building-type-count mill >= 1)
+	(building-type-count lumber-camp >= 1)
+	(building-type-count mining-camp >= 1)
+	(building-type-count barracks >= 1)
+	(building-type-count archery-range >= 1)
+	(building-type-count blacksmith >= 1)
+	(building-type-count market >= 1)
+	(building-type-count university >= 1)
+	(building-type-count monastery >= 1)
+	(building-type-count siege-workshop >= 1)
+	(building-type-count castle >= 1)
+	(building-type-count town-center >= 1)
+	(building-type-count monastery <= 7)
+	(up-pending-objects c: monastery < 7)
+	(can-build monastery)
+	=>
+	(build monastery)
+)
+
+(defrule
+	(current-age >= imperial-age)
+	(building-type-count mill >= 1)
+	(building-type-count lumber-camp >= 1)
+	(building-type-count mining-camp >= 1)
+	(building-type-count barracks >= 1)
+	(building-type-count archery-range >= 1)
+	(building-type-count blacksmith >= 1)
+	(building-type-count market >= 1)
+	(building-type-count university >= 1)
+	(building-type-count monastery >= 1)
+	(building-type-count siege-workshop >= 1)
+	(building-type-count castle >= 1)
+	(building-type-count town-center >= 1)
+	(building-type-count siege-workshop <= 7)
+	(up-pending-objects c: siege-workshop < 7)
+	(can-build siege-workshop)
+	=>
+	(build siege-workshop)
+)
+
+(defrule
+	(current-age >= imperial-age)
+	(building-type-count mill >= 1)
+	(building-type-count lumber-camp >= 1)
+	(building-type-count mining-camp >= 1)
+	(building-type-count barracks >= 1)
+	(building-type-count archery-range >= 1)
+	(building-type-count blacksmith >= 1)
+	(building-type-count market >= 1)
+	(building-type-count university >= 1)
+	(building-type-count monastery >= 1)
+	(building-type-count siege-workshop >= 1)
+	(building-type-count castle >= 1)
+	(building-type-count town-center >= 1)
+	(building-type-count castle <= 7)
+	(up-pending-objects c: castle < 7)
+	(can-build castle)
+	=>
+	(build castle)
+)
+
+(defrule
+	(current-age >= imperial-age)
+	(building-type-count mill >= 1)
+	(building-type-count lumber-camp >= 1)
+	(building-type-count mining-camp >= 1)
+	(building-type-count barracks >= 1)
+	(building-type-count archery-range >= 1)
+	(building-type-count blacksmith >= 1)
+	(building-type-count market >= 1)
+	(building-type-count university >= 1)
+	(building-type-count monastery >= 1)
+	(building-type-count siege-workshop >= 1)
+	(building-type-count castle >= 1)
+	(building-type-count town-center >= 1)
+	(building-type-count watch-tower-line <= 15)
+	(up-pending-objects c: watch-tower-line < 15)
+	(can-build watch-tower-line)
+	=>
+	(build watch-tower-line)
+)
+
+(defrule
+	(current-age >= imperial-age)
+	(building-type-count mill >= 1)
+	(building-type-count lumber-camp >= 1)
+	(building-type-count mining-camp >= 1)
+	(building-type-count barracks >= 1)
+	(building-type-count archery-range >= 1)
+	(building-type-count stable >= 1)
+	(building-type-count blacksmith >= 1)
+	(building-type-count market >= 1)
+	(building-type-count university >= 1)
+	(building-type-count monastery >= 1)
+	(building-type-count siege-workshop >= 1)
+	(building-type-count castle >= 1)
+	(building-type-count town-center >= 1)
+	(building-type-count bombard-tower <= 15)
+	(up-pending-objects c: bombard-tower < 15)
+	(can-build bombard-tower)
+	=>
+	(build bombard-tower)
+)
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; (Priority 6) - Training Units
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Description: Train villagers, soldiers, siege, etc.
+;
+; Note: This is for a balanced AI. Feel free to experiment with this if you wish. However, I am going to stick with this.
+;
+; Note: Let's try to organize this create/counter unit stuff... infantry, archers, cavalry, siege, and finally buildings...
+;
+; Update: Let's focus training on civ specific units as well.
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: Custom Villager Training
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+#load-if-defined POPULATION-CAP-25
+(defrule
+	(unit-type-count-total villager <= 5)
+	(can-train villager)
+	=>
+	(train villager)
+)
+#end-if
+
+#load-if-defined POPULATION-CAP-50
+(defrule
+	(unit-type-count-total villager <= 15)
+	(can-train villager)
+	=>
+	(train villager)
+)
+#end-if
+
+#load-if-defined POPULATION-CAP-75
+(defrule
+	(unit-type-count-total villager <= 25)
+	(can-train villager)
+	=>
+	(train villager)
+)
+#end-if
+
+#load-if-defined POPULATION-CAP-100
+(defrule
+	(unit-type-count-total villager <= 25)
+	(can-train villager)
+	=>
+	(train villager)
+)
+#end-if
+
+#load-if-defined POPULATION-CAP-125
+(defrule
+	(unit-type-count-total villager <= 25)
+	(can-train villager)
+	=>
+	(train villager)
+)
+#end-if
+
+#load-if-defined POPULATION-CAP-150
+(defrule
+	(unit-type-count-total villager <= 50)
+	(can-train villager)
+	=>
+	(train villager)
+)
+#end-if
+
+#load-if-defined POPULATION-CAP-175
+(defrule
+	(unit-type-count-total villager <= 50)
+	(can-train villager)
+	=>
+	(train villager)
+)
+#end-if
+
+#load-if-defined POPULATION-CAP-200
+(defrule
+	(unit-type-count-total villager <= 50)
+	(can-train villager)
+	=>
+	(train villager)
+)
+#end-if
+
+#load-if-defined POPULATION-CAP-250
+(defrule
+	(unit-type-count-total villager <= 50)
+	(can-train villager)
+	=>
+	(train villager)
+)
+#end-if
+
+#load-if-defined POPULATION-CAP-300
+(defrule
+	(unit-type-count-total villager <= 100)
+	(can-train villager)
+	=>
+	(train villager)
+)
+#end-if
+
+#load-if-defined POPULATION-CAP-400
+(defrule
+	(unit-type-count-total villager <= 100)
+	(can-train villager)
+	=>
+	(train villager)
+)
+#end-if
+
+#load-if-defined POPULATION-CAP-500
+(defrule
+	(unit-type-count-total villager <= 100)
+	(can-train villager)
+	=>
+	(train villager)
+)
+#end-if
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: + INFANTRY
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: + INFANTRY - MILITIA
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+(defrule
+	(goal 6 1)
+	(goal 18 1)
+	(can-train militiaman-line)
+	=>
+	(train militiaman-line)
+)
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: Let's counter!
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+(defrule
+	(can-train militiaman-line)
+	(or (players-unit-type-count any-enemy spearman-line >= 10)
+		(players-unit-type-count any-enemy eagle-warrior-line >= 10)
+	)
+	=>
+	(train militiaman-line)
+)
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: Alternative counter!
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: + INFANTRY - SPEARMAN
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+(defrule
+	(goal 7 1)
+	(goal 18 2)
+	(can-train spearman-line)
+	=>
+	(train spearman-line)
+)
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: Let's counter!
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+(defrule
+	(can-train spearman-line)
+	(or (players-unit-type-count any-enemy scout-cavalry-line >= 10)
+		(or (players-unit-type-count any-enemy knight-line >= 10)
+			(or (players-unit-type-count any-enemy cataphract-line >= 10)
+				(or (players-unit-type-count any-enemy tarkan-line >= 10)
+					(or (players-unit-type-count any-enemy mameluke-line >= 10)
+						(or (players-unit-type-count any-enemy camel-line >= 10)
+							(players-unit-type-count any-enemy war-elephant-line >= 10)
+						)
+					)
+					
+				)
+			)
+		)
+	)
+	=>
+	(train spearman-line)
+)
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: Alternative counter!
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: + INFANTRY - EAGLE WARRIOR
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+(defrule
+	(goal 8 1)
+	(goal 18 3)
+	(can-train eagle-warrior-line)
+	=>
+	(train eagle-warrior-line)
+)
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: Let's counter!
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+(defrule
+	(can-train eagle-warrior-line)
+	(or (players-unit-type-count any-enemy camel-line >= 10)
+		(or (players-unit-type-count any-enemy scout-cavalry-line >= 10)
+			(or (players-unit-type-count any-enemy knight-line >= 10)
+				(or (players-unit-type-count any-enemy monk >= 10)
+					(or (players-unit-type-count any-enemy missionary >= 10)
+						(or (players-unit-type-count any-enemy battering-ram-line >= 10)
+							(or (players-unit-type-count any-enemy mangonel-line >= 10)
+								(or (players-unit-type-count any-enemy cataphract-line >= 10)
+									(or (players-unit-type-count any-enemy tarkan-line >= 10)
+										(or (players-unit-type-count any-enemy mameluke-line >= 10)
+											(players-unit-type-count any-enemy scorpion-line >= 10)
+										)
+									)
+								)
+							)
+						)
+					)
+				)
+			)
+		)
+	)
+	=>
+	(train eagle-warrior-line)
+)
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: Alternative counter!
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: + INFANTRY - CONDOTTIERO
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+(defrule
+	(goal 18 4)
+	(can-train condottiero)
+	=>
+	(train condottiero)
+)
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: Let's counter!
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+(defrule
+	(can-train condottiero)
+	(or (players-unit-type-count any-enemy hand-cannoneer >= 10)
+		(or (players-unit-type-count any-enemy janissary-line >= 10)
+			(players-unit-type-count any-enemy bombard-cannon >= 10)
+		)
+	)
+	=>
+	(train condottiero)
+)
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: Alternative counter!
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: + ARCHERS
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: + ARCHERS - ARCHER
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+(defrule
+	(goal 2 1)
+	(goal 19 1)
+	(can-train archer-line)
+	=>
+	(train archer-line)
+)
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: Let's counter!
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+(defrule
+	(can-train archer-line)
+	(or (players-unit-type-count any-enemy spearman-line >= 10)
+		(players-unit-type-count any-enemy eagle-warrior-line >= 10)
+	)
+	=>
+	(train archer-line)
+)
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: Alternative counter!
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: + ARCHERS - SKIRMISHER
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+(defrule
+	(goal 3 1)
+	(goal 19 2)
+	(can-train skirmisher-line)
+	=>
+	(train skirmisher-line)
+)
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: Let's counter!
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+(defrule
+	(can-train skirmisher-line)
+	(or (players-unit-type-count any-enemy archer-line >= 10)
+		(or (players-unit-type-count any-enemy cavalry-archer-line >= 10)
+			(or (players-unit-type-count any-enemy hand-cannoneer >= 10)
+				(or (players-unit-type-count any-enemy mangudai-line >= 10)
+					(or (players-unit-type-count any-enemy conquistador-line >= 10)
+						(or (players-unit-type-count any-enemy chu-ko-nu-line >= 10)
+							(or (players-unit-type-count any-enemy longbowman-line >= 10)
+								(or (players-unit-type-count any-enemy plumed-archer-line >= 10)
+									(or (players-unit-type-count any-enemy war-wagon-line >= 10)
+										(players-unit-type-count any-enemy janissary-line >= 10)
+									)
+								)
+							)
+						)
+					)
+				)
+			)
+		)
+	)
+	=>
+	(train skirmisher-line)
+)
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: Alternative counter!
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: + ARCHERS - CAVALRY ARCHER
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+(defrule
+	(goal 4 1)
+	(goal 19 3)
+	(can-train cavalry-archer-line)
+	=>
+	(train cavalry-archer-line)
+)
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: Let's counter!
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+(defrule
+	(can-train cavalry-archer-line)
+	(or (players-unit-type-count any-enemy archer-line >= 10)
+		(or (players-unit-type-count any-enemy hand-cannoneer >= 10)
+			(or (players-unit-type-count any-enemy chu-ko-nu-line >= 10)
+				(or (players-unit-type-count any-enemy longbowman-line >= 10)
+					(or (players-unit-type-count any-enemy plumed-archer-line >= 10)
+						(or (players-unit-type-count any-enemy war-wagon-line >= 10)
+							(players-unit-type-count any-enemy janissary-line >= 10)
+						)
+					)
+				)
+			)
+		)
+	)
+	=>
+	(train cavalry-archer-line)
+)
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: Alternative counter!
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: + ARCHERS - HAND CANNONEER
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+(defrule
+	(goal 5 1)
+	(goal 19 4)
+	(can-train hand-cannoneer)
+	=>
+	(train hand-cannoneer)
+)
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: Let's counter!
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+(defrule
+	(can-train hand-cannoneer)
+	(or (players-unit-type-count any-enemy militiaman-line >= 10)
+		(or (players-unit-type-count any-enemy spearman-line >= 10)
+			(or (players-unit-type-count any-enemy eagle-warrior-line >= 10)
+				(or (players-unit-type-count any-enemy berserk-line >= 10)
+					(or (players-unit-type-count any-enemy huskarl-line >= 10)
+						(or (players-unit-type-count any-enemy jaguar-man-line >= 10)
+							(or (players-unit-type-count any-enemy samurai-line >= 10)
+								(or (players-unit-type-count any-enemy throwing-axeman-line >= 10)
+									(players-unit-type-count any-enemy woad-raider-line >= 10)
+								)
+							)
+						)
+					)
+				)
+			)
+		)
+	)
+	=>
+	(train hand-cannoneer)
+)
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: Alternative counter!
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: + ARCHERS - GENITOUR
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+(defrule
+	(goal 19 5)
+	(can-train genitour-placeholder)
+	=>
+	(train genitour-placeholder)
+)
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: Let's counter!
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+(defrule
+	(can-train genitour-placeholder)
+	(or (players-unit-type-count any-enemy archer-line >= 10)
+		(or (players-unit-type-count any-enemy cavalry-archer-line >= 10)
+			(or (players-unit-type-count any-enemy hand-cannoneer >= 10)
+				(or (players-unit-type-count any-enemy mangudai-line >= 10)
+					(or (players-unit-type-count any-enemy conquistador-line >= 10)
+						(or (players-unit-type-count any-enemy chu-ko-nu-line >= 10)
+							(or (players-unit-type-count any-enemy longbowman-line >= 10)
+								(or (players-unit-type-count any-enemy plumed-archer-line >= 10)
+									(or (players-unit-type-count any-enemy war-wagon-line >= 10)
+										(players-unit-type-count any-enemy janissary-line >= 10)
+									)
+								)
+							)
+						)
+					)
+				)
+			)
+		)
+	)
+	=>
+	(train genitour-placeholder)
+)
+	
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: Alternative counter!
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: + ARCHERS - SLINGER
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+(defrule
+	(goal 19 5)
+	(can-train slinger)
+	=>
+	(train slinger)
+)
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: Let's counter!
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+(defrule
+	(can-train slinger)
+	(or (players-unit-type-count any-enemy militiaman-line >= 10)
+		(or (players-unit-type-count any-enemy spearman-line >= 10)
+			(or (players-unit-type-count any-enemy eagle-warrior-line >= 10)
+				(or (players-unit-type-count any-enemy berserk-line >= 10)
+					(or (players-unit-type-count any-enemy huskarl-line >= 10)
+						(or (players-unit-type-count any-enemy jaguar-man-line >= 10)
+							(or (players-unit-type-count any-enemy samurai-line >= 10)
+								(or (players-unit-type-count any-enemy throwing-axeman-line >= 10)
+									(or (players-unit-type-count any-enemy woad-raider-line >= 10)
+										(players-unit-type-count any-enemy battering-ram-line >= 10)
+									)
+									
+								)
+							)
+						)
+					)
+				)
+			)
+		)
+	)
+	=>
+	(train slinger)
+)
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: Alternative counter!
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: + CAVALRY
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: + CAVALRY - SCOUT CAVALRY
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+(defrule
+	(goal 9 1)
+	(goal 20 1)
+	(can-train scout-cavalry-line)
+	=>
+	(train scout-cavalry-line)
+)
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Let's counter!
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+(defrule
+	(can-train scout-cavalry-line)
+	(or (players-unit-type-count any-enemy monk >= 10)
+		(players-unit-type-count any-enemy missionary >= 10)
+	)
+	=>
+	(train scout-cavalry-line)
+)
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: Alternative counter!
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: + CAVALRY - KNIGHT
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+(defrule
+	(goal 10 1)
+	(goal 20 2)
+	(can-train knight-line)
+	=>
+	(train knight-line)
+)
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: Let's counter!
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+; oddly enough, knights do not counter anything directly. (No bonus attack vs anything.) I will add some useful counters though...
+
+(defrule
+	(can-train knight-line)
+	(or (players-unit-type-count any-enemy skirmisher-line >= 10)
+		(or (players-unit-type-count any-enemy battering-ram-line >= 10)
+			(or (players-unit-type-count any-enemy mangonel-line >= 10)
+				(or (players-unit-type-count any-enemy scorpion-line >= 10)
+					(or (players-unit-type-count any-enemy trebuchet >= 10)
+						(players-unit-type-count any-enemy 42 >= 10)
+					)
+				)
+			)
+		)
+	)
+	=>
+	(train knight-line)
+)
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: Alternative counter!
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: + CAVALRY - CAMEL
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+(defrule
+	(goal 11 1)
+	(goal 20 3)
+	(can-train camel-line)
+	=>
+	(train camel-line)
+)
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: Let's counter!
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+(defrule
+	(can-train camel-line)
+	(or (players-unit-type-count any-enemy scout-cavalry-line >= 10)
+		(or (players-unit-type-count any-enemy knight-line >= 10)
+			(or (players-unit-type-count any-enemy camel-line >= 10)
+				(or (players-unit-type-count any-enemy cataphract-line >= 10)
+					(or (players-unit-type-count any-enemy mameluke-line >= 10)
+						(players-unit-type-count any-enemy tarkan-line >= 10)
+					)
+				)
+			)
+		)
+	)
+	=>
+	(train camel-line)
+)
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: Alternative counter!
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: + CAVALRY - BATTLE ELEPHANT
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+(defrule
+	(goal 12 1)
+	(goal 20 4)
+	(can-train battle-elephant-line)
+	=>
+	(train battle-elephant-line)
+)
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: Let's counter!
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+(defrule
+	(can-train battle-elephant-line)
+	(or (players-building-type-count any-enemy watch-tower-line >= 1)
+		(or (players-building-type-count any-enemy bombard-tower >= 1)
+			(or (players-building-type-count any-enemy castle >= 1)
+				(players-building-type-count any-enemy wonder >= 1)
+			)
+		)
+	)
+	=>
+	(train battle-elephant-line)
+)
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: Alternative counter!
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: + MONKS
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: + MONKS - MONK
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+(defrule
+	(goal 13 1)
+	(goal 21 1)
+	(can-train monk)
+	=>
+	(train monk)
+)
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: Let's counter!
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+; does not specify...
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: Alternative counter!
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+; ...but, I do know a few of the counters.
+
+(defrule
+	(can-train monk)
+	(or (players-unit-type-count any-enemy militiaman-line >= 10)
+		(or (players-unit-type-count any-enemy knight-line >= 10)
+			(players-unit-type-count any-enemy war-elephant-line >= 10)
+		)
+	)
+	=>
+	(train monk)
+)
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: + MONKS - MISSIONARY
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+(defrule
+	(goal 21 2)
+	(can-train missionary)
+	=>
+	(train missionary)
+)
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: Let's counter!
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+; does not specify...
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: Alternative counter!
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+; ...but, I do know a few of the counters.
+
+(defrule
+	(can-train missionary)
+	(or (players-unit-type-count any-enemy militiaman-line >= 10)
+		(or (players-unit-type-count any-enemy knight-line >= 10)
+			(players-unit-type-count any-enemy war-elephant-line >= 10)
+		)
+	)
+	=>
+	(train missionary)
+)
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: + SIEGE
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: + SIEGE - RAM
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+(defrule
+	(goal 14 1)
+	(goal 22 1)
+	(can-train battering-ram-line)
+	=>
+	(train battering-ram-line)
+)
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: Let's counter!
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+(defrule
+	(can-train bombard-cannon)
+	(or (players-building-type-count any-enemy watch-tower-line >= 1)
+		(or (players-building-type-count any-enemy bombard-tower >= 1)
+			(or (players-building-type-count any-enemy castle >= 1)
+				(or (players-building-type-count any-enemy wonder >= 1)
+					(or (players-unit-type-count any-enemy battering-ram-line >= 10)
+						(players-unit-type-count any-enemy scorpion-line >= 10)
+					)
+				)
+			)
+		)
+	)
+	=>
+	(train battering-ram-line)
+)
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: Alternative counter!
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: + SIEGE - MANGONEL
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+(defrule
+	(goal 15 1)
+	(goal 22 2)
+	(can-train mangonel-line)
+	=>
+	(train mangonel-line)
+)
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: Let's counter!
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+(defrule
+	(can-train mangonel-line)
+	(or (players-unit-type-count any-enemy battering-ram-line >= 10)
+		(or (players-unit-type-count any-enemy scorpion-line >= 10)
+			(or (players-unit-type-count any-enemy mangonel-line >= 10)
+				(or (players-unit-type-count any-enemy bombard-cannon >= 10)
+					(or (players-unit-type-count any-enemy trebuchet >= 10)
+						(players-unit-type-count any-enemy 42 >= 10)
+					)
+				)
+			)
+		)
+	)
+	=>
+	(train mangonel-line)
+)
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: Alternative counter!
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: + SIEGE - SCORPION
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+(defrule
+	(goal 16 1)
+	(goal 22 3)
+	(can-train scorpion-line)
+	=>
+	(train scorpion-line)
+)
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: Let's counter!
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+(defrule
+	(can-train scorpion-line)
+	(players-unit-type-count any-enemy war-elephant-line >= 10)
+	=>
+	(train scorpion-line)
+)
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: Alternative counter!
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: + SIEGE - BOMBARD CANNON
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+(defrule
+	(goal 17 1)
+	(goal 22 4)
+	(can-train bombard-cannon)
+	=>
+	(train bombard-cannon)
+)
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: Let's counter!
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+(defrule
+	(can-train bombard-cannon)
+	(or (players-building-type-count any-enemy watch-tower-line >= 1)
+		(or (players-building-type-count any-enemy bombard-tower >= 1)
+			(or (players-building-type-count any-enemy castle >= 1)
+				(or (players-building-type-count any-enemy wonder >= 1)
+					(or (players-unit-type-count any-enemy camel-line >= 10)
+						(or (players-unit-type-count any-enemy trebuchet >= 10)
+							(players-unit-type-count any-enemy 42 >= 10)
+						)
+					)
+				)
+			)
+		)
+	)
+	=>
+	(train bombard-cannon)
+)
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: Alternative counter!
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: + SIEGE - PETARD
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+(defrule
+	(goal 23 1)
+	(can-train petard)
+	(or (players-unit-type-count any-enemy palisade-wall >= 10)
+		(or (players-unit-type-count any-enemy stone-wall-line >= 10)
+			(players-unit-type-count any-enemy gate >= 1)
+		)
+	)
+	=>
+	(train petard)
+)
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: + SIEGE - TREBUCHET
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+(defrule
+	(goal 23 2)
+	(can-train trebuchet)
+	(or (players-building-type-count any-enemy wonder >= 1) 
+		(or (players-building-type-count any-enemy watch-tower-line >= 1)
+			(or (players-building-type-count any-enemy bombard-tower >= 1)
+				(players-building-type-count any-enemy castle >= 1)
+			)			
+		)
+	)
+	=>
+	(train trebuchet)
+)
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: Alternative counter!
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: Never forget to allow some of these!
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+(defrule
+	(goal 23 3)
+	(can-train my-unique-unit-line)
+	=>
+	(train my-unique-unit-line)
+)
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; (Priority 7) - Attacking
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Description: Sets the Attack Timer and when to attack.
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+(defrule
+	(true)
+=>
+	(enable-timer 1 120)
+	(disable-self)
+)
+
+(defrule
+	(timer-triggered 1)
+=>
+	(attack-now)
+	(disable-timer 1)
+	(enable-timer 1 120)
+)
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; (Priority 8) - Refresh Camp/Mill
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Description: Every so often, delete old camps/mill. This way, we 'refresh' the location to closer resources.
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+(defrule
+	(true)
+	=>
+	(enable-timer 2 1800)
+	(disable-self)
+)
+
+(defrule
+	(timer-triggered 2)
+=>
+	(disable-timer 2)
+	(chat-local-to-self "-- AI: Deleting old Camps --")
+	(delete-unit mining-camp)
+	(delete-unit lumber-camp)
+	(delete-unit mill)
+	(enable-timer 2 1200)
+)
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; (Priority 9) - Town Size Timer / exploring/attacking/defending timer
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Description: Resizes the town size every so often. This way, the AI builds outward. If the AI loses area, he can rebuild where ever he wants to later.
+; Update: Added a explore for 5 minutes then attack.
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+(defrule
+	(true)
+	=>
+	(enable-timer 3 120)
+	(enable-timer 4 240)
+	(enable-timer 5 360)
+	(enable-timer 6 480)
+	(enable-timer 7 600)
+	(enable-timer 8 720)
+	(enable-timer 9 840)
+	(enable-timer 10 960)
+	(enable-timer 11 1080)
+	(enable-timer 12 1200)
+	(enable-timer 14 60)
+	(enable-timer 15 2)
+	(disable-self)
+)
+
+(defrule
+	(timer-triggered 3)
+=>
+	(disable-timer 3)
+	(chat-local-to-self "-- AI: First Resize Timing --")
+	(set-strategic-number sn-minimum-town-size 0)
+	(set-strategic-number sn-maximum-town-size 15)
+	(disable-self)
+)
+
+(defrule
+	(timer-triggered 4)
+=>
+	(disable-timer 4)
+	(chat-local-to-self "-- AI: Second Resize Timing --")
+	(set-strategic-number sn-minimum-town-size 0)
+	(set-strategic-number sn-maximum-town-size 20)
+	(disable-self)
+)
+
+(defrule
+	(timer-triggered 5)
+=>
+	(disable-timer 5)
+	(chat-local-to-self "-- AI: Third Resize Timing --")
+	(set-strategic-number sn-minimum-town-size 0)
+	(set-strategic-number sn-maximum-town-size 25)
+	(disable-self)
+)
+
+(defrule
+	(timer-triggered 6)
+=>
+	(disable-timer 6)
+	(chat-local-to-self "-- AI: Fourth Resize Timing --")
+	(set-strategic-number sn-minimum-town-size 0)
+	(set-strategic-number sn-maximum-town-size 30)
+	(disable-self)
+)
+
+(defrule
+	(timer-triggered 7)
+=>
+	(disable-timer 7)
+	(chat-local-to-self "-- AI: Fifth Resize Timing --")
+	(set-strategic-number sn-minimum-town-size 0)
+	(set-strategic-number sn-maximum-town-size 35)
+	(disable-self)
+)
+
+(defrule
+	(timer-triggered 8)
+=>
+	(disable-timer 8)
+	(chat-local-to-self "-- AI: Sixth Resize Timing --")
+	(set-strategic-number sn-minimum-town-size 0)
+	(set-strategic-number sn-maximum-town-size 40)
+	(disable-self)
+)
+
+(defrule
+	(timer-triggered 9)
+=>
+	(disable-timer 9)
+	(chat-local-to-self "-- AI: Seventh Resize Timing --")
+	(set-strategic-number sn-minimum-town-size 0)
+	(set-strategic-number sn-maximum-town-size 45)
+	(disable-self)
+)
+
+(defrule
+	(timer-triggered 10)
+=>
+	(disable-timer 10)
+	(chat-local-to-self "-- AI: Eighth Resize Timing --")
+	(set-strategic-number sn-minimum-town-size 0)
+	(set-strategic-number sn-maximum-town-size 50)
+	(disable-self)
+)
+
+(defrule
+	(timer-triggered 11)
+=>
+	(disable-timer 11)
+	(chat-local-to-self "-- AI: Ninth Resize Timing --")
+	(set-strategic-number sn-minimum-town-size 0)
+	(set-strategic-number sn-maximum-town-size 55)
+	(disable-self)
+)
+
+(defrule
+	(timer-triggered 12)
+=>
+	(disable-timer 12)
+	(chat-local-to-self "-- AI: Tenth Resize Timing --")
+	(set-strategic-number sn-minimum-town-size 0)
+	(set-strategic-number sn-maximum-town-size 60)
+	(disable-self)
+)
+
+(defrule
+	(timer-triggered 14)
+=>
+	(disable-timer 14)
+	(chat-local-to-self "-- AI: Reset Attack/Defend/Explore --")
+	(set-strategic-number sn-number-explore-groups 0)
+	(set-strategic-number sn-minimum-explore-group-size 0)
+	(set-strategic-number sn-maximum-explore-group-size 0)
+	(set-strategic-number sn-number-attack-groups 0)
+	(set-strategic-number sn-minimum-attack-group-size 0)
+	(set-strategic-number sn-maximum-attack-group-size 0)
+	(set-strategic-number sn-number-defend-groups 0)
+	(set-strategic-number sn-minimum-defend-group-size 0)
+	(set-strategic-number sn-maximum-defend-group-size 0)
+	(enable-timer 14 60)
+	(enable-timer 15 2)
+)
+
+(defrule
+	(timer-triggered 15)
+	(game-time <= 300)
+	(players-building-count any-enemy <= 0)
+	=>
+	(chat-local-to-self "-- AI: I don't see any enemy buildings! Explore! --")
+	(set-strategic-number sn-number-explore-groups 500)
+	(set-strategic-number sn-minimum-explore-group-size 1)
+	(set-strategic-number sn-maximum-explore-group-size 1)
+)
+
+(defrule
+	(timer-triggered 15)
+	(players-building-count any-enemy >= 1)
+	=>
+	(chat-local-to-self "-- AI: Found enemy buildings! Attack! --")
+	(set-strategic-number sn-number-attack-groups 500)
+	(set-strategic-number sn-minimum-attack-group-size 1)
+	(set-strategic-number sn-maximum-attack-group-size 1)
+)
+
+(defrule
+	(timer-triggered 15)
+	(game-time <= 300)
+	(players-unit-count any-enemy <= 0)
+	=>
+	(chat-local-to-self "-- AI: I don't see any enemy units! Explore! --")
+	(set-strategic-number sn-number-explore-groups 500)
+	(set-strategic-number sn-minimum-explore-group-size 1)
+	(set-strategic-number sn-maximum-explore-group-size 1)
+)
+
+(defrule
+	(timer-triggered 15)
+	(players-unit-count any-enemy >= 1)
+	=>
+	(chat-local-to-self "-- AI: Found enemy units! Attack! --")
+	(set-strategic-number sn-number-attack-groups 500)
+	(set-strategic-number sn-minimum-attack-group-size 1)
+	(set-strategic-number sn-maximum-attack-group-size 1)
+)
+
+(defrule
+	(timer-triggered 15)
+	(enemy-buildings-in-town)
+	=>
+	(chat-local-to-self "-- AI: Found enemy buildings in our Town! Attack! --")
+	(set-strategic-number sn-number-attack-groups 500)
+	(set-strategic-number sn-minimum-attack-group-size 1)
+	(set-strategic-number sn-maximum-attack-group-size 1)
+)
+
+(defrule
+	(timer-triggered 15)
+	(town-under-attack)
+	=>
+	(chat-local-to-self "-- AI: We are under attack! Defend! --")
+	(set-strategic-number sn-number-defend-groups 500)
+	(set-strategic-number sn-minimum-defend-group-size 1)
+	(set-strategic-number sn-maximum-defend-group-size 1)
+	(up-retreat-now)
+)
+
+(defrule
+	(timer-triggered 15)
+	(enemy-captured-relics)
+	=>
+	(chat-local-to-self "-- AI: Relics have been captured! Attack! --")
+	(set-strategic-number sn-number-attack-groups 500)
+	(set-strategic-number sn-minimum-attack-group-size 1)
+	(set-strategic-number sn-maximum-attack-group-size 1)
+)
+
+(defrule
+	(timer-triggered 15)
+	(building-type-count wonder >= 1)
+	=>
+	(chat-local-to-self "-- AI: We built a Wonder! Defend! --")
+	(set-strategic-number sn-number-defend-groups 500)
+	(set-strategic-number sn-minimum-defend-group-size 1)
+	(set-strategic-number sn-maximum-defend-group-size 1)
+	(up-retreat-now)
+)
+
+(defrule
+	(timer-triggered 15)
+	(players-building-type-count any-enemy wonder >= 1)
+	=>
+	(chat-local-to-self "-- AI: Enemy built a Wonder! Attack! --")
+	(set-strategic-number sn-number-attack-groups 500)
+	(set-strategic-number sn-minimum-attack-group-size 1)
+	(set-strategic-number sn-maximum-attack-group-size 1)
+)
+
+(defrule
+	(timer-triggered 15)
+	(players-building-type-count any-enemy 826 >= 1) ; KotH Monument
+	=>
+	(chat-local-to-self "-- AI: Enemy captured the Monument! Attack! --")
+	(set-strategic-number sn-number-attack-groups 500)
+	(set-strategic-number sn-minimum-attack-group-size 1)
+	(set-strategic-number sn-maximum-attack-group-size 1)
+)
+
+(defrule
+	(timer-triggered 15)
+	=>
+	(disable-timer 15)
+)
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; (Priority 10) - Targeting
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Description: Experimental unit/building targeting... WIP...
+; 
+; Priority: We need to target building first... They only get in our way...
+; 
+; Priority: Target Wonders/Monasteries first... (game type)
+; 
+; Priority: Afterwords, target units...
+;
+; Priority: Target Kings first...
+;
+; Goal 1: (Found Target) 0 or 1. (boolean)
+;
+; Test Results: I may need to target units first... They seem to suicide too much focusing on buildings...
+;
+; Note: Reset any sn-special-attack-influence1 values if already set. (not sure if any set by default but, it may help...)
+; Note: I would love a for/while loop right about now...
+;
+; Test Results: Does not work as I intend... I am going to comment out for now...
+;
+; Test: I wonder if 32768 will fix it since that is max value. I was using 99999...
+;
+; Info: So, I found out about the types... type1 is relics, type2 is objects, and type3 is wonder... Much to update...
+; However, type2 influence doesn't work... So... I will do what I can...
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+(defrule
+	(true)
+	=>
+	(set-strategic-number sn-special-attack-type2 434) ; king
+	(set-strategic-number sn-special-attack-type2 trebuchet)
+	(set-strategic-number sn-special-attack-type2 42) ; packed treb
+	(set-strategic-number sn-special-attack-type2 bombard-cannon)
+	(set-strategic-number sn-special-attack-type2 mangonel)
+	(set-strategic-number sn-special-attack-type2 onager)
+	(set-strategic-number sn-special-attack-type2 siege-onager)
+	(disable-self)
+)
+
+(defrule
+	(true)
+	=>
+	(set-strategic-number sn-special-attack-type2 scorpion)
+	(set-strategic-number sn-special-attack-type2 heavy-scorpion)
+	(set-strategic-number sn-special-attack-type2 battering-ram)
+	(set-strategic-number sn-special-attack-type2 capped-ram)
+	(set-strategic-number sn-special-attack-type2 siege-ram)
+	(set-strategic-number sn-special-attack-type2 villager)
+	(set-strategic-number sn-special-attack-type2 monk)
+	(disable-self)
+)
+
+(defrule
+	(true)
+	=>
+	(set-strategic-number sn-special-attack-type2 missionary)
+	(set-strategic-number sn-special-attack-type2 trade-cart)
+	(set-strategic-number sn-special-attack-type2 trade-cog)
+	(set-strategic-number sn-special-attack-type2 fishing-ship)
+	(set-strategic-number sn-special-attack-type2 transport-ship)
+	(set-strategic-number sn-special-attack-type2 cannon-galleon)
+	(set-strategic-number sn-special-attack-type2 elite-cannon-galleon)
+	(disable-self)
+)
+
+(defrule
+	(true)
+	=>
+	(set-strategic-number sn-special-attack-type2 turtle-ship)
+	(set-strategic-number sn-special-attack-type2 elite-turtle-ship)
+	(set-strategic-number sn-special-attack-type2 archer)
+	(set-strategic-number sn-special-attack-type2 crossbowman)
+	(set-strategic-number sn-special-attack-type2 arbalest)
+	(set-strategic-number sn-special-attack-type2 skirmisher)
+	(set-strategic-number sn-special-attack-type2 elite-skirmisher)
+	(disable-self)
+)
+
+(defrule
+	(true)
+	=>
+	(set-strategic-number sn-special-attack-type2 cavalry-archer)
+	(set-strategic-number sn-special-attack-type2 heavy-cavalry-archer)
+	(set-strategic-number sn-special-attack-type2 hand-cannoneer)
+	(set-strategic-number sn-special-attack-type2 scout-cavalry)
+	(set-strategic-number sn-special-attack-type2 light-cavalry)
+	(set-strategic-number sn-special-attack-type2 hussar)
+	(set-strategic-number sn-special-attack-type2 knight)
+	(disable-self)
+)
+
+(defrule
+	(true)
+	=>
+	(set-strategic-number sn-special-attack-type2 cavalier)
+	(set-strategic-number sn-special-attack-type2 paladin)
+	(set-strategic-number sn-special-attack-type2 camel)
+	(set-strategic-number sn-special-attack-type2 heavy-camel)
+	(set-strategic-number sn-special-attack-type2 militiaman)
+	(set-strategic-number sn-special-attack-type2 man-at-arms)
+	(set-strategic-number sn-special-attack-type2 long-swordsman)
+	(disable-self)
+)
+
+(defrule
+	(true)
+	=>
+	(set-strategic-number sn-special-attack-type2 two-handed-swordsman)
+	(set-strategic-number sn-special-attack-type2 champion)
+	(set-strategic-number sn-special-attack-type2 spearman)
+	(set-strategic-number sn-special-attack-type2 pikeman)
+	(set-strategic-number sn-special-attack-type2 halberdier)
+	(set-strategic-number sn-special-attack-type2 eagle-warrior)
+	(set-strategic-number sn-special-attack-type2 elite-eagle-warrior)
+	(disable-self)
+)
+
+(defrule
+	(true)
+	=>
+	(set-strategic-number sn-special-attack-type2 725) ; jaguar warrior
+	(set-strategic-number sn-special-attack-type2 726) ; elite jaguar warrior
+	(set-strategic-number sn-special-attack-type2 longbowman)
+	(set-strategic-number sn-special-attack-type2 elite-longbowman)
+	(set-strategic-number sn-special-attack-type2 cataphract)
+	(set-strategic-number sn-special-attack-type2 elite-cataphract)
+	(set-strategic-number sn-special-attack-type2 woad-raider)
+	(disable-self)
+)
+
+(defrule
+	(true)
+	=>
+	(set-strategic-number sn-special-attack-type2 elite-woad-raider)
+	(set-strategic-number sn-special-attack-type2 chu-ko-nu)
+	(set-strategic-number sn-special-attack-type2 elite-chu-ko-nu)
+	(set-strategic-number sn-special-attack-type2 throwing-axeman)
+	(set-strategic-number sn-special-attack-type2 elite-throwing-axeman)
+	(set-strategic-number sn-special-attack-type2 huskarl)
+	(set-strategic-number sn-special-attack-type2 elite-huskarl)
+	(disable-self)
+)
+
+(defrule
+	(true)
+	=>
+	(set-strategic-number sn-special-attack-type2 tarkan)
+	(set-strategic-number sn-special-attack-type2 elite-tarkan)
+	(set-strategic-number sn-special-attack-type2 samurai)
+	(set-strategic-number sn-special-attack-type2 elite-samurai)
+	(set-strategic-number sn-special-attack-type2 war-wagon)
+	(set-strategic-number sn-special-attack-type2 elite-war-wagon)
+	(set-strategic-number sn-special-attack-type2 plumed-archer)
+	(disable-self)
+)
+
+(defrule
+	(true)
+	=>
+	(set-strategic-number sn-special-attack-type2 elite-plumed-archer)
+	(set-strategic-number sn-special-attack-type2 mangudai)
+	(set-strategic-number sn-special-attack-type2 elite-mangudai)
+	(set-strategic-number sn-special-attack-type2 war-elephant)
+	(set-strategic-number sn-special-attack-type2 elite-war-elephant)
+	(set-strategic-number sn-special-attack-type2 mameluke)
+	(set-strategic-number sn-special-attack-type2 elite-mameluke)
+	(disable-self)
+)
+
+(defrule
+	(true)
+	=>
+	(set-strategic-number sn-special-attack-type2 conquistador)
+	(set-strategic-number sn-special-attack-type2 elite-conquistador)
+	(set-strategic-number sn-special-attack-type2 teutonic-knight)
+	(set-strategic-number sn-special-attack-type2 elite-teutonic-knight)
+	(set-strategic-number sn-special-attack-type2 janissary)
+	(set-strategic-number sn-special-attack-type2 elite-janissary)
+	(set-strategic-number sn-special-attack-type2 berserk)
+	(disable-self)
+)
+
+(defrule
+	(true)
+	=>
+	(set-strategic-number sn-special-attack-type2 elite-berserk)
+	(set-strategic-number sn-special-attack-type2 petard)
+	(set-strategic-number sn-special-attack-type2 galley)
+	(set-strategic-number sn-special-attack-type2 war-galley)
+	(set-strategic-number sn-special-attack-type2 galleon)
+	(set-strategic-number sn-special-attack-type2 fire-ship)
+	(set-strategic-number sn-special-attack-type2 fast-fire-ship)
+	(disable-self)
+)
+
+(defrule
+	(true)
+	=>
+	(set-strategic-number sn-special-attack-type2 demolition-ship)
+	(set-strategic-number sn-special-attack-type2 heavy-demolition-ship)
+	(set-strategic-number sn-special-attack-type2 longboat)
+	(set-strategic-number sn-special-attack-type2 elite-longboat)
+	(disable-self)
+)
+
+(defrule
+	(true)
+	=>
+	(set-strategic-number sn-special-attack-type2 wonder)
+	(set-strategic-number sn-special-attack-type2 monastery)
+	(set-strategic-number sn-special-attack-type2 palisade-wall)
+	(set-strategic-number sn-special-attack-type2 stone-wall)
+	(set-strategic-number sn-special-attack-type2 fortified-wall)
+	(set-strategic-number sn-special-attack-type2 gate)
+	(set-strategic-number sn-special-attack-type2 castle)
+	(disable-self)
+)
+
+(defrule
+	(true)
+	=>
+	(set-strategic-number sn-special-attack-type2 watch-tower)
+	(set-strategic-number sn-special-attack-type2 guard-tower)
+	(set-strategic-number sn-special-attack-type2 keep)
+	(set-strategic-number sn-special-attack-type2 bombard-tower)
+	(set-strategic-number sn-special-attack-type2 outpost)
+	(set-strategic-number sn-special-attack-type2 town-center)
+	(set-strategic-number sn-special-attack-type2 house)
+	(disable-self)
+)
+
+(defrule
+	(true)
+	=>
+	(set-strategic-number sn-special-attack-type2 archery-range)
+	(set-strategic-number sn-special-attack-type2 barracks)
+	(set-strategic-number sn-special-attack-type2 stable)
+	(set-strategic-number sn-special-attack-type2 siege-workshop)
+	(set-strategic-number sn-special-attack-type2 lumber-camp)
+	(set-strategic-number sn-special-attack-type2 mill)
+	(set-strategic-number sn-special-attack-type2 mining-camp)
+	(disable-self)
+)
+
+(defrule
+	(true)
+	=>
+	(set-strategic-number sn-special-attack-type2 blacksmith)
+	(set-strategic-number sn-special-attack-type2 market)
+	(set-strategic-number sn-special-attack-type2 university)
+	(set-strategic-number sn-special-attack-type2 dock)
+	(set-strategic-number sn-special-attack-type2 826) ; KotH Monument
+	(disable-self)
+)
+
+(defrule
+	(true)
+	=>
+	(set-goal 1 0)
+	(chat-local-to-self "-- AI: Finding Target --")
+	(enable-timer 13 30)
+	(disable-self)
+)
+
+(defrule
+	(timer-triggered 13)
+	=>
+	(disable-timer 13)
+	(chat-local-to-self "-- AI: Finding New Target --")
+	(set-goal 1 0)
+	(enable-timer 13 30)
+)
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: king is 434. (AI is bugged.)
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+(defrule
+	(players-unit-type-count any-enemy 434 >= 1)
+	(goal 1 0)
+	=>
+	(set-strategic-number sn-special-attack-type2 434)
+	(set-goal 1 1)
+	(chat-local-to-self "-- AI: Targeting King --")
+)
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: KotH Monument is 826. (AI is bugged.)
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+(defrule
+	(players-building-type-count any-enemy 826 >= 1)
+	(goal 1 0)
+	=>
+	(set-strategic-number sn-special-attack-type2 826)
+	(set-goal 1 1)
+	(chat-local-to-self "-- AI: Targeting KotH --")
+)
+
+(defrule
+	(players-building-type-count any-enemy wonder >= 1)
+	(goal 1 0)
+	=>
+	(set-strategic-number sn-special-attack-type2 wonder)
+	(set-strategic-number sn-special-attack-type3 1)
+	(set-goal 1 1)
+	(chat-local-to-self "-- AI: Targeting Wonder --")
+)
+
+(defrule
+	(players-building-type-count any-enemy monastery >= 1)
+	(goal 1 0)
+	=>
+	(set-strategic-number sn-special-attack-type2 monastery)
+	(set-strategic-number sn-special-attack-type1 1)
+	(set-goal 1 1)
+	(chat-local-to-self "-- AI: Targeting Monastery --")
+)
+
+(defrule
+	(players-unit-type-count any-enemy trebuchet >= 5)
+	(goal 1 0)
+	=>
+	(set-strategic-number sn-special-attack-type2 trebuchet)
+	(set-goal 1 1)
+	(chat-local-to-self "-- AI: Targeting Unpacked Trebuchet --")
+)
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: trebuchet packed is 42. (AI is bugged.)
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+(defrule
+	(players-unit-type-count any-enemy 42 >= 5)
+	(goal 1 0)
+	=>
+	(set-strategic-number sn-special-attack-type2 42)
+	(set-goal 1 1)
+	(chat-local-to-self "-- AI: Targeting Packed Trebuchet --")
+)
+
+(defrule
+	(players-unit-type-count any-enemy bombard-cannon >= 5)
+	(goal 1 0)
+	=>
+	(set-strategic-number sn-special-attack-type2 bombard-cannon)
+	(set-goal 1 1)
+	(chat-local-to-self "-- AI: Targeting Bombard Cannon --")
+)
+
+(defrule
+	(players-unit-type-count any-enemy mangonel >= 5)
+	(goal 1 0)
+	=>
+	(set-strategic-number sn-special-attack-type2 mangonel)
+	(set-goal 1 1)
+	(chat-local-to-self "-- AI: Targeting Mangonel --")
+)
+
+(defrule
+	(players-unit-type-count any-enemy onager >= 5)
+	(goal 1 0)
+	=>
+	(set-strategic-number sn-special-attack-type2 onager)
+	(set-goal 1 1)
+	(chat-local-to-self "-- AI: Targeting Onager --")
+)
+
+(defrule
+	(players-unit-type-count any-enemy siege-onager >= 5)
+	(goal 1 0)
+	=>
+	(set-strategic-number sn-special-attack-type2 siege-onager)
+	(set-goal 1 1)
+	(chat-local-to-self "-- AI: Targeting Siege Onager --")
+)
+
+(defrule
+	(players-unit-type-count any-enemy scorpion >= 5)
+	(goal 1 0)
+	=>
+	(set-strategic-number sn-special-attack-type2 scorpion)
+	(set-goal 1 1)
+	(chat-local-to-self "-- AI: Targeting Scorpion --")
+)
+
+(defrule
+	(players-unit-type-count any-enemy heavy-scorpion >= 5)
+	(goal 1 0)
+	=>
+	(set-strategic-number sn-special-attack-type2 heavy-scorpion)
+	(set-goal 1 1)
+	(chat-local-to-self "-- AI: Targeting Heavy Scorpion --")
+)
+
+(defrule
+	(players-unit-type-count any-enemy battering-ram >= 5)
+	(goal 1 0)
+	=>
+	(set-strategic-number sn-special-attack-type2 battering-ram)
+	(set-goal 1 1)
+	(chat-local-to-self "-- AI: Targeting Battering Ram --")
+)
+
+(defrule
+	(players-unit-type-count any-enemy capped-ram >= 5)
+	(goal 1 0)
+	=>
+	(set-strategic-number sn-special-attack-type2 capped-ram)
+	(set-goal 1 1)
+	(chat-local-to-self "-- AI: Targeting Capped Ram --")
+)
+
+(defrule
+	(players-unit-type-count any-enemy siege-ram >= 5)
+	(goal 1 0)
+	=>
+	(set-strategic-number sn-special-attack-type2 siege-ram)
+	(set-goal 1 1)
+	(chat-local-to-self "-- AI: Targeting Siege Ram --")
+)
+
+(defrule
+	(players-unit-type-count any-enemy villager >= 5)
+	(goal 1 0)
+	=>
+	(set-strategic-number sn-special-attack-type2 villager)
+	(set-goal 1 1)
+	(chat-local-to-self "-- AI: Targeting Villager --")
+)
+
+(defrule
+	(players-unit-type-count any-enemy monk >= 5)
+	(goal 1 0)
+	=>
+	(set-strategic-number sn-special-attack-type2 monk)
+	(set-goal 1 1)
+	(chat-local-to-self "-- AI: Targeting Monk --")
+)
+
+(defrule
+	(players-unit-type-count any-enemy missionary >= 5)
+	(goal 1 0)
+	=>
+	(set-strategic-number sn-special-attack-type2 missionary)
+	(set-goal 1 1)
+	(chat-local-to-self "-- AI: Targeting Missionary --")
+)
+
+(defrule
+	(players-unit-type-count any-enemy trade-cart >= 5)
+	(goal 1 0)
+	=>
+	(set-strategic-number sn-special-attack-type2 trade-cart)
+	(set-goal 1 1)
+	(chat-local-to-self "-- AI: Targeting Trade Cart --")
+)
+
+(defrule
+	(players-unit-type-count any-enemy trade-cog >= 5)
+	(goal 1 0)
+	=>
+	(set-strategic-number sn-special-attack-type2 trade-cog)
+	(set-goal 1 1)
+	(chat-local-to-self "-- AI: Targeting Trade Cog --")
+)
+
+(defrule
+	(players-unit-type-count any-enemy fishing-ship >= 5)
+	(goal 1 0)
+	=>
+	(set-strategic-number sn-special-attack-type2 fishing-ship)
+	(set-goal 1 1)
+	(chat-local-to-self "-- AI: Targeting Fishing Ship --")
+)
+
+(defrule
+	(players-unit-type-count any-enemy transport-ship >= 5)
+	(goal 1 0)
+	=>
+	(set-strategic-number sn-special-attack-type2 transport-ship)
+	(set-goal 1 1)
+	(chat-local-to-self "-- AI: Targeting Transport Ship --")
+)
+
+(defrule
+	(players-unit-type-count any-enemy cannon-galleon >= 5)
+	(goal 1 0)
+	=>
+	(set-strategic-number sn-special-attack-type2 cannon-galleon)
+	(set-goal 1 1)
+	(chat-local-to-self "-- AI: Targeting Cannon Galleon --")
+)
+
+(defrule
+	(players-unit-type-count any-enemy elite-cannon-galleon >= 5)
+	(goal 1 0)
+	=>
+	(set-strategic-number sn-special-attack-type2 elite-cannon-galleon)
+	(set-goal 1 1)
+	(chat-local-to-self "-- AI: Targeting Elite Cannon Galleon --")
+)
+
+(defrule
+	(players-unit-type-count any-enemy turtle-ship >= 5)
+	(goal 1 0)
+	=>
+	(set-strategic-number sn-special-attack-type2 turtle-ship)
+	(set-goal 1 1)
+	(chat-local-to-self "-- AI: Targeting Turtle Ship --")
+)
+
+(defrule
+	(players-unit-type-count any-enemy elite-turtle-ship >= 5)
+	(goal 1 0)
+	=>
+	(set-strategic-number sn-special-attack-type2 elite-turtle-ship)
+	(set-goal 1 1)
+	(chat-local-to-self "-- AI: Targeting Elite Turtle Ship --")
+)
+
+(defrule
+	(players-unit-type-count any-enemy archer >= 10)
+	(goal 1 0)
+	=>
+	(set-strategic-number sn-special-attack-type2 archer)
+	(set-goal 1 1)
+	(chat-local-to-self "-- AI: Targeting Archer --")
+)
+
+(defrule
+	(players-unit-type-count any-enemy crossbowman >= 10)
+	(goal 1 0)
+	=>
+	(set-strategic-number sn-special-attack-type2 crossbowman)
+	(set-goal 1 1)
+	(chat-local-to-self "-- AI: Targeting Crossbowman --")
+)
+
+(defrule
+	(players-unit-type-count any-enemy arbalest >= 10)
+	(goal 1 0)
+	=>
+	(set-strategic-number sn-special-attack-type2 arbalest)
+	(set-goal 1 1)
+	(chat-local-to-self "-- AI: Targeting Arbalest --")
+)
+
+(defrule
+	(players-unit-type-count any-enemy skirmisher >= 10)
+	(goal 1 0)
+	=>
+	(set-strategic-number sn-special-attack-type2 skirmisher)
+	(set-goal 1 1)
+	(chat-local-to-self "-- AI: Targeting Skirmisher --")
+)
+
+(defrule
+	(players-unit-type-count any-enemy elite-skirmisher >= 10)
+	(goal 1 0)
+	=>
+	(set-strategic-number sn-special-attack-type2 elite-skirmisher)
+	(set-goal 1 1)
+	(chat-local-to-self "-- AI: Targeting Elite Skirmisher --")
+)
+
+(defrule
+	(players-unit-type-count any-enemy cavalry-archer  >= 10)
+	(goal 1 0)
+	=>
+	(set-strategic-number sn-special-attack-type2 cavalry-archer)
+	(set-goal 1 1)
+	(chat-local-to-self "-- AI: Targeting Cavalry Archer --")
+)
+
+(defrule
+	(players-unit-type-count any-enemy heavy-cavalry-archer >= 10)
+	(goal 1 0)
+	=>
+	(set-strategic-number sn-special-attack-type2 heavy-cavalry-archer)
+	(set-goal 1 1)
+	(chat-local-to-self "-- AI: Targeting Heavy Cavalry Archer --")
+)
+
+(defrule
+	(players-unit-type-count any-enemy hand-cannoneer >= 10)
+	(goal 1 0)
+	=>
+	(set-strategic-number sn-special-attack-type2 hand-cannoneer)
+	(set-goal 1 1)
+	(chat-local-to-self "-- AI: Targeting Hand Cannoneer --")
+)
+
+(defrule
+	(players-unit-type-count any-enemy scout-cavalry >= 10)
+	(goal 1 0)
+	=>
+	(set-strategic-number sn-special-attack-type2 scout-cavalry)
+	(set-goal 1 1)
+	(chat-local-to-self "-- AI: Targeting Scout Cavalry --")
+)
+
+(defrule
+	(players-unit-type-count any-enemy light-cavalry >= 10)
+	(goal 1 0)
+	=>
+	(set-strategic-number sn-special-attack-type2 light-cavalry)
+	(set-goal 1 1)
+	(chat-local-to-self "-- AI: Targeting Light Cavalry --")
+)
+
+(defrule
+	(players-unit-type-count any-enemy hussar >= 10)
+	(goal 1 0)
+	=>
+	(set-strategic-number sn-special-attack-type2 hussar)
+	(set-goal 1 1)
+	(chat-local-to-self "-- AI: Targeting Hussar --")
+)
+
+(defrule
+	(players-unit-type-count any-enemy knight >= 10)
+	(goal 1 0)
+	=>
+	(set-strategic-number sn-special-attack-type2 knight)
+	(set-goal 1 1)
+	(chat-local-to-self "-- AI: Targeting Knight --")
+)
+
+(defrule
+	(players-unit-type-count any-enemy cavalier >= 10)
+	(goal 1 0)
+	=>
+	(set-strategic-number sn-special-attack-type2 cavalier)
+	(set-goal 1 1)
+	(chat-local-to-self "-- AI: Targeting Cavalier --")
+)
+
+(defrule
+	(players-unit-type-count any-enemy paladin >= 10)
+	(goal 1 0)
+	=>
+	(set-strategic-number sn-special-attack-type2 paladin)
+	(set-goal 1 1)
+	(chat-local-to-self "-- AI: Targeting Paladin --")
+)
+
+(defrule
+	(players-unit-type-count any-enemy camel >= 10)
+	(goal 1 0)
+	=>
+	(set-strategic-number sn-special-attack-type2 camel)
+	(set-goal 1 1)
+	(chat-local-to-self "-- AI: Targeting Camel --")
+)
+
+(defrule
+	(players-unit-type-count any-enemy heavy-camel >= 10)
+	(goal 1 0)
+	=>
+	(set-strategic-number sn-special-attack-type2 heavy-camel)
+	(set-goal 1 1)
+	(chat-local-to-self "-- AI: Targeting Heavy Camel --")
+)
+
+(defrule
+	(players-unit-type-count any-enemy militiaman >= 10)
+	(goal 1 0)
+	=>
+	(set-strategic-number sn-special-attack-type2 militiaman)
+	(set-goal 1 1)
+	(chat-local-to-self "-- AI: Targeting Militia --")
+)
+
+(defrule
+	(players-unit-type-count any-enemy man-at-arms >= 10)
+	(goal 1 0)
+	=>
+	(set-strategic-number sn-special-attack-type2 man-at-arms)
+	(set-goal 1 1)
+	(chat-local-to-self "-- AI: Targeting Men-At-Arms --")
+)
+
+(defrule
+	(players-unit-type-count any-enemy long-swordsman >= 10)
+	(goal 1 0)
+	=>
+	(set-strategic-number sn-special-attack-type2 long-swordsman)
+	(set-goal 1 1)
+	(chat-local-to-self "-- AI: Targeting Long Swordsman --")
+)
+
+(defrule
+	(players-unit-type-count any-enemy two-handed-swordsman >= 10)
+	(goal 1 0)
+	=>
+	(set-strategic-number sn-special-attack-type2 two-handed-swordsman)
+	(set-goal 1 1)
+	(chat-local-to-self "-- AI: Targeting Two-Handed Swordsman --")
+)
+
+(defrule
+	(players-unit-type-count any-enemy champion >= 10)
+	(goal 1 0)
+	=>
+	(set-strategic-number sn-special-attack-type2 champion)
+	(set-goal 1 1)
+	(chat-local-to-self "-- AI: Targeting Champion --")
+)
+
+(defrule
+	(players-unit-type-count any-enemy spearman >= 10)
+	(goal 1 0)
+	=>
+	(set-strategic-number sn-special-attack-type2 spearman)
+	(set-goal 1 1)
+	(chat-local-to-self "-- AI: Targeting Spearman --")
+)
+
+(defrule
+	(players-unit-type-count any-enemy pikeman >= 10)
+	(goal 1 0)
+	=>
+	(set-strategic-number sn-special-attack-type2 pikeman)
+	(set-goal 1 1)
+	(chat-local-to-self "-- AI: Targeting Pikeman --")
+)
+
+(defrule
+	(players-unit-type-count any-enemy halberdier >= 10)
+	(goal 1 0)
+	=>
+	(set-strategic-number sn-special-attack-type2 halberdier)
+	(set-goal 1 1)
+	(chat-local-to-self "-- AI: Targeting Halberdier --")
+)
+
+(defrule
+	(players-unit-type-count any-enemy eagle-warrior >= 10)
+	(goal 1 0)
+	=>
+	(set-strategic-number sn-special-attack-type2 eagle-warrior)
+	(set-goal 1 1)
+	(chat-local-to-self "-- AI: Targeting Eagle Warrior --")
+)
+
+(defrule
+	(players-unit-type-count any-enemy elite-eagle-warrior >= 10)
+	(goal 1 0)
+	=>
+	(set-strategic-number sn-special-attack-type2 elite-eagle-warrior)
+	(set-goal 1 1)
+	(chat-local-to-self "-- AI: Targeting Elite Eagle Warrior --")
+)
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: jaguar-warrior is 725. (AI is bugged.)
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+(defrule
+	(players-unit-type-count any-enemy 725 >= 10)
+	(goal 1 0)
+	=>
+	(set-strategic-number sn-special-attack-type2 725)
+	(set-goal 1 1)
+	(chat-local-to-self "-- AI: Targeting Jaguar Warrior --")
+)
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: elite-jaguar-warrior is 726. (AI is bugged.)
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+(defrule
+	(players-unit-type-count any-enemy 726 >= 10)
+	(goal 1 0)
+	=>
+	(set-strategic-number sn-special-attack-type2 726)
+	(set-goal 1 1)
+	(chat-local-to-self "-- AI: Targeting Elite Jaguar Warrior --")
+)
+
+(defrule
+	(players-unit-type-count any-enemy longbowman >= 10)
+	(goal 1 0)
+	=>
+	(set-strategic-number sn-special-attack-type2 longbowman)
+	(set-goal 1 1)
+	(chat-local-to-self "-- AI: Targeting Longbowman --")
+)
+
+(defrule
+	(players-unit-type-count any-enemy elite-longbowman >= 10)
+	(goal 1 0)
+	=>
+	(set-strategic-number sn-special-attack-type2 elite-longbowman)
+	(set-goal 1 1)
+	(chat-local-to-self "-- AI: Targeting Elite Longbowman --")
+)
+
+(defrule
+	(players-unit-type-count any-enemy cataphract >= 10)
+	(goal 1 0)
+	=>
+	(set-strategic-number sn-special-attack-type2 cataphract)
+	(set-goal 1 1)
+	(chat-local-to-self "-- AI: Targeting Cataphract --")
+)
+
+(defrule
+	(players-unit-type-count any-enemy elite-cataphract >= 10)
+	(goal 1 0)
+	=>
+	(set-strategic-number sn-special-attack-type2 elite-cataphract)
+	(set-goal 1 1)
+	(chat-local-to-self "-- AI: Targeting Elite Cataphract --")
+)
+
+(defrule
+	(players-unit-type-count any-enemy woad-raider >= 10)
+	(goal 1 0)
+	=>
+	(set-strategic-number sn-special-attack-type2 woad-raider)
+	(set-goal 1 1)
+	(chat-local-to-self "-- AI: Targeting Woad Raider --")
+)
+
+(defrule
+	(players-unit-type-count any-enemy elite-woad-raider >= 10)
+	(goal 1 0)
+	=>
+	(set-strategic-number sn-special-attack-type2 elite-woad-raider)
+	(set-goal 1 1)
+	(chat-local-to-self "-- AI: Targeting Elite Woad Raider --")
+)
+
+(defrule
+	(players-unit-type-count any-enemy chu-ko-nu >= 10)
+	(goal 1 0)
+	=>
+	(set-strategic-number sn-special-attack-type2 chu-ko-nu)
+	(set-goal 1 1)
+	(chat-local-to-self "-- AI: Targeting Chu Ko Nu --")
+)
+
+(defrule
+	(players-unit-type-count any-enemy elite-chu-ko-nu >= 10)
+	(goal 1 0)
+	=>
+	(set-strategic-number sn-special-attack-type2 elite-chu-ko-nu)
+	(set-goal 1 1)
+	(chat-local-to-self "-- AI: Targeting Elite Chu Ko Nu --")
+)
+
+(defrule
+	(players-unit-type-count any-enemy throwing-axeman >= 10)
+	(goal 1 0)
+	=>
+	(set-strategic-number sn-special-attack-type2 throwing-axeman)
+	(set-goal 1 1)
+	(chat-local-to-self "-- AI: Targeting Throwing Axeman --")
+)
+
+(defrule
+	(players-unit-type-count any-enemy elite-throwing-axeman >= 10)
+	(goal 1 0)
+	=>
+	(set-strategic-number sn-special-attack-type2 elite-throwing-axeman)
+	(set-goal 1 1)
+	(chat-local-to-self "-- AI: Targeting Elite Throwing Axeman --")
+)
+
+(defrule
+	(players-unit-type-count any-enemy huskarl >= 10)
+	(goal 1 0)
+	=>
+	(set-strategic-number sn-special-attack-type2 huskarl)
+	(set-goal 1 1)
+	(chat-local-to-self "-- AI: Targeting Huskarl --")
+)
+
+(defrule
+	(players-unit-type-count any-enemy elite-huskarl >= 10)
+	(goal 1 0)
+	=>
+	(set-strategic-number sn-special-attack-type2 elite-huskarl)
+	(set-goal 1 1)
+	(chat-local-to-self "-- AI: Targeting Elite Huskarl --")
+)
+
+(defrule
+	(players-unit-type-count any-enemy tarkan >= 10)
+	(goal 1 0)
+	=>
+	(set-strategic-number sn-special-attack-type2 tarkan)
+	(set-goal 1 1)
+	(chat-local-to-self "-- AI: Targeting Tarkan --")
+)
+
+(defrule
+	(players-unit-type-count any-enemy elite-tarkan >= 10)
+	(goal 1 0)
+	=>
+	(set-strategic-number sn-special-attack-type2 elite-tarkan)
+	(set-goal 1 1)
+	(chat-local-to-self "-- AI: Targeting Elite Tarkan --")
+)
+
+(defrule
+	(players-unit-type-count any-enemy samurai >= 10)
+	(goal 1 0)
+	=>
+	(set-strategic-number sn-special-attack-type2 samurai)
+	(set-goal 1 1)
+	(chat-local-to-self "-- AI: Targeting Samurai --")
+)
+
+(defrule
+	(players-unit-type-count any-enemy elite-samurai >= 10)
+	(goal 1 0)
+	=>
+	(set-strategic-number sn-special-attack-type2 elite-samurai)
+	(set-goal 1 1)
+	(chat-local-to-self "-- AI: Targeting Elite Samurai --")
+)
+
+(defrule
+	(players-unit-type-count any-enemy war-wagon >= 10)
+	(goal 1 0)
+	=>
+	(set-strategic-number sn-special-attack-type2 war-wagon)
+	(set-goal 1 1)
+	(chat-local-to-self "-- AI: Targeting War Wagon --")
+)
+
+(defrule
+	(players-unit-type-count any-enemy elite-war-wagon >= 10)
+	(goal 1 0)
+	=>
+	(set-strategic-number sn-special-attack-type2 elite-war-wagon)
+	(set-goal 1 1)
+	(chat-local-to-self "-- AI: Targeting Elite War Wagon --")
+)
+
+(defrule
+	(players-unit-type-count any-enemy plumed-archer >= 10)
+	(goal 1 0)
+	=>
+	(set-strategic-number sn-special-attack-type2 plumed-archer)
+	(set-goal 1 1)
+	(chat-local-to-self "-- AI: Targeting Plumed Archer --")
+)
+
+(defrule
+	(players-unit-type-count any-enemy elite-plumed-archer >= 10)
+	(goal 1 0)
+	=>
+	(set-strategic-number sn-special-attack-type2 elite-plumed-archer)
+	(set-goal 1 1)
+	(chat-local-to-self "-- AI: Targeting Elite Plumed Archer --")
+)
+
+(defrule
+	(players-unit-type-count any-enemy mangudai >= 10)
+	(goal 1 0)
+	=>
+	(set-strategic-number sn-special-attack-type2 mangudai)
+	(set-goal 1 1)
+	(chat-local-to-self "-- AI: Targeting Mangudai --")
+)
+
+(defrule
+	(players-unit-type-count any-enemy elite-mangudai >= 10)
+	(goal 1 0)
+	=>
+	(set-strategic-number sn-special-attack-type2 elite-mangudai)
+	(set-goal 1 1)
+	(chat-local-to-self "-- AI: Targeting Mangudai --")
+)
+
+(defrule
+	(players-unit-type-count any-enemy war-elephant >= 10)
+	(goal 1 0)
+	=>
+	(set-strategic-number sn-special-attack-type2 war-elephant)
+	(set-goal 1 1)
+	(chat-local-to-self "-- AI: Targeting War Elephant --")
+)
+
+(defrule
+	(players-unit-type-count any-enemy elite-war-elephant >= 10)
+	(goal 1 0)
+	=>
+	(set-strategic-number sn-special-attack-type2 elite-war-elephant)
+	(set-goal 1 1)
+	(chat-local-to-self "-- AI: Targeting Elite War Elephant --")
+)
+
+(defrule
+	(players-unit-type-count any-enemy mameluke >= 10)
+	(goal 1 0)
+	=>
+	(set-strategic-number sn-special-attack-type2 mameluke)
+	(set-goal 1 1)
+	(chat-local-to-self "-- AI: Targeting Mameluke --")
+)
+
+(defrule
+	(players-unit-type-count any-enemy elite-mameluke >= 10)
+	(goal 1 0)
+	=>
+	(set-strategic-number sn-special-attack-type2 elite-mameluke)
+	(set-goal 1 1)
+	(chat-local-to-self "-- AI: Targeting Elite Mameluke --")
+)
+
+(defrule
+	(players-unit-type-count any-enemy conquistador >= 10)
+	(goal 1 0)
+	=>
+	(set-strategic-number sn-special-attack-type2 conquistador)
+	(set-goal 1 1)
+	(chat-local-to-self "-- AI: Targeting Conquistador --")
+)
+
+(defrule
+	(players-unit-type-count any-enemy elite-conquistador >= 10)
+	(goal 1 0)
+	=>
+	(set-strategic-number sn-special-attack-type2 elite-conquistador)
+	(set-goal 1 1)
+	(chat-local-to-self "-- AI: Targeting Elite Conquistador --")
+)
+
+(defrule
+	(players-unit-type-count any-enemy teutonic-knight >= 10)
+	(goal 1 0)
+	=>
+	(set-strategic-number sn-special-attack-type2 teutonic-knight)
+	(set-goal 1 1)
+	(chat-local-to-self "-- AI: Targeting Teutonic Knight --")
+)
+
+(defrule
+	(players-unit-type-count any-enemy elite-teutonic-knight >= 10)
+	(goal 1 0)
+	=>
+	(set-strategic-number sn-special-attack-type2 elite-teutonic-knight)
+	(set-goal 1 1)
+	(chat-local-to-self "-- AI: Targeting Elite Teutonic Knight --")
+)
+
+(defrule
+	(players-unit-type-count any-enemy janissary >= 10)
+	(goal 1 0)
+	=>
+	(set-strategic-number sn-special-attack-type2 janissary)
+	(set-goal 1 1)
+	(chat-local-to-self "-- AI: Targeting Janissary --")
+)
+
+(defrule
+	(players-unit-type-count any-enemy elite-janissary >= 10)
+	(goal 1 0)
+	=>
+	(set-strategic-number sn-special-attack-type2 elite-janissary)
+	(set-goal 1 1)
+	(chat-local-to-self "-- AI: Targeting Elite Janissary --")
+)
+
+(defrule
+	(players-unit-type-count any-enemy berserk >= 10)
+	(goal 1 0)
+	=>
+	(set-strategic-number sn-special-attack-type2 berserk)
+	(set-goal 1 1)
+	(chat-local-to-self "-- AI: Targeting Berserk --")
+)
+
+(defrule
+	(players-unit-type-count any-enemy elite-berserk >= 10)
+	(goal 1 0)
+	=>
+	(set-strategic-number sn-special-attack-type2 elite-berserk)
+	(set-goal 1 1)
+	(chat-local-to-self "-- AI: Targeting Elite Berserk --")
+)
+
+(defrule
+	(players-unit-type-count any-enemy petard >= 10)
+	(goal 1 0)
+	=>
+	(set-strategic-number sn-special-attack-type2 petard)
+	(set-goal 1 1)
+	(chat-local-to-self "-- AI: Targeting Petard --")
+)
+
+(defrule
+	(players-unit-type-count any-enemy galley >= 10)
+	(goal 1 0)
+	=>
+	(set-strategic-number sn-special-attack-type2 galley)
+	(set-goal 1 1)
+	(chat-local-to-self "-- AI: Targeting Galley --")
+)
+
+(defrule
+	(players-unit-type-count any-enemy war-galley >= 10)
+	(goal 1 0)
+	=>
+	(set-strategic-number sn-special-attack-type2 war-galley)
+	(set-goal 1 1)
+	(chat-local-to-self "-- AI: Targeting War Galley --")
+)
+
+(defrule
+	(players-unit-type-count any-enemy galleon >= 10)
+	(goal 1 0)
+	=>
+	(set-strategic-number sn-special-attack-type2 galleon)
+	(set-goal 1 1)
+	(chat-local-to-self "-- AI: Targeting Galleon --")
+)
+
+(defrule
+	(players-unit-type-count any-enemy fire-ship >= 10)
+	(goal 1 0)
+	=>
+	(set-strategic-number sn-special-attack-type2 fire-ship)
+	(set-goal 1 1)
+	(chat-local-to-self "-- AI: Targeting Fire Ship --")
+)
+
+(defrule
+	(players-unit-type-count any-enemy fast-fire-ship >= 10)
+	(goal 1 0)
+	=>
+	(set-strategic-number sn-special-attack-type2 fast-fire-ship)
+	(set-goal 1 1)
+	(chat-local-to-self "-- AI: Targeting Fast Fire Ship --")
+)
+
+(defrule
+	(players-unit-type-count any-enemy demolition-ship >= 10)
+	(goal 1 0)
+	=>
+	(set-strategic-number sn-special-attack-type2 demolition-ship)
+	(set-goal 1 1)
+	(chat-local-to-self "-- AI: Targeting Demolition Ship --")
+)
+
+(defrule
+	(players-unit-type-count any-enemy heavy-demolition-ship >= 10)
+	(goal 1 0)
+	=>
+	(set-strategic-number sn-special-attack-type2 heavy-demolition-ship)
+	(set-goal 1 1)
+	(chat-local-to-self "-- AI: Targeting Heavy Demolition Ship --")
+)
+
+(defrule
+	(players-unit-type-count any-enemy longboat >= 10)
+	(goal 1 0)
+	=>
+	(set-strategic-number sn-special-attack-type2 longboat)
+	(set-goal 1 1)
+	(chat-local-to-self "-- AI: Targeting Longboat --")
+)
+
+(defrule
+	(players-unit-type-count any-enemy elite-longboat >= 10)
+	(goal 1 0)
+	=>
+	(set-strategic-number sn-special-attack-type2 elite-longboat)
+	(set-goal 1 1)
+	(chat-local-to-self "-- AI: Targeting Elite Longboat --")
+)
+
+(defrule
+	(players-building-type-count any-enemy palisade-wall >= 10)
+	(goal 1 0)
+	=>
+	(set-strategic-number sn-special-attack-type2 palisade-wall)
+	(set-goal 1 1)
+	(chat-local-to-self "-- AI: Targeting Palisade Wall --")
+)
+
+(defrule
+	(players-building-type-count any-enemy stone-wall >= 10)
+	(goal 1 0)
+	=>
+	(set-strategic-number sn-special-attack-type2 stone-wall)
+	(set-goal 1 1)
+	(chat-local-to-self "-- AI: Targeting Stone Wall --")
+)
+
+(defrule
+	(players-building-type-count any-enemy fortified-wall >= 10)
+	(goal 1 0)
+	=>
+	(set-strategic-number sn-special-attack-type2 fortified-wall)
+	(set-goal 1 1)
+	(chat-local-to-self "-- AI: Targeting Fortified Wall --")
+)
+
+(defrule
+	(players-building-type-count any-enemy gate >= 1)
+	(goal 1 0)
+	=>
+	(set-strategic-number sn-special-attack-type2 gate)
+	(set-goal 1 1)
+	(chat-local-to-self "-- AI: Targeting Gate --")
+)
+
+(defrule
+	(players-building-type-count any-enemy castle >= 1)
+	(goal 1 0)
+	=>
+	(set-strategic-number sn-special-attack-type2 castle)
+	(set-goal 1 1)
+	(chat-local-to-self "-- AI: Targeting Castle --")
+)
+
+(defrule
+	(players-building-type-count any-enemy watch-tower >= 1)
+	(goal 1 0)
+	=>
+	(set-strategic-number sn-special-attack-type2 watch-tower)
+	(set-goal 1 1)
+	(chat-local-to-self "-- AI: Targeting Watch Tower --")
+)
+
+(defrule
+	(players-building-type-count any-enemy guard-tower >= 1)
+	(goal 1 0)
+	=>
+	(set-strategic-number sn-special-attack-type2 guard-tower)
+	(set-goal 1 1)
+	(chat-local-to-self "-- AI: Targeting Guard Tower --")
+)
+
+(defrule
+	(players-building-type-count any-enemy keep >= 1)
+	(goal 1 0)
+	=>
+	(set-strategic-number sn-special-attack-type2 keep)
+	(set-goal 1 1)
+	(chat-local-to-self "-- AI: Targeting Keep --")
+)
+
+(defrule
+	(players-building-type-count any-enemy bombard-tower >= 1)
+	(goal 1 0)
+	=>
+	(set-strategic-number sn-special-attack-type2 bombard-tower)
+	(set-goal 1 1)
+	(chat-local-to-self "-- AI: Targeting Bombard Tower --")
+)
+
+(defrule
+	(players-building-type-count any-enemy outpost >= 2)
+	(goal 1 0)
+	=>
+	(set-strategic-number sn-special-attack-type2 outpost)
+	(set-goal 1 1)
+	(chat-local-to-self "-- AI: Targeting Outpost --")
+)
+
+(defrule
+	(players-building-type-count any-enemy town-center >= 1)
+	(goal 1 0)
+	=>
+	(set-strategic-number sn-special-attack-type2 town-center)
+	(set-goal 1 1)
+	(chat-local-to-self "-- AI: Targeting Town Center --")
+)
+
+(defrule
+	(players-building-type-count any-enemy house >= 5)
+	(goal 1 0)
+	=>
+	(set-strategic-number sn-special-attack-type2 house)
+	(set-goal 1 1)
+	(chat-local-to-self "-- AI: Targeting House --")
+)
+
+(defrule
+	(players-building-type-count any-enemy archery-range >= 1)
+	(goal 1 0)
+	=>
+	(set-strategic-number sn-special-attack-type2 archery-range)
+	(set-goal 1 1)
+	(chat-local-to-self "-- AI: Targeting Archery Range --")
+)
+
+(defrule
+	(players-building-type-count any-enemy barracks >= 1)
+	(goal 1 0)
+	=>
+	(set-strategic-number sn-special-attack-type2 barracks)
+	(set-goal 1 1)
+	(chat-local-to-self "-- AI: Targeting Barracks --")
+)
+
+(defrule
+	(players-building-type-count any-enemy stable >= 1)
+	(goal 1 0)
+	=>
+	(set-strategic-number sn-special-attack-type2 stable)
+	(set-goal 1 1)
+	(chat-local-to-self "-- AI: Targeting Stable --")
+)
+
+(defrule
+	(players-building-type-count any-enemy siege-workshop >= 1)
+	(goal 1 0)
+	=>
+	(set-strategic-number sn-special-attack-type2 siege-workshop)
+	(set-goal 1 1)
+	(chat-local-to-self "-- AI: Targeting Siege Workshop --")
+)
+
+(defrule
+	(players-building-type-count any-enemy lumber-camp >= 5)
+	(goal 1 0)
+	=>
+	(set-strategic-number sn-special-attack-type2 lumber-camp)
+	(set-goal 1 1)
+	(chat-local-to-self "-- AI: Targeting Lumber Camp --")
+)
+
+(defrule
+	(players-building-type-count any-enemy mill >= 2)
+	(goal 1 0)
+	=>
+	(set-strategic-number sn-special-attack-type2 mill)
+	(set-goal 1 1)
+	(chat-local-to-self "-- AI: Targeting Mill --")
+)
+
+(defrule
+	(players-building-type-count any-enemy mining-camp >= 3)
+	(goal 1 0)
+	=>
+	(set-strategic-number sn-special-attack-type2 mining-camp)
+	(set-goal 1 1)
+	(chat-local-to-self "-- AI: Targeting Mining Camp --")
+)
+
+(defrule
+	(players-building-type-count any-enemy blacksmith >= 1)
+	(goal 1 0)
+	=>
+	(set-strategic-number sn-special-attack-type2 blacksmith)
+	(set-goal 1 1)
+	(chat-local-to-self "-- AI: Targeting Blacksmith --")
+)
+
+(defrule
+	(players-building-type-count any-enemy market >= 1)
+	(goal 1 0)
+	=>
+	(set-strategic-number sn-special-attack-type2 market)
+	(set-goal 1 1)
+	(chat-local-to-self "-- AI: Targeting Market --")
+)
+
+(defrule
+	(players-building-type-count any-enemy university >= 1)
+	(goal 1 0)
+	=>
+	(set-strategic-number sn-special-attack-type2 university)
+	(set-goal 1 1)
+	(chat-local-to-self "-- AI: Targeting University --")
+)
+
+(defrule
+	(players-building-type-count any-enemy dock >= 1)
+	(goal 1 0)
+	=>
+	(set-strategic-number sn-special-attack-type2 dock)
+	(set-goal 1 1)
+	(chat-local-to-self "-- AI: Targeting Dock --")
+)
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; (Priority 11) - Resign
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Description: Only resign if it's pointless to continue.
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+(defrule
+	(building-type-count wonder < 1)
+	(building-type-count monastery < 1)
+	(building-type-count town-center < 1)
+	(building-type-count 826 < 1)
+	(unit-type-count-total villager < 1)
+	(unit-type-count-total 434 < 1)
+	=>
+	(chat-to-all "My empire is destroyed! ...I shall resign.")
+	(chat-local-to-self "-- AI: Resigned --")
+	(resign)
+	(disable-self)
+)
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: End of AI file...
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
