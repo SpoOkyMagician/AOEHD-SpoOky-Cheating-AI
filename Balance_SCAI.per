@@ -1,5 +1,5 @@
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-; SpoOky Cheating AI Balance V 5.0
+; SpoOky Cheating AI Balance V 5.3
 ; Created By: SpoOkyMagician
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ; Description: This AI plays any land based map. (Making good water map AI's is tough/annoying.) It can play on Land Nomad but, it has issues at times trying to build a starting town center. (You have been warned.)
@@ -100,13 +100,21 @@
 
 ;(defconst ri-arson 602)
 (defconst ri-expeditions 578)
+(defconst ri-eagle-warrior 384)
+(defconst ri-elite-genitour 599)
+(defconst ri-imperial-camel 521)
+(defconst kamayuk-line -258)
+(defconst genoese-crossbowman-line -262)
+(defconst organ-gun-line -253)
+(defconst ri-gillnets 65)
+(defconst caravel-line -254)
 
 (defrule
 	(true)
 	=>
-	(chat-local-to-self "SpoOky Cheating AI Balance (Version 5.0)")
-	(chat-local-to-self "Created by: SpoOkyMagician")
-	(chat-local-to-self "-- AI: Setting Strategic Numbers --")
+	(chat-local-to-self "--------------------------------------------------------------------------------------------------------------------")
+	(chat-local-to-self " SpoOky Cheating AI Balance (Version 5.3)")
+	(chat-local-to-self " Created by: SpoOkyMagician")
 	(disable-self)
 )
 
@@ -158,7 +166,7 @@
 	(set-strategic-number sn-attack-group-gather-spacing 1)
 	(set-strategic-number sn-group-leader-defense-distance 1)
 	(set-strategic-number sn-percent-attack-soldiers 100)
-	(set-strategic-number sn-percent-attack-boats 0)
+	(set-strategic-number sn-percent-attack-boats 100)
 	(set-strategic-number sn-percent-enemy-sighted-response 100)
 	(set-strategic-number sn-enemy-sighted-response-distance 144)
 	(set-strategic-number sn-blot-exploration-map 1)
@@ -191,21 +199,21 @@
 (defrule
 	(true)
 	=>
-	(set-strategic-number sn-number-boat-attack-groups 0)
-	(set-strategic-number sn-minimum-boat-attack-group-size 0)
-	(set-strategic-number sn-maximum-boat-attack-group-size 0)
-	(set-strategic-number sn-number-boat-defend-groups 0)
-	(set-strategic-number sn-minimum-boat-defend-group-size 0)
-	(set-strategic-number sn-maximum-boat-defend-group-size 0)
+	(set-strategic-number sn-number-boat-attack-groups 500)
+	(set-strategic-number sn-minimum-boat-attack-group-size 1)
+	(set-strategic-number sn-maximum-boat-attack-group-size 1)
+	(set-strategic-number sn-number-boat-defend-groups 500)
+	(set-strategic-number sn-minimum-boat-defend-group-size 1)
+	(set-strategic-number sn-maximum-boat-defend-group-size 1)
 	(set-strategic-number sn-dock-defend-priority 0)
-	(set-strategic-number sn-number-boat-explore-groups 0)
-	(set-strategic-number sn-minimum-boat-explore-group-size 0)
-	(set-strategic-number sn-maximum-boat-explore-group-size 0)
+	(set-strategic-number sn-number-boat-explore-groups 500)
+	(set-strategic-number sn-minimum-boat-explore-group-size 1)
+	(set-strategic-number sn-maximum-boat-explore-group-size 1)
 	(set-strategic-number sn-minimum-town-size 0)
 	(set-strategic-number sn-maximum-town-size 10)
 	(set-strategic-number sn-camp-max-distance 255)
 	(set-strategic-number sn-mill-max-distance 255)
-	(set-strategic-number sn-minimum-water-body-size-for-dock 10)
+	(set-strategic-number sn-minimum-water-body-size-for-dock 100)
 	(set-strategic-number sn-max-build-plan-gatherer-percentage 100)
 	(set-strategic-number sn-food-dropsite-distance 3)
 	(set-strategic-number sn-wood-dropsite-distance 3)
@@ -342,7 +350,7 @@
 	=>
 	(set-strategic-number sn-attack-winning-player-factor 75)
 	(set-strategic-number sn-coop-share-attacking 1)
-	(set-strategic-number sn-coop-share-attacking-interval 30)
+	(set-strategic-number sn-coop-share-attacking-interval 120)
 	(set-strategic-number sn-percentage-explore-exterminators 1)
 	(set-strategic-number sn-maximum-wood-drop-distance 255)
 	(set-strategic-number sn-maximum-food-drop-distance 255)
@@ -353,7 +361,36 @@
 	(set-strategic-number sn-enable-new-building-system 1)
 ;	(set-strategic-number sn-enable-training-queue 1)
 	(set-strategic-number sn-percent-building-cancellation 75)
+	(set-strategic-number sn-focus-player-number 0)
+	(set-strategic-number sn-target-player-number 0)
 	(enable-wall-placement 2)
+	(disable-self)
+)
+
+(defrule
+	(true)
+	=>
+	(up-assign-builders c: house c: 1)
+	(up-assign-builders c: town-center-foundation c: 5)
+	(up-assign-builders c: mill c: 1)
+	(up-assign-builders c: mining-camp c: 1)
+	(up-assign-builders c: lumber-camp c: 1)
+	(up-assign-builders c: mill c: 1)
+	(up-assign-builders c: dock c: 1)
+	(up-assign-builders c: barracks c: 1)
+	(up-assign-builders c: archery-range c: 1)
+	(up-assign-builders c: stable c: 1)
+	(up-assign-builders c: blacksmith c: 1)
+	(up-assign-builders c: market c: 1)
+	(up-assign-builders c: stone-wall-line c: 1)
+	(up-assign-builders c: watch-tower-line c: 1)
+	(up-assign-builders c: gate c: 1)
+	(up-assign-builders c: monastery c: 1)
+	(up-assign-builders c: university c: 1)
+	(up-assign-builders c: siege-workshop c: 1)
+	(up-assign-builders c: castle c: 10)
+	(up-assign-builders c: bombard-tower c: 1)
+	(up-assign-builders c: wonder c: 50)
 	(disable-self)
 )
 
@@ -384,53 +421,126 @@
 ; Goal 15: (Make Mangonels) 0 or 1. (boolean)
 ; Goal 16: (Make Scorpions) 0 or 1. (boolean)
 ; Goal 17: (Make Bombard Cannons) 0 or 1. (boolean)
-;
+; 
 ; Goal 18: (Random Barracks Goal) 1-4 (integer)
 ; Goal 19: (Random Archery Range Goal) 1-5 (integer)
 ; Goal 20: (Random Stable Goal) 1-4 (integer)
 ; Goal 21: (Random Monastery Goal) 1-2 (integer)
 ; Goal 22: (Random Siege Workshop Goal) 1-4 (integer)
 ; Goal 23: (Random Castle Goal) 1-3 (integer)
+; 
+; Goal 24: (Random Number Completed) 0 or 1. (integer)
+; 
+; Goal 25: (Make Gallies) 0 or 1. (boolean)
+; Goal 26: (Make Fire Ships) 0 or 1. (boolean)
+; Goal 27: (Make Demolition Ships) 0 or 1. (boolean)
+; Goal 28: (Make Cannon Gallies) 0 or 1. (boolean)
+; Goal 29: (Make Unique Ships) 0 or 1. (boolean)
+; 
+; Goal 30: (Random Dock Goal) 1-5 (integer)
+; 
+; Edit: Let's add a timer so it's not lagging so much...
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+; lets try defconst-ing these...
+
+(defconst gl-make-archers 2)
+(defconst gl-make-skirmishers 3)
+(defconst gl-make-cavalry-archers 4)
+(defconst gl-make-hand-cannoneers 5)
+(defconst gl-make-militia 6)
+(defconst gl-make-spearmen 7)
+(defconst gl-make-eagle-warriors 8)
+(defconst gl-make-scout-cavalry 9)
+(defconst gl-make-knights 10)
+(defconst gl-make-camels 11)
+(defconst gl-make-battle-elephants 12)
+(defconst gl-make-monks 13)
+(defconst gl-make-rams 14)
+(defconst gl-make-mangonels 15)
+(defconst gl-make-scorpions 16)
+(defconst gl-make-bombard-cannons 17)
+(defconst gl-random-barracks 18)
+(defconst gl-random-archery-range 19)
+(defconst gl-random-stable 20)
+(defconst gl-random-monastery 21)
+(defconst gl-random-siege-workshop 22)
+(defconst gl-random-castle 23)
+(defconst gl-random-status 24)
+(defconst gl-make-gallies 25)
+(defconst gl-make-fire-ships 26)
+(defconst gl-make-demolition-ships 27)
+(defconst gl-make-cannon-gallies 28)
+(defconst gl-make-unique-ships 29)
+(defconst gl-random-dock 30)
 
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ; ARCHERY RANGE
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 (defrule
-	(true)
+	(timer-triggered 16)
+	(goal gl-random-status 0)
 	=>
 	(generate-random-number 5)
+	(chat-local-to-self "--------------------------------------------------------------------------------------------------------------------")
+	(chat-local-to-self " GENERATING RANDOM ARCHERY/DOCK NUMBER")
+	
 )
 
 (defrule
+	(timer-triggered 16)
+	(goal gl-random-status 0)
 	(random-number == 1)
 	=>
-	(set-goal 19 1)
+	(set-goal gl-random-archery-range 1)
+	(set-goal gl-random-dock 1)
+	(chat-local-to-self "--------------------------------------------------------------------------------------------------------------------")
+	(chat-local-to-self " RANDOM ARCHER/SHIP: 1")
 )
 
 (defrule
+	(timer-triggered 16)
+	(goal gl-random-status 0)
 	(random-number == 2)
 	=>
-	(set-goal 19 2)
+	(set-goal gl-random-archery-range 2)
+	(set-goal gl-random-dock 2)
+	(chat-local-to-self "--------------------------------------------------------------------------------------------------------------------")
+	(chat-local-to-self " RANDOM ARCHER/SHIP: 2")
 )
 
 (defrule
+	(timer-triggered 16)
+	(goal gl-random-status 0)
 	(random-number == 3)
 	=>
-	(set-goal 19 3)
+	(set-goal gl-random-archery-range 3)
+	(set-goal gl-random-dock 3)
+	(chat-local-to-self "--------------------------------------------------------------------------------------------------------------------")
+	(chat-local-to-self " RANDOM ARCHER/SHIP: 3")
 )
 
 (defrule
+	(timer-triggered 16)
+	(goal gl-random-status 0)
 	(random-number == 4)
 	=>
-	(set-goal 19 4)
+	(set-goal gl-random-archery-range 4)
+	(set-goal gl-random-dock 4)
+	(chat-local-to-self "--------------------------------------------------------------------------------------------------------------------")
+	(chat-local-to-self "RANDOM ARCHER/SHIP: 4")
 )
 
 (defrule
+	(timer-triggered 16)
+	(goal gl-random-status 0)
 	(random-number == 5)
 	=>
-	(set-goal 19 5)
+	(set-goal gl-random-archery-range 5)
+	(set-goal gl-random-dock 5)
+	(chat-local-to-self "--------------------------------------------------------------------------------------------------------------------")
+	(chat-local-to-self " RANDOM ARCHER/SHIP: 5")
 )
 
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -438,41 +548,60 @@
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 (defrule
-	(true)
+	(timer-triggered 16)
+	(goal gl-random-status 0)
 	=>
 	(generate-random-number 4)
+	(chat-local-to-self "--------------------------------------------------------------------------------------------------------------------")
+	(chat-local-to-self " GENERATING RANDOM BARRACKS/STABLE/SIEGE NUMBER")
 )
 
 (defrule
+	(timer-triggered 16)
+	(goal gl-random-status 0)
 	(random-number == 1)
 	=>
-	(set-goal 18 1)
-	(set-goal 20 1)
-	(set-goal 22 1)
+	(set-goal gl-random-barracks 1)
+	(set-goal gl-random-stable 1)
+	(set-goal gl-random-siege-workshop 1)
+	(chat-local-to-self "--------------------------------------------------------------------------------------------------------------------")
+	(chat-local-to-self " RANDOM INFANTRY/CAVALRY/SIEGE: 1")
 )
 
 (defrule
+	(timer-triggered 16)
+	(goal gl-random-status 0)
 	(random-number == 2)
 	=>
-	(set-goal 18 2)
-	(set-goal 20 2)
-	(set-goal 22 2)
+	(set-goal gl-random-barracks 2)
+	(set-goal gl-random-stable 2)
+	(set-goal gl-random-siege-workshop 2)
+	(chat-local-to-self "--------------------------------------------------------------------------------------------------------------------")
+	(chat-local-to-self " RANDOM INFANTRY/CAVALRY/SIEGE: 2")
 )
 
 (defrule
+	(timer-triggered 16)
+	(goal gl-random-status 0)
 	(random-number == 3)
 	=>
-	(set-goal 18 3)
-	(set-goal 20 3)
-	(set-goal 22 3)
+	(set-goal gl-random-barracks 3)
+	(set-goal gl-random-stable 3)
+	(set-goal gl-random-siege-workshop 3)
+	(chat-local-to-self "--------------------------------------------------------------------------------------------------------------------")
+	(chat-local-to-self " RANDOM INFANTRY/CAVALRY/SIEGE: 3")
 )
 
 (defrule
+	(timer-triggered 16)
+	(goal gl-random-status 0)
 	(random-number == 4)
 	=>
-	(set-goal 18 4)
-	(set-goal 20 4)
-	(set-goal 22 4)
+	(set-goal gl-random-barracks 4)
+	(set-goal gl-random-stable 4)
+	(set-goal gl-random-siege-workshop 4)
+	(chat-local-to-self "--------------------------------------------------------------------------------------------------------------------")
+	(chat-local-to-self " RANDOM INFANTRY/CAVALRY/SIEGE: 4")
 )
 
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -480,27 +609,42 @@
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 (defrule
-	(true)
+	(timer-triggered 16)
+	(goal gl-random-status 0)
 	=>
 	(generate-random-number 3)
+	(chat-local-to-self "--------------------------------------------------------------------------------------------------------------------")
+	(chat-local-to-self " GENERATING RANDOM CASTLE NUMBER")
 )
 
 (defrule
+	(timer-triggered 16)
+	(goal gl-random-status 0)
 	(random-number == 1)
 	=>
-	(set-goal 23 1)
+	(set-goal gl-random-castle 1)
+	(chat-local-to-self "--------------------------------------------------------------------------------------------------------------------")
+	(chat-local-to-self " RANDOM CASTLE: 1")
 )
 
 (defrule
+	(timer-triggered 16)
+	(goal gl-random-status 0)
 	(random-number == 2)
 	=>
-	(set-goal 23 2)
+	(set-goal gl-random-castle 2)
+	(chat-local-to-self "--------------------------------------------------------------------------------------------------------------------")
+	(chat-local-to-self " RANDOM CASTLE: 2")
 )
 
 (defrule
+	(timer-triggered 16)
+	(goal gl-random-status 0)
 	(random-number == 3)
 	=>
-	(set-goal 23 3)
+	(set-goal gl-random-castle 3)
+	(chat-local-to-self "--------------------------------------------------------------------------------------------------------------------")
+	(chat-local-to-self " RANDOM CASTLE: 3")
 )
 
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -508,21 +652,43 @@
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 (defrule
-	(true)
+	(timer-triggered 16)
+	(goal gl-random-status 0)
 	=>
 	(generate-random-number 2)
+	(chat-local-to-self "--------------------------------------------------------------------------------------------------------------------")
+	(chat-local-to-self " GENERATING RANDOM MONASTERY NUMBER")
 )
 
 (defrule
+	(timer-triggered 16)
+	(goal gl-random-status 0)
 	(random-number == 1)
 	=>
-	(set-goal 21 1)
+	(set-goal gl-random-monastery 1)
+	(chat-local-to-self "--------------------------------------------------------------------------------------------------------------------")
+	(chat-local-to-self " RANDOM MONK: 1")
 )
 
 (defrule
+	(timer-triggered 16)
+	(goal gl-random-status 0)
 	(random-number == 2)
 	=>
-	(set-goal 21 2)
+	(set-goal gl-random-monastery 2)
+	(chat-local-to-self "--------------------------------------------------------------------------------------------------------------------")
+	(chat-local-to-self " RANDOM MONK: 2")
+)
+
+; once we run all of these, we can stop looping above.
+
+(defrule
+	(timer-triggered 16)
+	(goal gl-random-status 0)
+	=>
+	(set-goal gl-random-status 1)
+	(chat-local-to-self "--------------------------------------------------------------------------------------------------------------------")
+	(chat-local-to-self " FINISH RANDOM")
 )
 
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -532,22 +698,27 @@
 (defrule
 	(true)
 	=>
-	(set-goal 2 0)
-	(set-goal 3 0)
-	(set-goal 4 0)
-	(set-goal 5 0)
-	(set-goal 6 0)
-	(set-goal 7 0)
-	(set-goal 8 0)
-	(set-goal 9 0)
-	(set-goal 10 0)
-	(set-goal 11 0)
-	(set-goal 12 0)
-	(set-goal 13 0)
-	(set-goal 14 0)
-	(set-goal 15 0)
-	(set-goal 16 0)
-	(set-goal 17 0)
+	(set-goal gl-make-archers 0)
+	(set-goal gl-make-skirmishers 0)
+	(set-goal gl-make-cavalry-archers 0)
+	(set-goal gl-make-hand-cannoneers 0)
+	(set-goal gl-make-militia 0)
+	(set-goal gl-make-spearmen 0)
+	(set-goal gl-make-eagle-warriors 0)
+	(set-goal gl-make-scout-cavalry 0)
+	(set-goal gl-make-knights 0)
+	(set-goal gl-make-camels 0)
+	(set-goal gl-make-battle-elephants 0)
+	(set-goal gl-make-monks 0)
+	(set-goal gl-make-rams 0)
+	(set-goal gl-make-mangonels 0)
+	(set-goal gl-make-scorpions 0)
+	(set-goal gl-make-bombard-cannons 0)
+	(set-goal gl-make-gallies 0)
+	(set-goal gl-make-fire-ships 0)
+	(set-goal gl-make-demolition-ships 0)
+	(set-goal gl-make-cannon-gallies 0)
+	(set-goal gl-make-unique-ships 0)
 	(disable-self)
 )
 
@@ -555,22 +726,27 @@
 (defrule
 	(true)
 	=>
-	(set-goal 2 0)
-	(set-goal 3 1)
-	(set-goal 4 0)
-	(set-goal 5 0)
-	(set-goal 6 1)
-	(set-goal 7 0)
-	(set-goal 8 1)
-	(set-goal 9 0)
-	(set-goal 10 0)
-	(set-goal 11 0)
-	(set-goal 12 0)
-	(set-goal 13 1)
-	(set-goal 14 1)
-	(set-goal 15 1)
-	(set-goal 16 0)
-	(set-goal 17 0)
+	(set-goal gl-make-archers 0)
+	(set-goal gl-make-skirmishers 1)
+	(set-goal gl-make-cavalry-archers 0)
+	(set-goal gl-make-hand-cannoneers 0)
+	(set-goal gl-make-militia 1)
+	(set-goal gl-make-spearmen 0)
+	(set-goal gl-make-eagle-warriors 1)
+	(set-goal gl-make-scout-cavalry 0)
+	(set-goal gl-make-knights 0)
+	(set-goal gl-make-camels 0)
+	(set-goal gl-make-battle-elephants 0)
+	(set-goal gl-make-monks 1)
+	(set-goal gl-make-rams 1)
+	(set-goal gl-make-mangonels 1)
+	(set-goal gl-make-scorpions 0)
+	(set-goal gl-make-bombard-cannons 0)
+	(set-goal gl-make-gallies 0)
+	(set-goal gl-make-fire-ships 1)
+	(set-goal gl-make-demolition-ships 0)
+	(set-goal gl-make-cannon-gallies 0)
+	(set-goal gl-make-unique-ships 0)
 	(disable-self)
 )
 #end-if
@@ -579,22 +755,27 @@
 (defrule
 	(true)
 	=>
-	(set-goal 2 0)
-	(set-goal 3 1)
-	(set-goal 4 1)
-	(set-goal 5 1)
-	(set-goal 6 1)
-	(set-goal 7 0)
-	(set-goal 8 0)
-	(set-goal 9 1)
-	(set-goal 10 0)
-	(set-goal 11 1)
-	(set-goal 12 0)
-	(set-goal 13 0)
-	(set-goal 14 0)
-	(set-goal 15 0)
-	(set-goal 16 1)
-	(set-goal 17 1)
+	(set-goal gl-make-archers 0)
+	(set-goal gl-make-skirmishers 1)
+	(set-goal gl-make-cavalry-archers 1)
+	(set-goal gl-make-hand-cannoneers 1)
+	(set-goal gl-make-militia 1)
+	(set-goal gl-make-spearmen 0)
+	(set-goal gl-make-eagle-warriors 0)
+	(set-goal gl-make-scout-cavalry 1)
+	(set-goal gl-make-knights 0)
+	(set-goal gl-make-camels 1)
+	(set-goal gl-make-battle-elephants 0)
+	(set-goal gl-make-monks 0)
+	(set-goal gl-make-rams 0)
+	(set-goal gl-make-mangonels 0)
+	(set-goal gl-make-scorpions 1)
+	(set-goal gl-make-bombard-cannons 1)
+	(set-goal gl-make-gallies 1)
+	(set-goal gl-make-fire-ships 1)
+	(set-goal gl-make-demolition-ships 1)
+	(set-goal gl-make-cannon-gallies 1)
+	(set-goal gl-make-unique-ships 1)
 	(disable-self)
 )
 #end-if
@@ -603,22 +784,27 @@
 (defrule
 	(true)
 	=>
-	(set-goal 2 1)
-	(set-goal 3 1)
-	(set-goal 4 1)
-	(set-goal 5 0)
-	(set-goal 6 1)
-	(set-goal 7 1)
-	(set-goal 8 0)
-	(set-goal 9 0)
-	(set-goal 10 0)
-	(set-goal 11 0)
-	(set-goal 12 0)
-	(set-goal 13 0)
-	(set-goal 14 0)
-	(set-goal 15 0)
-	(set-goal 16 0)
-	(set-goal 17 0)
+	(set-goal gl-make-archers 1)
+	(set-goal gl-make-skirmishers 1)
+	(set-goal gl-make-cavalry-archers 1)
+	(set-goal gl-make-hand-cannoneers 0)
+	(set-goal gl-make-militia 1)
+	(set-goal gl-make-spearmen 1)
+	(set-goal gl-make-eagle-warriors 0)
+	(set-goal gl-make-scout-cavalry 0)
+	(set-goal gl-make-knights 0)
+	(set-goal gl-make-camels 0)
+	(set-goal gl-make-battle-elephants 0)
+	(set-goal gl-make-monks 0)
+	(set-goal gl-make-rams 0)
+	(set-goal gl-make-mangonels 0)
+	(set-goal gl-make-scorpions 0)
+	(set-goal gl-make-bombard-cannons 0)
+	(set-goal gl-make-gallies 1)
+	(set-goal gl-make-fire-ships 1)
+	(set-goal gl-make-demolition-ships 1)
+	(set-goal gl-make-cannon-gallies 0)
+	(set-goal gl-make-unique-ships 0)
 	(disable-self)
 )
 #end-if
@@ -627,22 +813,27 @@
 (defrule
 	(true)
 	=>
-	(set-goal 2 0)
-	(set-goal 3 1)
-	(set-goal 4 1)
-	(set-goal 5 0)
-	(set-goal 6 1)
-	(set-goal 7 1)
-	(set-goal 8 0)
-	(set-goal 9 1)
-	(set-goal 10 0)
-	(set-goal 11 0)
-	(set-goal 12 1)
-	(set-goal 13 1)
-	(set-goal 14 0)
-	(set-goal 15 0)
-	(set-goal 16 1)
-	(set-goal 17 1)
+	(set-goal gl-make-archers 0)
+	(set-goal gl-make-skirmishers 1)
+	(set-goal gl-make-cavalry-archers 1)
+	(set-goal gl-make-hand-cannoneers 0)
+	(set-goal gl-make-militia 1)
+	(set-goal gl-make-spearmen 1)
+	(set-goal gl-make-eagle-warriors 0)
+	(set-goal gl-make-scout-cavalry 1)
+	(set-goal gl-make-knights 0)
+	(set-goal gl-make-camels 0)
+	(set-goal gl-make-battle-elephants 1)
+	(set-goal gl-make-monks 1)
+	(set-goal gl-make-rams 0)
+	(set-goal gl-make-mangonels 0)
+	(set-goal gl-make-scorpions 1)
+	(set-goal gl-make-bombard-cannons 1)
+	(set-goal gl-make-gallies 1)
+	(set-goal gl-make-fire-ships 0)
+	(set-goal gl-make-demolition-ships 0)
+	(set-goal gl-make-cannon-gallies 1)
+	(set-goal gl-make-unique-ships 0)
 	(disable-self)
 )
 #end-if
@@ -651,22 +842,27 @@
 (defrule
 	(true)
 	=>
-	(set-goal 2 1)
-	(set-goal 3 1)
-	(set-goal 4 1)
-	(set-goal 5 1)
-	(set-goal 6 1)
-	(set-goal 7 1)
-	(set-goal 8 0)
-	(set-goal 9 1)
-	(set-goal 10 1)
-	(set-goal 11 1)
-	(set-goal 12 0)
-	(set-goal 13 1)
-	(set-goal 14 1)
-	(set-goal 15 0)
-	(set-goal 16 0)
-	(set-goal 17 1)
+	(set-goal gl-make-archers 1)
+	(set-goal gl-make-skirmishers 1)
+	(set-goal gl-make-cavalry-archers 1)
+	(set-goal gl-make-hand-cannoneers 1)
+	(set-goal gl-make-militia 1)
+	(set-goal gl-make-spearmen 1)
+	(set-goal gl-make-eagle-warriors 0)
+	(set-goal gl-make-scout-cavalry 1)
+	(set-goal gl-make-knights 1)
+	(set-goal gl-make-camels 1)
+	(set-goal gl-make-battle-elephants 0)
+	(set-goal gl-make-monks 1)
+	(set-goal gl-make-rams 1)
+	(set-goal gl-make-mangonels 0)
+	(set-goal gl-make-scorpions 0)
+	(set-goal gl-make-bombard-cannons 1)
+	(set-goal gl-make-gallies 1)
+	(set-goal gl-make-fire-ships 1)
+	(set-goal gl-make-demolition-ships 1)
+	(set-goal gl-make-cannon-gallies 1)
+	(set-goal gl-make-unique-ships 0)
 	(disable-self)
 )
 #end-if
@@ -675,22 +871,27 @@
 (defrule
 	(true)
 	=>
-	(set-goal 2 0)
-	(set-goal 3 1)
-	(set-goal 4 1)
-	(set-goal 5 0)
-	(set-goal 6 1)
-	(set-goal 7 1)
-	(set-goal 8 0)
-	(set-goal 9 1)
-	(set-goal 10 1)
-	(set-goal 11 0)
-	(set-goal 12 0)
-	(set-goal 13 0)
-	(set-goal 14 1)
-	(set-goal 15 1)
-	(set-goal 16 1)
-	(set-goal 17 0)
+	(set-goal gl-make-archers 0)
+	(set-goal gl-make-skirmishers 1)
+	(set-goal gl-make-cavalry-archers 1)
+	(set-goal gl-make-hand-cannoneers 0)
+	(set-goal gl-make-militia 1)
+	(set-goal gl-make-spearmen 1)
+	(set-goal gl-make-eagle-warriors 0)
+	(set-goal gl-make-scout-cavalry 1)
+	(set-goal gl-make-knights 1)
+	(set-goal gl-make-camels 0)
+	(set-goal gl-make-battle-elephants 0)
+	(set-goal gl-make-monks 0)
+	(set-goal gl-make-rams 1)
+	(set-goal gl-make-mangonels 1)
+	(set-goal gl-make-scorpions 1)
+	(set-goal gl-make-bombard-cannons 0)
+	(set-goal gl-make-gallies 1)
+	(set-goal gl-make-fire-ships 0)
+	(set-goal gl-make-demolition-ships 1)
+	(set-goal gl-make-cannon-gallies 0)
+	(set-goal gl-make-unique-ships 0)
 	(disable-self)
 )
 #end-if
@@ -699,22 +900,27 @@
 (defrule
 	(true)
 	=>
-	(set-goal 2 1)
-	(set-goal 3 1)
-	(set-goal 4 1)
-	(set-goal 5 0)
-	(set-goal 6 1)
-	(set-goal 7 1)
-	(set-goal 8 0)
-	(set-goal 9 0)
-	(set-goal 10 0)
-	(set-goal 11 1)
-	(set-goal 12 0)
-	(set-goal 13 0)
-	(set-goal 14 1)
-	(set-goal 15 0)
-	(set-goal 16 1)
-	(set-goal 17 0)
+	(set-goal gl-make-archers 1)
+	(set-goal gl-make-skirmishers 1)
+	(set-goal gl-make-cavalry-archers 1)
+	(set-goal gl-make-hand-cannoneers 0)
+	(set-goal gl-make-militia 1)
+	(set-goal gl-make-spearmen 1)
+	(set-goal gl-make-eagle-warriors 0)
+	(set-goal gl-make-scout-cavalry 0)
+	(set-goal gl-make-knights 0)
+	(set-goal gl-make-camels 1)
+	(set-goal gl-make-battle-elephants 0)
+	(set-goal gl-make-monks 0)
+	(set-goal gl-make-rams 1)
+	(set-goal gl-make-mangonels 0)
+	(set-goal gl-make-scorpions 1)
+	(set-goal gl-make-bombard-cannons 0)
+	(set-goal gl-make-gallies 1)
+	(set-goal gl-make-fire-ships 0)
+	(set-goal gl-make-demolition-ships 1)
+	(set-goal gl-make-cannon-gallies 0)
+	(set-goal gl-make-unique-ships 0)
 	(disable-self)
 )
 #end-if
@@ -723,22 +929,27 @@
 (defrule
 	(true)
 	=>
-	(set-goal 2 1)
-	(set-goal 3 1)
-	(set-goal 4 1)
-	(set-goal 5 0)
-	(set-goal 6 0)
-	(set-goal 7 1)
-	(set-goal 8 0)
-	(set-goal 9 1)
-	(set-goal 10 0)
-	(set-goal 11 1)
-	(set-goal 12 0)
-	(set-goal 13 0)
-	(set-goal 14 1)
-	(set-goal 15 1)
-	(set-goal 16 1)
-	(set-goal 17 1)
+	(set-goal gl-make-archers 1)
+	(set-goal gl-make-skirmishers 1)
+	(set-goal gl-make-cavalry-archers 1)
+	(set-goal gl-make-hand-cannoneers 0)
+	(set-goal gl-make-militia 0)
+	(set-goal gl-make-spearmen 1)
+	(set-goal gl-make-eagle-warriors 0)
+	(set-goal gl-make-scout-cavalry 1)
+	(set-goal gl-make-knights 0)
+	(set-goal gl-make-camels 1)
+	(set-goal gl-make-battle-elephants 0)
+	(set-goal gl-make-monks 0)
+	(set-goal gl-make-rams 1)
+	(set-goal gl-make-mangonels 1)
+	(set-goal gl-make-scorpions 1)
+	(set-goal gl-make-bombard-cannons 1)
+	(set-goal gl-make-gallies 1)
+	(set-goal gl-make-fire-ships 0)
+	(set-goal gl-make-demolition-ships 0)
+	(set-goal gl-make-cannon-gallies 0)
+	(set-goal gl-make-unique-ships 0)
 	(disable-self)
 )
 #end-if
@@ -747,22 +958,27 @@
 (defrule
 	(true)
 	=>
-	(set-goal 2 0)
-	(set-goal 3 1)
-	(set-goal 4 1)
-	(set-goal 5 1)
-	(set-goal 6 1)
-	(set-goal 7 1)
-	(set-goal 8 0)
-	(set-goal 9 0)
-	(set-goal 10 1)
-	(set-goal 11 0)
-	(set-goal 12 0)
-	(set-goal 13 0)
-	(set-goal 14 0)
-	(set-goal 15 0)
-	(set-goal 16 1)
-	(set-goal 17 1)
+	(set-goal gl-make-archers 0)
+	(set-goal gl-make-skirmishers 1)
+	(set-goal gl-make-cavalry-archers 1)
+	(set-goal gl-make-hand-cannoneers 1)
+	(set-goal gl-make-militia 1)
+	(set-goal gl-make-spearmen 1)
+	(set-goal gl-make-eagle-warriors 0)
+	(set-goal gl-make-scout-cavalry 0)
+	(set-goal gl-make-knights 1)
+	(set-goal gl-make-camels 0)
+	(set-goal gl-make-battle-elephants 0)
+	(set-goal gl-make-monks 0)
+	(set-goal gl-make-rams 0)
+	(set-goal gl-make-mangonels 0)
+	(set-goal gl-make-scorpions 1)
+	(set-goal gl-make-bombard-cannons 1)
+	(set-goal gl-make-gallies 1)
+	(set-goal gl-make-fire-ships 1)
+	(set-goal gl-make-demolition-ships 1)
+	(set-goal gl-make-cannon-gallies 0)
+	(set-goal gl-make-unique-ships 0)
 	(disable-self)
 )
 #end-if
@@ -771,22 +987,27 @@
 (defrule
 	(true)
 	=>
-	(set-goal 2 0)
-	(set-goal 3 1)
-	(set-goal 4 1)
-	(set-goal 5 1)
-	(set-goal 6 1)
-	(set-goal 7 1)
-	(set-goal 8 0)
-	(set-goal 9 1)
-	(set-goal 10 0)
-	(set-goal 11 0)
-	(set-goal 12 0)
-	(set-goal 13 0)
-	(set-goal 14 0)
-	(set-goal 15 0)
-	(set-goal 16 1)
-	(set-goal 17 1)
+	(set-goal gl-make-archers 0)
+	(set-goal gl-make-skirmishers 1)
+	(set-goal gl-make-cavalry-archers 1)
+	(set-goal gl-make-hand-cannoneers 1)
+	(set-goal gl-make-militia 1)
+	(set-goal gl-make-spearmen 1)
+	(set-goal gl-make-eagle-warriors 0)
+	(set-goal gl-make-scout-cavalry 1)
+	(set-goal gl-make-knights 0)
+	(set-goal gl-make-camels 0)
+	(set-goal gl-make-battle-elephants 0)
+	(set-goal gl-make-monks 0)
+	(set-goal gl-make-rams 0)
+	(set-goal gl-make-mangonels 0)
+	(set-goal gl-make-scorpions 1)
+	(set-goal gl-make-bombard-cannons 1)
+	(set-goal gl-make-gallies 1)
+	(set-goal gl-make-fire-ships 1)
+	(set-goal gl-make-demolition-ships 1)
+	(set-goal gl-make-cannon-gallies 0)
+	(set-goal gl-make-unique-ships 0)
 	(disable-self)
 )
 #end-if
@@ -795,22 +1016,27 @@
 (defrule
 	(true)
 	=>
-	(set-goal 2 0)
-	(set-goal 3 1)
-	(set-goal 4 1)
-	(set-goal 5 0)
-	(set-goal 6 0)
-	(set-goal 7 1)
-	(set-goal 8 0)
-	(set-goal 9 1)
-	(set-goal 10 1)
-	(set-goal 11 0)
-	(set-goal 12 0)
-	(set-goal 13 0)
-	(set-goal 14 1)
-	(set-goal 15 0)
-	(set-goal 16 0)
-	(set-goal 17 0)
+	(set-goal gl-make-archers 0)
+	(set-goal gl-make-skirmishers 1)
+	(set-goal gl-make-cavalry-archers 1)
+	(set-goal gl-make-hand-cannoneers 0)
+	(set-goal gl-make-militia 0)
+	(set-goal gl-make-spearmen 1)
+	(set-goal gl-make-eagle-warriors 0)
+	(set-goal gl-make-scout-cavalry 1)
+	(set-goal gl-make-knights 1)
+	(set-goal gl-make-camels 0)
+	(set-goal gl-make-battle-elephants 0)
+	(set-goal gl-make-monks 0)
+	(set-goal gl-make-rams 1)
+	(set-goal gl-make-mangonels 0)
+	(set-goal gl-make-scorpions 0)
+	(set-goal gl-make-bombard-cannons 0)
+	(set-goal gl-make-gallies 1)
+	(set-goal gl-make-fire-ships 0)
+	(set-goal gl-make-demolition-ships 1)
+	(set-goal gl-make-cannon-gallies 0)
+	(set-goal gl-make-unique-ships 0)
 	(disable-self)
 )
 #end-if
@@ -819,22 +1045,27 @@
 (defrule
 	(true)
 	=>
-	(set-goal 2 1)
-	(set-goal 3 1)
-	(set-goal 4 0)
-	(set-goal 5 0)
-	(set-goal 6 1)
-	(set-goal 7 1)
-	(set-goal 8 1)
-	(set-goal 9 0)
-	(set-goal 10 0)
-	(set-goal 11 0)
-	(set-goal 12 0)
-	(set-goal 13 1)
-	(set-goal 14 1)
-	(set-goal 15 0)
-	(set-goal 16 1)
-	(set-goal 17 0)
+	(set-goal gl-make-archers 1)
+	(set-goal gl-make-skirmishers 1)
+	(set-goal gl-make-cavalry-archers 0)
+	(set-goal gl-make-hand-cannoneers 0)
+	(set-goal gl-make-militia 1)
+	(set-goal gl-make-spearmen 1)
+	(set-goal gl-make-eagle-warriors 1)
+	(set-goal gl-make-scout-cavalry 0)
+	(set-goal gl-make-knights 0)
+	(set-goal gl-make-camels 0)
+	(set-goal gl-make-battle-elephants 0)
+	(set-goal gl-make-monks 1)
+	(set-goal gl-make-rams 1)
+	(set-goal gl-make-mangonels 0)
+	(set-goal gl-make-scorpions 1)
+	(set-goal gl-make-bombard-cannons 0)
+	(set-goal gl-make-gallies 1)
+	(set-goal gl-make-fire-ships 1)
+	(set-goal gl-make-demolition-ships 0)
+	(set-goal gl-make-cannon-gallies 0)
+	(set-goal gl-make-unique-ships 0)
 	(disable-self)
 )
 #end-if
@@ -843,22 +1074,27 @@
 (defrule
 	(true)
 	=>
-	(set-goal 2 1)
-	(set-goal 3 1)
-	(set-goal 4 1)
-	(set-goal 5 1)
-	(set-goal 6 1)
-	(set-goal 7 1)
-	(set-goal 8 0)
-	(set-goal 9 1)
-	(set-goal 10 0)
-	(set-goal 11 1)
-	(set-goal 12 0)
-	(set-goal 13 0)
-	(set-goal 14 0)
-	(set-goal 15 0)
-	(set-goal 16 0)
-	(set-goal 17 1)
+	(set-goal gl-make-archers 1)
+	(set-goal gl-make-skirmishers 1)
+	(set-goal gl-make-cavalry-archers 1)
+	(set-goal gl-make-hand-cannoneers 1)
+	(set-goal gl-make-militia 1)
+	(set-goal gl-make-spearmen 1)
+	(set-goal gl-make-eagle-warriors 0)
+	(set-goal gl-make-scout-cavalry 1)
+	(set-goal gl-make-knights 0)
+	(set-goal gl-make-camels 1)
+	(set-goal gl-make-battle-elephants 0)
+	(set-goal gl-make-monks 0)
+	(set-goal gl-make-rams 0)
+	(set-goal gl-make-mangonels 0)
+	(set-goal gl-make-scorpions 0)
+	(set-goal gl-make-bombard-cannons 1)
+	(set-goal gl-make-gallies 1)
+	(set-goal gl-make-fire-ships 0)
+	(set-goal gl-make-demolition-ships 1)
+	(set-goal gl-make-cannon-gallies 1)
+	(set-goal gl-make-unique-ships 0)
 	(disable-self)
 )
 #end-if
@@ -867,22 +1103,27 @@
 (defrule
 	(true)
 	=>
-	(set-goal 2 1)
-	(set-goal 3 1)
-	(set-goal 4 0)
-	(set-goal 5 1)
-	(set-goal 6 1)
-	(set-goal 7 0)
-	(set-goal 8 0)
-	(set-goal 9 1)
-	(set-goal 10 0)
-	(set-goal 11 0)
-	(set-goal 12 0)
-	(set-goal 13 0)
-	(set-goal 14 0)
-	(set-goal 15 0)
-	(set-goal 16 0)
-	(set-goal 17 1)
+	(set-goal gl-make-archers 1)
+	(set-goal gl-make-skirmishers 1)
+	(set-goal gl-make-cavalry-archers 0)
+	(set-goal gl-make-hand-cannoneers 1)
+	(set-goal gl-make-militia 1)
+	(set-goal gl-make-spearmen 0)
+	(set-goal gl-make-eagle-warriors 0)
+	(set-goal gl-make-scout-cavalry 1)
+	(set-goal gl-make-knights 0)
+	(set-goal gl-make-camels 0)
+	(set-goal gl-make-battle-elephants 0)
+	(set-goal gl-make-monks 0)
+	(set-goal gl-make-rams 0)
+	(set-goal gl-make-mangonels 0)
+	(set-goal gl-make-scorpions 0)
+	(set-goal gl-make-bombard-cannons 1)
+	(set-goal gl-make-gallies 1)
+	(set-goal gl-make-fire-ships 1)
+	(set-goal gl-make-demolition-ships 0)
+	(set-goal gl-make-cannon-gallies 1)
+	(set-goal gl-make-unique-ships 0)
 	(disable-self)
 )
 #end-if
@@ -891,22 +1132,27 @@
 (defrule
 	(true)
 	=>
-	(set-goal 2 1)
-	(set-goal 3 1)
-	(set-goal 4 1)
-	(set-goal 5 1)
-	(set-goal 6 1)
-	(set-goal 7 1)
-	(set-goal 8 0)
-	(set-goal 9 0)
-	(set-goal 10 0)
-	(set-goal 11 0)
-	(set-goal 12 0)
-	(set-goal 13 1)
-	(set-goal 14 0)
-	(set-goal 15 0)
-	(set-goal 16 1)
-	(set-goal 17 0)
+	(set-goal gl-make-archers 1)
+	(set-goal gl-make-skirmishers 1)
+	(set-goal gl-make-cavalry-archers 1)
+	(set-goal gl-make-hand-cannoneers 1)
+	(set-goal gl-make-militia 1)
+	(set-goal gl-make-spearmen 1)
+	(set-goal gl-make-eagle-warriors 0)
+	(set-goal gl-make-scout-cavalry 0)
+	(set-goal gl-make-knights 0)
+	(set-goal gl-make-camels 0)
+	(set-goal gl-make-battle-elephants 0)
+	(set-goal gl-make-monks 1)
+	(set-goal gl-make-rams 0)
+	(set-goal gl-make-mangonels 0)
+	(set-goal gl-make-scorpions 1)
+	(set-goal gl-make-bombard-cannons 0)
+	(set-goal gl-make-gallies 1)
+	(set-goal gl-make-fire-ships 1)
+	(set-goal gl-make-demolition-ships 0)
+	(set-goal gl-make-cannon-gallies 1)
+	(set-goal gl-make-unique-ships 0)
 	(disable-self)
 )
 #end-if
@@ -915,22 +1161,27 @@
 (defrule
 	(true)
 	=>
-	(set-goal 2 0)
-	(set-goal 3 1)
-	(set-goal 4 1)
-	(set-goal 5 1)
-	(set-goal 6 0)
-	(set-goal 7 1)
-	(set-goal 8 0)
-	(set-goal 9 0)
-	(set-goal 10 0)
-	(set-goal 11 0)
-	(set-goal 12 1)
-	(set-goal 13 0)
-	(set-goal 14 1)
-	(set-goal 15 0)
-	(set-goal 16 1)
-	(set-goal 17 1)
+	(set-goal gl-make-archers 0)
+	(set-goal gl-make-skirmishers 1)
+	(set-goal gl-make-cavalry-archers 1)
+	(set-goal gl-make-hand-cannoneers 1)
+	(set-goal gl-make-militia 0)
+	(set-goal gl-make-spearmen 1)
+	(set-goal gl-make-eagle-warriors 0)
+	(set-goal gl-make-scout-cavalry 0)
+	(set-goal gl-make-knights 0)
+	(set-goal gl-make-camels 0)
+	(set-goal gl-make-battle-elephants 1)
+	(set-goal gl-make-monks 0)
+	(set-goal gl-make-rams 1)
+	(set-goal gl-make-mangonels 0)
+	(set-goal gl-make-scorpions 1)
+	(set-goal gl-make-bombard-cannons 1)
+	(set-goal gl-make-gallies 1)
+	(set-goal gl-make-fire-ships 1)
+	(set-goal gl-make-demolition-ships 0)
+	(set-goal gl-make-cannon-gallies 1)
+	(set-goal gl-make-unique-ships 0)
 	(disable-self)
 )
 #end-if
@@ -939,22 +1190,27 @@
 (defrule
 	(true)
 	=>
-	(set-goal 2 1)
-	(set-goal 3 1)
-	(set-goal 4 1)
-	(set-goal 5 1)
-	(set-goal 6 1)
-	(set-goal 7 1)
-	(set-goal 8 0)
-	(set-goal 9 1)
-	(set-goal 10 0)
-	(set-goal 11 0)
-	(set-goal 12 0)
-	(set-goal 13 0)
-	(set-goal 14 0)
-	(set-goal 15 1)
-	(set-goal 16 0)
-	(set-goal 17 1)
+	(set-goal gl-make-archers 1)
+	(set-goal gl-make-skirmishers 1)
+	(set-goal gl-make-cavalry-archers 1)
+	(set-goal gl-make-hand-cannoneers 1)
+	(set-goal gl-make-militia 1)
+	(set-goal gl-make-spearmen 1)
+	(set-goal gl-make-eagle-warriors 0)
+	(set-goal gl-make-scout-cavalry 1)
+	(set-goal gl-make-knights 0)
+	(set-goal gl-make-camels 0)
+	(set-goal gl-make-battle-elephants 0)
+	(set-goal gl-make-monks 0)
+	(set-goal gl-make-rams 0)
+	(set-goal gl-make-mangonels 1)
+	(set-goal gl-make-scorpions 0)
+	(set-goal gl-make-bombard-cannons 1)
+	(set-goal gl-make-gallies 1)
+	(set-goal gl-make-fire-ships 1)
+	(set-goal gl-make-demolition-ships 0)
+	(set-goal gl-make-cannon-gallies 0)
+	(set-goal gl-make-unique-ships 1)
 	(disable-self)
 )
 #end-if
@@ -963,22 +1219,27 @@
 (defrule
 	(true)
 	=>
-	(set-goal 2 1)
-	(set-goal 3 1)
-	(set-goal 4 1)
-	(set-goal 5 0)
-	(set-goal 6 1)
-	(set-goal 7 1)
-	(set-goal 8 0)
-	(set-goal 9 1)
-	(set-goal 10 1)
-	(set-goal 11 0)
-	(set-goal 12 0)
-	(set-goal 13 0)
-	(set-goal 14 0)
-	(set-goal 15 0)
-	(set-goal 16 1)
-	(set-goal 17 0)
+	(set-goal gl-make-archers 1)
+	(set-goal gl-make-skirmishers 1)
+	(set-goal gl-make-cavalry-archers 1)
+	(set-goal gl-make-hand-cannoneers 0)
+	(set-goal gl-make-militia 1)
+	(set-goal gl-make-spearmen 1)
+	(set-goal gl-make-eagle-warriors 0)
+	(set-goal gl-make-scout-cavalry 1)
+	(set-goal gl-make-knights 1)
+	(set-goal gl-make-camels 0)
+	(set-goal gl-make-battle-elephants 0)
+	(set-goal gl-make-monks 0)
+	(set-goal gl-make-rams 0)
+	(set-goal gl-make-mangonels 0)
+	(set-goal gl-make-scorpions 1)
+	(set-goal gl-make-bombard-cannons 0)
+	(set-goal gl-make-gallies 1)
+	(set-goal gl-make-fire-ships 1)
+	(set-goal gl-make-demolition-ships 0)
+	(set-goal gl-make-cannon-gallies 0)
+	(set-goal gl-make-unique-ships 0)
 	(disable-self)
 )
 #end-if
@@ -987,22 +1248,27 @@
 (defrule
 	(true)
 	=>
-	(set-goal 2 1)
-	(set-goal 3 1)
-	(set-goal 4 0)
-	(set-goal 5 0)
-	(set-goal 6 0)
-	(set-goal 7 1)
-	(set-goal 8 0)
-	(set-goal 9 0)
-	(set-goal 10 0)
-	(set-goal 11 0)
-	(set-goal 12 1)
-	(set-goal 13 1)
-	(set-goal 14 0)
-	(set-goal 15 0)
-	(set-goal 16 1)
-	(set-goal 17 1)
+	(set-goal gl-make-archers 1)
+	(set-goal gl-make-skirmishers 1)
+	(set-goal gl-make-cavalry-archers 0)
+	(set-goal gl-make-hand-cannoneers 0)
+	(set-goal gl-make-militia 0)
+	(set-goal gl-make-spearmen 1)
+	(set-goal gl-make-eagle-warriors 0)
+	(set-goal gl-make-scout-cavalry 0)
+	(set-goal gl-make-knights 0)
+	(set-goal gl-make-camels 0)
+	(set-goal gl-make-battle-elephants 1)
+	(set-goal gl-make-monks 1)
+	(set-goal gl-make-rams 0)
+	(set-goal gl-make-mangonels 0)
+	(set-goal gl-make-scorpions 1)
+	(set-goal gl-make-bombard-cannons 1)
+	(set-goal gl-make-gallies 1)
+	(set-goal gl-make-fire-ships 1)
+	(set-goal gl-make-demolition-ships 0)
+	(set-goal gl-make-cannon-gallies 1)
+	(set-goal gl-make-unique-ships 0)
 	(disable-self)
 )
 #end-if
@@ -1011,22 +1277,27 @@
 (defrule
 	(true)
 	=>
-	(set-goal 2 1)
-	(set-goal 3 1)
-	(set-goal 4 1)
-	(set-goal 5 1)
-	(set-goal 6 1)
-	(set-goal 7 0)
-	(set-goal 8 0)
-	(set-goal 9 0)
-	(set-goal 10 0)
-	(set-goal 11 1)
-	(set-goal 12 0)
-	(set-goal 13 1)
-	(set-goal 14 0)
-	(set-goal 15 1)
-	(set-goal 16 0)
-	(set-goal 17 1)
+	(set-goal gl-make-archers 1)
+	(set-goal gl-make-skirmishers 1)
+	(set-goal gl-make-cavalry-archers 1)
+	(set-goal gl-make-hand-cannoneers 1)
+	(set-goal gl-make-militia 1)
+	(set-goal gl-make-spearmen 0)
+	(set-goal gl-make-eagle-warriors 0)
+	(set-goal gl-make-scout-cavalry 0)
+	(set-goal gl-make-knights 0)
+	(set-goal gl-make-camels 1)
+	(set-goal gl-make-battle-elephants 0)
+	(set-goal gl-make-monks 1)
+	(set-goal gl-make-rams 0)
+	(set-goal gl-make-mangonels 1)
+	(set-goal gl-make-scorpions 0)
+	(set-goal gl-make-bombard-cannons 1)
+	(set-goal gl-make-gallies 1)
+	(set-goal gl-make-fire-ships 0)
+	(set-goal gl-make-demolition-ships 1)
+	(set-goal gl-make-cannon-gallies 0)
+	(set-goal gl-make-unique-ships 0)
 	(disable-self)
 )
 #end-if
@@ -1035,22 +1306,27 @@
 (defrule
 	(true)
 	=>
-	(set-goal 2 1)
-	(set-goal 3 1)
-	(set-goal 4 0)
-	(set-goal 5 0)
-	(set-goal 6 0)
-	(set-goal 7 1)
-	(set-goal 8 1)
-	(set-goal 9 0)
-	(set-goal 10 0)
-	(set-goal 11 0)
-	(set-goal 12 0)
-	(set-goal 13 1)
-	(set-goal 14 1)
-	(set-goal 15 0)
-	(set-goal 16 1)
-	(set-goal 17 0)
+	(set-goal gl-make-archers 1)
+	(set-goal gl-make-skirmishers 1)
+	(set-goal gl-make-cavalry-archers 0)
+	(set-goal gl-make-hand-cannoneers 0)
+	(set-goal gl-make-militia 0)
+	(set-goal gl-make-spearmen 1)
+	(set-goal gl-make-eagle-warriors 1)
+	(set-goal gl-make-scout-cavalry 0)
+	(set-goal gl-make-knights 0)
+	(set-goal gl-make-camels 0)
+	(set-goal gl-make-battle-elephants 0)
+	(set-goal gl-make-monks 1)
+	(set-goal gl-make-rams 1)
+	(set-goal gl-make-mangonels 0)
+	(set-goal gl-make-scorpions 1)
+	(set-goal gl-make-bombard-cannons 0)
+	(set-goal gl-make-gallies 1)
+	(set-goal gl-make-fire-ships 1)
+	(set-goal gl-make-demolition-ships 1)
+	(set-goal gl-make-cannon-gallies 0)
+	(set-goal gl-make-unique-ships 0)
 	(disable-self)
 )
 #end-if
@@ -1059,22 +1335,27 @@
 (defrule
 	(true)
 	=>
-	(set-goal 2 1)
-	(set-goal 3 1)
-	(set-goal 4 1)
-	(set-goal 5 0)
-	(set-goal 6 1)
-	(set-goal 7 0)
-	(set-goal 8 0)
-	(set-goal 9 1)
-	(set-goal 10 0)
-	(set-goal 11 1)
-	(set-goal 12 0)
-	(set-goal 13 0)
-	(set-goal 14 1)
-	(set-goal 15 1)
-	(set-goal 16 1)
-	(set-goal 17 0)
+	(set-goal gl-make-archers 1)
+	(set-goal gl-make-skirmishers 1)
+	(set-goal gl-make-cavalry-archers 1)
+	(set-goal gl-make-hand-cannoneers 0)
+	(set-goal gl-make-militia 1)
+	(set-goal gl-make-spearmen 0)
+	(set-goal gl-make-eagle-warriors 0)
+	(set-goal gl-make-scout-cavalry 1)
+	(set-goal gl-make-knights 0)
+	(set-goal gl-make-camels 1)
+	(set-goal gl-make-battle-elephants 0)
+	(set-goal gl-make-monks 0)
+	(set-goal gl-make-rams 1)
+	(set-goal gl-make-mangonels 1)
+	(set-goal gl-make-scorpions 1)
+	(set-goal gl-make-bombard-cannons 0)
+	(set-goal gl-make-gallies 1)
+	(set-goal gl-make-fire-ships 1)
+	(set-goal gl-make-demolition-ships 1)
+	(set-goal gl-make-cannon-gallies 0)
+	(set-goal gl-make-unique-ships 0)
 	(disable-self)
 )
 #end-if
@@ -1083,22 +1364,27 @@
 (defrule
 	(true)
 	=>
-	(set-goal 2 0)
-	(set-goal 3 1)
-	(set-goal 4 1)
-	(set-goal 5 1)
-	(set-goal 6 0)
-	(set-goal 7 1)
-	(set-goal 8 0)
-	(set-goal 9 1)
-	(set-goal 10 1)
-	(set-goal 11 1)
-	(set-goal 12 0)
-	(set-goal 13 0)
-	(set-goal 14 1)
-	(set-goal 15 0)
-	(set-goal 16 1)
-	(set-goal 17 1)
+	(set-goal gl-make-archers 0)
+	(set-goal gl-make-skirmishers 1)
+	(set-goal gl-make-cavalry-archers 1)
+	(set-goal gl-make-hand-cannoneers 1)
+	(set-goal gl-make-militia 0)
+	(set-goal gl-make-spearmen 1)
+	(set-goal gl-make-eagle-warriors 0)
+	(set-goal gl-make-scout-cavalry 1)
+	(set-goal gl-make-knights 1)
+	(set-goal gl-make-camels 1)
+	(set-goal gl-make-battle-elephants 0)
+	(set-goal gl-make-monks 0)
+	(set-goal gl-make-rams 1)
+	(set-goal gl-make-mangonels 0)
+	(set-goal gl-make-scorpions 1)
+	(set-goal gl-make-bombard-cannons 1)
+	(set-goal gl-make-gallies 1)
+	(set-goal gl-make-fire-ships 1)
+	(set-goal gl-make-demolition-ships 1)
+	(set-goal gl-make-cannon-gallies 1)
+	(set-goal gl-make-unique-ships 0)
 	(disable-self)
 )
 #end-if
@@ -1107,22 +1393,27 @@
 (defrule
 	(true)
 	=>
-	(set-goal 2 1)
-	(set-goal 3 1)
-	(set-goal 4 0)
-	(set-goal 5 1)
-	(set-goal 6 1)
-	(set-goal 7 1)
-	(set-goal 8 0)
-	(set-goal 9 0)
-	(set-goal 10 0)
-	(set-goal 11 0)
-	(set-goal 12 0)
-	(set-goal 13 1)
-	(set-goal 14 0)
-	(set-goal 15 0)
-	(set-goal 16 0)
-	(set-goal 17 1)
+	(set-goal gl-make-archers 1)
+	(set-goal gl-make-skirmishers 1)
+	(set-goal gl-make-cavalry-archers 0)
+	(set-goal gl-make-hand-cannoneers 1)
+	(set-goal gl-make-militia 1)
+	(set-goal gl-make-spearmen 1)
+	(set-goal gl-make-eagle-warriors 0)
+	(set-goal gl-make-scout-cavalry 0)
+	(set-goal gl-make-knights 0)
+	(set-goal gl-make-camels 0)
+	(set-goal gl-make-battle-elephants 0)
+	(set-goal gl-make-monks 1)
+	(set-goal gl-make-rams 0)
+	(set-goal gl-make-mangonels 0)
+	(set-goal gl-make-scorpions 0)
+	(set-goal gl-make-bombard-cannons 1)
+	(set-goal gl-make-gallies 1)
+	(set-goal gl-make-fire-ships 0)
+	(set-goal gl-make-demolition-ships 1)
+	(set-goal gl-make-cannon-gallies 1)
+	(set-goal gl-make-unique-ships 1)
 	(disable-self)
 )
 #end-if
@@ -1131,22 +1422,27 @@
 (defrule
 	(true)
 	=>
-	(set-goal 2 1)
-	(set-goal 3 1)
-	(set-goal 4 1)
-	(set-goal 5 1)
-	(set-goal 6 1)
-	(set-goal 7 0)
-	(set-goal 8 0)
-	(set-goal 9 1)
-	(set-goal 10 0)
-	(set-goal 11 1)
-	(set-goal 12 0)
-	(set-goal 13 1)
-	(set-goal 14 1)
-	(set-goal 15 1)
-	(set-goal 16 0)
-	(set-goal 17 1)
+	(set-goal gl-make-archers 1)
+	(set-goal gl-make-skirmishers 1)
+	(set-goal gl-make-cavalry-archers 1)
+	(set-goal gl-make-hand-cannoneers 1)
+	(set-goal gl-make-militia 1)
+	(set-goal gl-make-spearmen 0)
+	(set-goal gl-make-eagle-warriors 0)
+	(set-goal gl-make-scout-cavalry 1)
+	(set-goal gl-make-knights 0)
+	(set-goal gl-make-camels 1)
+	(set-goal gl-make-battle-elephants 0)
+	(set-goal gl-make-monks 1)
+	(set-goal gl-make-rams 1)
+	(set-goal gl-make-mangonels 1)
+	(set-goal gl-make-scorpions 0)
+	(set-goal gl-make-bombard-cannons 1)
+	(set-goal gl-make-gallies 1)
+	(set-goal gl-make-fire-ships 0)
+	(set-goal gl-make-demolition-ships 1)
+	(set-goal gl-make-cannon-gallies 1)
+	(set-goal gl-make-unique-ships 0)
 	(disable-self)
 )
 #end-if
@@ -1155,22 +1451,27 @@
 (defrule
 	(true)
 	=>
-	(set-goal 2 0)
-	(set-goal 3 1)
-	(set-goal 4 1)
-	(set-goal 5 0)
-	(set-goal 6 1)
-	(set-goal 7 1)
-	(set-goal 8 0)
-	(set-goal 9 1)
-	(set-goal 10 0)
-	(set-goal 11 0)
-	(set-goal 12 0)
-	(set-goal 13 1)
-	(set-goal 14 1)
-	(set-goal 15 1)
-	(set-goal 16 1)
-	(set-goal 17 0)
+	(set-goal gl-make-archers 0)
+	(set-goal gl-make-skirmishers 1)
+	(set-goal gl-make-cavalry-archers 1)
+	(set-goal gl-make-hand-cannoneers 0)
+	(set-goal gl-make-militia 1)
+	(set-goal gl-make-spearmen 1)
+	(set-goal gl-make-eagle-warriors 0)
+	(set-goal gl-make-scout-cavalry 1)
+	(set-goal gl-make-knights 0)
+	(set-goal gl-make-camels 0)
+	(set-goal gl-make-battle-elephants 0)
+	(set-goal gl-make-monks 1)
+	(set-goal gl-make-rams 1)
+	(set-goal gl-make-mangonels 1)
+	(set-goal gl-make-scorpions 1)
+	(set-goal gl-make-bombard-cannons 0)
+	(set-goal gl-make-gallies 1)
+	(set-goal gl-make-fire-ships 1)
+	(set-goal gl-make-demolition-ships 0)
+	(set-goal gl-make-cannon-gallies 0)
+	(set-goal gl-make-unique-ships 0)
 	(disable-self)
 )
 #end-if
@@ -1179,22 +1480,27 @@
 (defrule
 	(true)
 	=>
-	(set-goal 2 0)
-	(set-goal 3 1)
-	(set-goal 4 1)
-	(set-goal 5 1)
-	(set-goal 6 1)
-	(set-goal 7 1)
-	(set-goal 8 0)
-	(set-goal 9 1)
-	(set-goal 10 1)
-	(set-goal 11 0)
-	(set-goal 12 0)
-	(set-goal 13 1)
-	(set-goal 14 1)
-	(set-goal 15 0)
-	(set-goal 16 0)
-	(set-goal 17 1)
+	(set-goal gl-make-archers 0)
+	(set-goal gl-make-skirmishers 1)
+	(set-goal gl-make-cavalry-archers 1)
+	(set-goal gl-make-hand-cannoneers 1)
+	(set-goal gl-make-militia 1)
+	(set-goal gl-make-spearmen 1)
+	(set-goal gl-make-eagle-warriors 0)
+	(set-goal gl-make-scout-cavalry 1)
+	(set-goal gl-make-knights 1)
+	(set-goal gl-make-camels 0)
+	(set-goal gl-make-battle-elephants 0)
+	(set-goal gl-make-monks 1)
+	(set-goal gl-make-rams 1)
+	(set-goal gl-make-mangonels 0)
+	(set-goal gl-make-scorpions 0)
+	(set-goal gl-make-bombard-cannons 1)
+	(set-goal gl-make-gallies 1)
+	(set-goal gl-make-fire-ships 1)
+	(set-goal gl-make-demolition-ships 1)
+	(set-goal gl-make-cannon-gallies 1)
+	(set-goal gl-make-unique-ships 0)
 	(disable-self)
 )
 #end-if
@@ -1203,22 +1509,27 @@
 (defrule
 	(true)
 	=>
-	(set-goal 2 0)
-	(set-goal 3 1)
-	(set-goal 4 0)
-	(set-goal 5 1)
-	(set-goal 6 1)
-	(set-goal 7 1)
-	(set-goal 8 0)
-	(set-goal 9 0)
-	(set-goal 10 1)
-	(set-goal 11 0)
-	(set-goal 12 0)
-	(set-goal 13 1)
-	(set-goal 14 0)
-	(set-goal 15 1)
-	(set-goal 16 1)
-	(set-goal 17 1)
+	(set-goal gl-make-archers 0)
+	(set-goal gl-make-skirmishers 1)
+	(set-goal gl-make-cavalry-archers 0)
+	(set-goal gl-make-hand-cannoneers 1)
+	(set-goal gl-make-militia 1)
+	(set-goal gl-make-spearmen 1)
+	(set-goal gl-make-eagle-warriors 0)
+	(set-goal gl-make-scout-cavalry 0)
+	(set-goal gl-make-knights 1)
+	(set-goal gl-make-camels 0)
+	(set-goal gl-make-battle-elephants 0)
+	(set-goal gl-make-monks 1)
+	(set-goal gl-make-rams 0)
+	(set-goal gl-make-mangonels 1)
+	(set-goal gl-make-scorpions 1)
+	(set-goal gl-make-bombard-cannons 1)
+	(set-goal gl-make-gallies 1)
+	(set-goal gl-make-fire-ships 1)
+	(set-goal gl-make-demolition-ships 1)
+	(set-goal gl-make-cannon-gallies 0)
+	(set-goal gl-make-unique-ships 0)
 	(disable-self)
 )
 #end-if
@@ -1227,22 +1538,27 @@
 (defrule
 	(true)
 	=>
-	(set-goal 2 0)
-	(set-goal 3 0)
-	(set-goal 4 1)
-	(set-goal 5 1)
-	(set-goal 6 1)
-	(set-goal 7 0)
-	(set-goal 8 0)
-	(set-goal 9 1)
-	(set-goal 10 0)
-	(set-goal 11 1)
-	(set-goal 12 0)
-	(set-goal 13 0)
-	(set-goal 14 1)
-	(set-goal 15 0)
-	(set-goal 16 1)
-	(set-goal 17 1)
+	(set-goal gl-make-archers 0)
+	(set-goal gl-make-skirmishers 0)
+	(set-goal gl-make-cavalry-archers 1)
+	(set-goal gl-make-hand-cannoneers 1)
+	(set-goal gl-make-militia 1)
+	(set-goal gl-make-spearmen 0)
+	(set-goal gl-make-eagle-warriors 0)
+	(set-goal gl-make-scout-cavalry 1)
+	(set-goal gl-make-knights 0)
+	(set-goal gl-make-camels 1)
+	(set-goal gl-make-battle-elephants 0)
+	(set-goal gl-make-monks 0)
+	(set-goal gl-make-rams 1)
+	(set-goal gl-make-mangonels 0)
+	(set-goal gl-make-scorpions 1)
+	(set-goal gl-make-bombard-cannons 1)
+	(set-goal gl-make-gallies 1)
+	(set-goal gl-make-fire-ships 0)
+	(set-goal gl-make-demolition-ships 1)
+	(set-goal gl-make-cannon-gallies 1)
+	(set-goal gl-make-unique-ships 0)
 	(disable-self)
 )
 #end-if
@@ -1251,22 +1567,27 @@
 (defrule
 	(true)
 	=>
-	(set-goal 2 1)
-	(set-goal 3 1)
-	(set-goal 4 1)
-	(set-goal 5 0)
-	(set-goal 6 1)
-	(set-goal 7 1)
-	(set-goal 8 0)
-	(set-goal 9 0)
-	(set-goal 10 0)
-	(set-goal 11 0)
-	(set-goal 12 1)
-	(set-goal 13 0)
-	(set-goal 14 0)
-	(set-goal 15 0)
-	(set-goal 16 0)
-	(set-goal 17 1)
+	(set-goal gl-make-archers 1)
+	(set-goal gl-make-skirmishers 1)
+	(set-goal gl-make-cavalry-archers 1)
+	(set-goal gl-make-hand-cannoneers 0)
+	(set-goal gl-make-militia 1)
+	(set-goal gl-make-spearmen 1)
+	(set-goal gl-make-eagle-warriors 0)
+	(set-goal gl-make-scout-cavalry 0)
+	(set-goal gl-make-knights 0)
+	(set-goal gl-make-camels 0)
+	(set-goal gl-make-battle-elephants 1)
+	(set-goal gl-make-monks 0)
+	(set-goal gl-make-rams 0)
+	(set-goal gl-make-mangonels 0)
+	(set-goal gl-make-scorpions 0)
+	(set-goal gl-make-bombard-cannons 1)
+	(set-goal gl-make-gallies 1)
+	(set-goal gl-make-fire-ships 0)
+	(set-goal gl-make-demolition-ships 1)
+	(set-goal gl-make-cannon-gallies 1)
+	(set-goal gl-make-unique-ships 0)
 	(disable-self)
 )
 #end-if
@@ -1275,22 +1596,27 @@
 (defrule
 	(true)
 	=>
-	(set-goal 2 1)
-	(set-goal 3 1)
-	(set-goal 4 0)
-	(set-goal 5 0)
-	(set-goal 6 1)
-	(set-goal 7 0)
-	(set-goal 8 0)
-	(set-goal 9 0)
-	(set-goal 10 0)
-	(set-goal 11 0)
-	(set-goal 12 0)
-	(set-goal 13 0)
-	(set-goal 14 1)
-	(set-goal 15 0)
-	(set-goal 16 1)
-	(set-goal 17 0)
+	(set-goal gl-make-archers 1)
+	(set-goal gl-make-skirmishers 1)
+	(set-goal gl-make-cavalry-archers 0)
+	(set-goal gl-make-hand-cannoneers 0)
+	(set-goal gl-make-militia 1)
+	(set-goal gl-make-spearmen 0)
+	(set-goal gl-make-eagle-warriors 0)
+	(set-goal gl-make-scout-cavalry 0)
+	(set-goal gl-make-knights 0)
+	(set-goal gl-make-camels 0)
+	(set-goal gl-make-battle-elephants 0)
+	(set-goal gl-make-monks 0)
+	(set-goal gl-make-rams 1)
+	(set-goal gl-make-mangonels 0)
+	(set-goal gl-make-scorpions 1)
+	(set-goal gl-make-bombard-cannons 0)
+	(set-goal gl-make-gallies 1)
+	(set-goal gl-make-fire-ships 0)
+	(set-goal gl-make-demolition-ships 1)
+	(set-goal gl-make-cannon-gallies 1)
+	(set-goal gl-make-unique-ships 1)
 	(disable-self)
 )
 #end-if
@@ -1314,28 +1640,32 @@
 	(food-amount <= 124)
 	=>
 	(cc-add-resource food 125)
-	(chat-local-to-self "-- AI: Free 125 Food --")
+	(chat-local-to-self "--------------------------------------------------------------------------------------------------------------------")
+	(chat-local-to-self " CHEAT: Free 125 Food")
 )
 
 (defrule
 	(wood-amount <= 124)
 	=>
 	(cc-add-resource wood 125)
-	(chat-local-to-self "-- AI: Free 125 Wood --")
+	(chat-local-to-self "--------------------------------------------------------------------------------------------------------------------")
+	(chat-local-to-self " CHEAT: Free 125 Wood")
 )
 
 (defrule
 	(stone-amount <= 124)
 	=>
 	(cc-add-resource stone 125)
-	(chat-local-to-self "-- AI: Free 125 Stone --")
+	(chat-local-to-self "--------------------------------------------------------------------------------------------------------------------")
+	(chat-local-to-self " CHEAT: Free 125 Stone")
 )
 
 (defrule
 	(gold-amount <= 1874)
 	=>
 	(cc-add-resource gold 1875)
-	(chat-local-to-self "-- AI: Free 1875 Gold --")
+	(chat-local-to-self "--------------------------------------------------------------------------------------------------------------------")
+	(chat-local-to-self " CHEAT: Free 1875 Gold")
 )
 #end-if
 
@@ -1344,28 +1674,32 @@
 	(food-amount <= 249)
 	=>
 	(cc-add-resource food 250)
-	(chat-local-to-self "-- AI: Free 250 Food --")
+	(chat-local-to-self "--------------------------------------------------------------------------------------------------------------------")
+	(chat-local-to-self " CHEAT: Free 250 Food")
 )
 
 (defrule
 	(wood-amount <= 249)
 	=>
 	(cc-add-resource wood 250)
-	(chat-local-to-self "-- AI: Free 250 Wood --")
+	(chat-local-to-self "--------------------------------------------------------------------------------------------------------------------")
+	(chat-local-to-self " CHEAT: Free 250 Wood")
 )
 
 (defrule
 	(stone-amount <= 249)
 	=>
 	(cc-add-resource stone 250)
-	(chat-local-to-self "-- AI: Free 250 Stone --")
+	(chat-local-to-self "--------------------------------------------------------------------------------------------------------------------")
+	(chat-local-to-self " CHEAT: Free 250 Stone")
 )
 
 (defrule
 	(gold-amount <= 3749)
 	=>
 	(cc-add-resource gold 3750)
-	(chat-local-to-self "-- AI: Free 3750 Gold --")
+	(chat-local-to-self "--------------------------------------------------------------------------------------------------------------------")
+	(chat-local-to-self " CHEAT: Free 3750 Gold")
 )
 #end-if
 
@@ -1374,28 +1708,32 @@
 	(food-amount <= 499)
 	=>
 	(cc-add-resource food 500)
-	(chat-local-to-self "-- AI: Free 500 Food --")
+	(chat-local-to-self "--------------------------------------------------------------------------------------------------------------------")
+	(chat-local-to-self " CHEAT: Free 500 Food")
 )
 
 (defrule
 	(wood-amount <= 499)
 	=>
 	(cc-add-resource wood 500)
-	(chat-local-to-self "-- AI: Free 500 Wood --")
+	(chat-local-to-self "--------------------------------------------------------------------------------------------------------------------")
+	(chat-local-to-self " CHEAT: Free 500 Wood")
 )
 
 (defrule
 	(stone-amount <= 499)
 	=>
 	(cc-add-resource stone 500)
-	(chat-local-to-self "-- AI: Free 500 Stone --")
+	(chat-local-to-self "--------------------------------------------------------------------------------------------------------------------")
+	(chat-local-to-self " CHEAT: Free 500 Stone")
 )
 
 (defrule
 	(gold-amount <= 7499)
 	=>
 	(cc-add-resource gold 7500)
-	(chat-local-to-self "-- AI: Free 7500 Gold --")
+	(chat-local-to-self "--------------------------------------------------------------------------------------------------------------------")
+	(chat-local-to-self " CHEAT: Free 7500 Gold")
 )
 #end-if
 
@@ -1404,28 +1742,32 @@
 	(food-amount <= 999)
 	=>
 	(cc-add-resource food 1000)
-	(chat-local-to-self "-- AI: Free 1000 Food --")
+	(chat-local-to-self "--------------------------------------------------------------------------------------------------------------------")
+	(chat-local-to-self " CHEAT: Free 1000 Food")
 )
 
 (defrule
 	(wood-amount <= 999)
 	=>
 	(cc-add-resource wood 1000)
-	(chat-local-to-self "-- AI: Free 1000 Wood --")
+	(chat-local-to-self "--------------------------------------------------------------------------------------------------------------------")
+	(chat-local-to-self " CHEAT: Free 1000 Wood")
 )
 
 (defrule
 	(stone-amount <= 999)
 	=>
 	(cc-add-resource stone 1000)
-	(chat-local-to-self "-- AI: Free 1000 Stone --")
+	(chat-local-to-self "--------------------------------------------------------------------------------------------------------------------")
+	(chat-local-to-self " CHEAT: Free 1000 Stone")
 )
 
 (defrule
 	(gold-amount <= 14999)
 	=>
 	(cc-add-resource gold 15000)
-	(chat-local-to-self "-- AI: Free 15000 Gold --")
+	(chat-local-to-self "--------------------------------------------------------------------------------------------------------------------")
+	(chat-local-to-self " CHEAT: Free 15000 Gold")
 )
 #end-if
 
@@ -1434,28 +1776,32 @@
 	(food-amount <= 1999)
 	=>
 	(cc-add-resource food 2000)
-	(chat-local-to-self "-- AI: Free 2000 Food --")
+	(chat-local-to-self "--------------------------------------------------------------------------------------------------------------------")
+	(chat-local-to-self " CHEAT: Free 2000 Food")
 )
 
 (defrule
 	(wood-amount <= 1999)
 	=>
 	(cc-add-resource wood 2000)
-	(chat-local-to-self "-- AI: Free 2000 Wood --")
+	(chat-local-to-self "--------------------------------------------------------------------------------------------------------------------")
+	(chat-local-to-self " CHEAT: Free 2000 Wood")
 )
 
 (defrule
 	(stone-amount <= 1999)
 	=>
 	(cc-add-resource stone 2000)
-	(chat-local-to-self "-- AI: Free 2000 Stone --")
+	(chat-local-to-self "--------------------------------------------------------------------------------------------------------------------")
+	(chat-local-to-self " CHEAT: Free 2000 Stone")
 )
 
 (defrule
 	(gold-amount <= 29999)
 	=>
 	(cc-add-resource gold 30000)
-	(chat-local-to-self "-- AI: Free 30000 Gold --")
+	(chat-local-to-self "--------------------------------------------------------------------------------------------------------------------")
+	(chat-local-to-self " CHEAT: Free 30000 Gold")
 )
 #end-if
 
@@ -1757,12 +2103,12 @@
 	(research ri-husbandry)
 )
 
-;(defrule
-;	(not (research-completed ri-redemption) )
-;	(can-research ri-redemption)
-;	=>
-;	(research ri-redemption)
-;)
+(defrule
+	(not (research-completed ri-redemption) )
+	(can-research ri-redemption)
+	=>
+	(research ri-redemption)
+)
 
 (defrule
 	(not (research-completed ri-fervor) )
@@ -1796,12 +2142,12 @@
 	(research 441)
 )
 
-;(defrule
-;	(not (research-completed ri-heresy) )
-;	(can-research ri-heresy)
-;	=>
-;	(research ri-heresy)
-;)
+(defrule
+	(not (research-completed ri-heresy) )
+	(can-research ri-heresy)
+	=>
+	(research ri-heresy)
+)
 
 (defrule
 	(not (research-completed ri-ballistics) )
@@ -1875,6 +2221,27 @@
 	(can-research ri-town-patrol)
 	=>
 	(research ri-town-patrol)
+)
+
+(defrule
+	(not (research-completed ri-war-galley) )
+	(can-research ri-war-galley)
+	=>
+	(research ri-war-galley)
+)
+
+(defrule
+	(not (research-completed ri-careening) )
+	(can-research ri-careening)
+	=>
+	(research ri-careening)
+)
+
+(defrule
+	(not (research-completed ri-gillnets) )
+	(can-research ri-gillnets)
+	=>
+	(research ri-gillnets)
 )
 
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -2402,6 +2769,59 @@
 	(research ri-guilds)
 )
 
+(defrule
+	(not (research-completed ri-fast-fire-ship) )
+	(can-research ri-fast-fire-ship)
+	=>
+	(research ri-fast-fire-ship)
+)
+
+(defrule
+	(not (research-completed ri-cannon-galleon) )
+	(can-research ri-cannon-galleon)
+	=>
+	(research ri-cannon-galleon)
+)
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: Thanks google... No idea why but, ri-elite-cannon-galleon is ri-deck-guns...
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+(defrule
+	(not (research-completed ri-deck-guns) )
+	(can-research ri-deck-guns)
+	=>
+	(research ri-deck-guns)
+)
+
+(defrule
+	(not (research-completed ri-heavy-demolition-ship) )
+	(can-research ri-heavy-demolition-ship)
+	=>
+	(research ri-heavy-demolition-ship)
+)
+
+(defrule
+	(not (research-completed ri-galleon) )
+	(can-research ri-galleon)
+	=>
+	(research ri-galleon)
+)
+
+(defrule
+	(not (research-completed ri-dry-dock) )
+	(can-research ri-dry-dock)
+	=>
+	(research ri-dry-dock)
+)
+
+(defrule
+	(not (research-completed ri-shipwright) )
+	(can-research ri-shipwright)
+	=>
+	(research ri-shipwright)
+)
+
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ; EXPANSION TECHS
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -2498,7 +2918,6 @@
 (defrule
 	(building-type-count house <= 5)
 	(up-pending-objects c: house <= 5)
-	(population-headroom >= 5)
 	(can-build house)
 	=>
 	(build house)
@@ -2509,7 +2928,6 @@
 (defrule
 	(building-type-count house <= 10)
 	(up-pending-objects c: house <= 5)
-	(population-headroom >= 5)
 	(can-build house)
 	=>
 	(build house)
@@ -2520,7 +2938,6 @@
 (defrule
 	(building-type-count house <= 15)
 	(up-pending-objects c: house <= 5)
-	(population-headroom >= 5)
 	(can-build house)
 	=>
 	(build house)
@@ -2531,7 +2948,6 @@
 (defrule
 	(building-type-count house <= 20)
 	(up-pending-objects c: house <= 5)
-	(population-headroom >= 5)
 	(can-build house)
 	=>
 	(build house)
@@ -2542,7 +2958,6 @@
 (defrule
 	(building-type-count house <= 25)
 	(up-pending-objects c: house <= 5)
-	(population-headroom >= 5)
 	(can-build house)
 	=>
 	(build house)
@@ -2553,7 +2968,6 @@
 (defrule
 	(building-type-count house <= 30)
 	(up-pending-objects c: house <= 5)
-	(population-headroom >= 5)
 	(can-build house)
 	=>
 	(build house)
@@ -2564,7 +2978,6 @@
 (defrule
 	(building-type-count house <= 35)
 	(up-pending-objects c: house <= 5)
-	(population-headroom >= 5)
 	(can-build house)
 	=>
 	(build house)
@@ -2575,10 +2988,10 @@
 (defrule
 	(building-type-count house <= 40)
 	(up-pending-objects c: house <= 5)
-	(population-headroom >= 5)
 	(can-build house)
 	=>
 	(build house)
+;	(up-build place-normal 0 c: house)
 )
 #end-if
 
@@ -2586,7 +2999,6 @@
 (defrule
 	(building-type-count house <= 50)
 	(up-pending-objects c: house <= 5)
-	(population-headroom >= 5)
 	(can-build house)
 	=>
 	(build house)
@@ -2597,7 +3009,6 @@
 (defrule
 	(building-type-count house <= 60)
 	(up-pending-objects c: house <= 5)
-	(population-headroom >= 5)
 	(can-build house)
 	=>
 	(build house)
@@ -2608,7 +3019,6 @@
 (defrule
 	(building-type-count house <= 80)
 	(up-pending-objects c: house <= 5)
-	(population-headroom >= 5)
 	(can-build house)
 	=>
 	(build house)
@@ -2619,7 +3029,6 @@
 (defrule
 	(building-type-count house <= 100)
 	(up-pending-objects c: house <= 5)
-	(population-headroom >= 5)
 	(can-build house)
 	=>
 	(build house)
@@ -2675,6 +3084,15 @@
 	(build barracks)
 )
 
+(defrule
+	(current-age == dark-age)
+	(building-type-count dock == 0)
+	(up-pending-objects c: dock < 1)
+	(can-build dock)
+	=>
+	(build dock)
+)
+
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ; Note: DARK AGE - Multiple Buildings
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -2691,6 +3109,20 @@
 	(can-build barracks)
 	=>
 	(build barracks)
+)
+
+(defrule
+	(current-age == dark-age)
+	(building-type-count mill >= 1)
+	(building-type-count lumber-camp >= 1)
+	(building-type-count mining-camp >= 1)
+	(building-type-count barracks >= 1)
+	(building-type-count town-center >= 1)
+	(building-type-count dock <= 3)
+	(up-pending-objects c: dock <= 3)
+	(can-build dock)
+	=>
+	(build dock)
 )
 
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -2759,6 +3191,23 @@
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ; Note: FEUDAL AGE - Multiple Buildings
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+(defrule
+	(current-age == feudal-age)
+	(building-type-count mill >= 1)
+	(building-type-count lumber-camp >= 1)
+	(building-type-count mining-camp >= 1)
+	(building-type-count barracks >= 1)
+	(building-type-count archery-range >= 1)
+	(building-type-count blacksmith >= 1)
+	(building-type-count market >= 1)
+	(building-type-count town-center >= 1)
+	(building-type-count dock <= 3)
+	(up-pending-objects c: dock <= 3)
+	(can-build dock)
+	=>
+	(build dock)
+)
 
 (defrule
 	(current-age == feudal-age)
@@ -2914,6 +3363,27 @@
 	(can-build town-center)
 	=>
 	(build town-center)
+)
+
+(defrule
+	(current-age == castle-age)
+	(building-type-count mill >= 1)
+	(building-type-count lumber-camp >= 1)
+	(building-type-count mining-camp >= 1)
+	(building-type-count barracks >= 1)
+	(building-type-count archery-range >= 1)
+	(building-type-count blacksmith >= 1)
+	(building-type-count market >= 1)
+	(building-type-count university >= 1)
+	(building-type-count monastery >= 1)
+	(building-type-count siege-workshop >= 1)
+	(building-type-count castle >= 1)
+	(building-type-count town-center >= 1)
+	(building-type-count dock <= 7)
+	(up-pending-objects c: dock <= 7)
+	(can-build dock)
+	=>
+	(build dock)
 )
 
 (defrule
@@ -3105,6 +3575,15 @@
 
 (defrule
 	(current-age >= imperial-age)
+	(building-type-count dock == 0)
+	(up-pending-objects c: dock < 1)
+	(can-build dock)
+	=>
+	(build dock)
+)
+
+(defrule
+	(current-age >= imperial-age)
 	(building-type-count barracks == 0)
 	(up-pending-objects c: barracks < 1)
 	(can-build barracks)
@@ -3231,6 +3710,27 @@
 	(can-build town-center)
 	=>
 	(build town-center)
+)
+
+(defrule
+	(current-age >= imperial-age)
+	(building-type-count mill >= 1)
+	(building-type-count lumber-camp >= 1)
+	(building-type-count mining-camp >= 1)
+	(building-type-count barracks >= 1)
+	(building-type-count archery-range >= 1)
+	(building-type-count blacksmith >= 1)
+	(building-type-count market >= 1)
+	(building-type-count university >= 1)
+	(building-type-count monastery >= 1)
+	(building-type-count siege-workshop >= 1)
+	(building-type-count castle >= 1)
+	(building-type-count town-center >= 1)
+	(building-type-count dock <= 7)
+	(up-pending-objects c: dock < 7)
+	(can-build dock)
+	=>
+	(build dock)
 )
 
 (defrule
@@ -3535,8 +4035,8 @@
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 (defrule
-	(goal 6 1)
-	(goal 18 1)
+	(goal gl-make-militia 1)
+	(goal gl-random-barracks 1)
 	(can-train militiaman-line)
 	=>
 	(train militiaman-line)
@@ -3564,8 +4064,8 @@
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 (defrule
-	(goal 7 1)
-	(goal 18 2)
+	(goal gl-make-spearmen 1)
+	(goal gl-random-barracks 2)
 	(can-train spearman-line)
 	=>
 	(train spearman-line)
@@ -3604,8 +4104,8 @@
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 (defrule
-	(goal 8 1)
-	(goal 18 3)
+	(goal gl-make-eagle-warriors 1)
+	(goal gl-random-barracks 3)
 	(can-train eagle-warrior-line)
 	=>
 	(train eagle-warrior-line)
@@ -3651,7 +4151,7 @@
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 (defrule
-	(goal 18 4)
+	(goal gl-random-barracks 4)
 	(can-train condottiero)
 	=>
 	(train condottiero)
@@ -3685,8 +4185,8 @@
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 (defrule
-	(goal 2 1)
-	(goal 19 1)
+	(goal gl-make-archers 1)
+	(goal gl-random-archery-range 1)
 	(can-train archer-line)
 	=>
 	(train archer-line)
@@ -3714,8 +4214,8 @@
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 (defrule
-	(goal 3 1)
-	(goal 19 2)
+	(goal gl-make-skirmishers 1)
+	(goal gl-random-archery-range 2)
 	(can-train skirmisher-line)
 	=>
 	(train skirmisher-line)
@@ -3759,8 +4259,8 @@
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 (defrule
-	(goal 4 1)
-	(goal 19 3)
+	(goal gl-make-cavalry-archers 1)
+	(goal gl-random-archery-range 3)
 	(can-train cavalry-archer-line)
 	=>
 	(train cavalry-archer-line)
@@ -3798,8 +4298,8 @@
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 (defrule
-	(goal 5 1)
-	(goal 19 4)
+	(goal gl-make-hand-cannoneers 1)
+	(goal gl-random-archery-range 4)
 	(can-train hand-cannoneer)
 	=>
 	(train hand-cannoneer)
@@ -3841,7 +4341,7 @@
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 (defrule
-	(goal 19 5)
+	(goal gl-random-archery-range 5)
 	(can-train genitour-placeholder)
 	=>
 	(train genitour-placeholder)
@@ -3885,7 +4385,7 @@
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 (defrule
-	(goal 19 5)
+	(goal gl-random-archery-range 5)
 	(can-train slinger)
 	=>
 	(train slinger)
@@ -3934,8 +4434,8 @@
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 (defrule
-	(goal 9 1)
-	(goal 20 1)
+	(goal gl-make-scout-cavalry 1)
+	(goal gl-random-stable 1)
 	(can-train scout-cavalry-line)
 	=>
 	(train scout-cavalry-line)
@@ -3963,8 +4463,8 @@
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 (defrule
-	(goal 10 1)
-	(goal 20 2)
+	(goal gl-make-knights 1)
+	(goal gl-random-stable 2)
 	(can-train knight-line)
 	=>
 	(train knight-line)
@@ -4002,8 +4502,8 @@
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 (defrule
-	(goal 11 1)
-	(goal 20 3)
+	(goal gl-make-camels 1)
+	(goal gl-random-stable 3)
 	(can-train camel-line)
 	=>
 	(train camel-line)
@@ -4039,8 +4539,8 @@
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 (defrule
-	(goal 12 1)
-	(goal 20 4)
+	(goal gl-make-battle-elephants 1)
+	(goal gl-random-stable 4)
 	(can-train battle-elephant-line)
 	=>
 	(train battle-elephant-line)
@@ -4068,6 +4568,168 @@
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: + SHIPS
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: + SHIPS - GALLEY
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+(defrule
+	(goal gl-make-gallies 1)
+	(goal gl-random-dock 1)
+	(can-train galley-line)
+	=>
+	(train galley-line)
+)
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: Let's counter!
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+(defrule
+	(can-train galley-line)
+	=>
+	(train galley-line)
+)
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: Alternative counter!
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: + SHIPS - FIRE SHIP
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+(defrule
+	(goal gl-make-fire-ships 1)
+	(goal gl-random-dock 2)
+	(can-train fire-ship-line)
+	=>
+	(train fire-ship-line)
+)
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: Let's counter!
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+(defrule
+	(can-train fire-ship-line)
+	=>
+	(train fire-ship-line)
+)
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: Alternative counter!
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: + SHIPS - DEMOLITION SHIP
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+(defrule
+	(goal gl-make-demolition-ships 1)
+	(goal gl-random-dock 3)
+	(can-train demolition-ship-line)
+	=>
+	(train demolition-ship-line)
+)
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: Let's counter!
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+(defrule
+	(can-train demolition-ship-line)
+	=>
+	(train demolition-ship-line)
+)
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: Alternative counter!
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: + SHIPS - CANNON GALLEONS
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+(defrule
+	(goal gl-make-cannon-gallies 1)
+	(goal gl-random-dock 4)
+	(can-train cannon-galleon-line)
+	=>
+	(train cannon-galleon-line)
+)
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: Let's counter!
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+(defrule
+	(can-train cannon-galleon-line)
+	=>
+	(train cannon-galleon-line)
+)
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: Alternative counter!
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: + SHIPS - UNIQUE SHIPS
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+(defrule
+	(goal gl-make-unique-ships 1)
+	(goal gl-random-dock 5)
+	(can-train longboat-line)
+	=>
+	(train longboat-line)
+)
+
+(defrule
+	(goal gl-make-unique-ships 1)
+	(goal gl-random-dock 5)
+	(can-train turtle-ship-line)
+	=>
+	(train turtle-ship-line)
+)
+
+(defrule
+	(goal gl-make-unique-ships 1)
+	(goal gl-random-dock 5)
+	(can-train caravel-line)
+	=>
+	(train caravel-line)
+)
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: Let's counter!
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+(defrule
+	(can-train longboat-line)
+	=>
+	(train longboat-line)
+)
+
+(defrule
+	(can-train turtle-ship-line)
+	=>
+	(train turtle-ship-line)
+)
+
+(defrule
+	(can-train caravel-line)
+	=>
+	(train caravel-line)
+)
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: Alternative counter!
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ; Note: + MONKS
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -4076,8 +4738,8 @@
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 (defrule
-	(goal 13 1)
-	(goal 21 1)
+	(goal gl-make-monks 1)
+	(goal gl-random-monastery 1)
 	(can-train monk)
 	=>
 	(train monk)
@@ -4111,7 +4773,7 @@
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 (defrule
-	(goal 21 2)
+	(goal gl-random-monastery 2)
 	(can-train missionary)
 	=>
 	(train missionary)
@@ -4149,8 +4811,8 @@
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 (defrule
-	(goal 14 1)
-	(goal 22 1)
+	(goal gl-make-rams 1)
+	(goal gl-random-siege-workshop 1)
 	(can-train battering-ram-line)
 	=>
 	(train battering-ram-line)
@@ -4186,8 +4848,8 @@
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 (defrule
-	(goal 15 1)
-	(goal 22 2)
+	(goal gl-make-mangonels 1)
+	(goal gl-random-siege-workshop 2)
 	(can-train mangonel-line)
 	=>
 	(train mangonel-line)
@@ -4204,7 +4866,9 @@
 			(or (players-unit-type-count any-enemy mangonel-line >= 10)
 				(or (players-unit-type-count any-enemy bombard-cannon >= 10)
 					(or (players-unit-type-count any-enemy trebuchet >= 10)
-						(players-unit-type-count any-enemy 42 >= 10)
+						(or (players-unit-type-count any-enemy 42 >= 10)
+							(players-unit-type-count any-enemy petard >= 10)
+						)
 					)
 				)
 			)
@@ -4218,13 +4882,60 @@
 ; Note: Alternative counter!
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+; pretty much almost anything.
+
+(defrule
+	(can-train mangonel-line)
+	(or (players-unit-type-count any-enemy militiaman-line >= 10)
+		(or (players-unit-type-count any-enemy spearman-line >= 10)
+			(or (players-unit-type-count any-enemy archer-line >= 10)
+				(or (players-unit-type-count any-enemy skirmisher-line >= 10)
+					(or (players-unit-type-count any-enemy berserk-line >= 10)
+						(or (players-unit-type-count any-enemy chu-ko-nu-line >= 10)
+							(or (players-unit-type-count any-enemy huskarl-line >= 10)
+								(or (players-unit-type-count any-enemy jaguar-man-line >= 10)
+									(or (players-unit-type-count any-enemy janissary-line >= 10)
+										(or (players-unit-type-count any-enemy longbowman-line >= 10)
+											(or (players-unit-type-count any-enemy plumed-archer-line >= 10)
+												(or (players-unit-type-count any-enemy samurai-line >= 10)
+													(or (players-unit-type-count any-enemy teutonic-knight-line >= 10)
+														(players-unit-type-count any-enemy hand-cannoneer >= 10)
+													)
+												)
+											)
+										)
+									)
+								)
+							)
+						)
+					)
+				)
+			)
+		)
+	)
+	=>
+	(train mangonel-line)
+)
+
+(defrule
+	(can-train mangonel-line)
+	(or (players-unit-type-count any-enemy kamayuk-line >= 10)
+		(or (players-unit-type-count any-enemy genoese-crossbowman-line >= 10)
+			(or (players-unit-type-count any-enemy karambit-warrior-line >= 10)
+				(players-unit-type-count any-enemy organ-gun-line >= 10)
+			)
+		)
+	)
+	=>
+	(train mangonel-line)
+)
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ; Note: + SIEGE - SCORPION
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 (defrule
-	(goal 16 1)
-	(goal 22 3)
+	(goal gl-make-scorpions 1)
+	(goal gl-random-siege-workshop 3)
 	(can-train scorpion-line)
 	=>
 	(train scorpion-line)
@@ -4250,8 +4961,8 @@
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 (defrule
-	(goal 17 1)
-	(goal 22 4)
+	(goal gl-make-bombard-cannons 1)
+	(goal gl-random-siege-workshop 4)
 	(can-train bombard-cannon)
 	=>
 	(train bombard-cannon)
@@ -4289,7 +5000,7 @@
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 (defrule
-	(goal 23 1)
+	(goal gl-random-castle 1)
 	(can-train petard)
 	(or (players-unit-type-count any-enemy palisade-wall >= 10)
 		(or (players-unit-type-count any-enemy stone-wall-line >= 10)
@@ -4305,7 +5016,7 @@
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 (defrule
-	(goal 23 2)
+	(goal gl-random-castle 2)
 	(can-train trebuchet)
 	(or (players-building-type-count any-enemy wonder >= 1) 
 		(or (players-building-type-count any-enemy watch-tower-line >= 1)
@@ -4327,7 +5038,7 @@
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 (defrule
-	(goal 23 3)
+	(goal gl-random-castle 3)
 	(can-train my-unique-unit-line)
 	=>
 	(train my-unique-unit-line)
@@ -4371,7 +5082,8 @@
 	(timer-triggered 2)
 =>
 	(disable-timer 2)
-	(chat-local-to-self "-- AI: Deleting old Camps --")
+	(chat-local-to-self "--------------------------------------------------------------------------------------------------------------------")
+	(chat-local-to-self " Deleting Old Camps")
 	(delete-unit mining-camp)
 	(delete-unit lumber-camp)
 	(delete-unit mill)
@@ -4398,8 +5110,9 @@
 	(enable-timer 10 960)
 	(enable-timer 11 1080)
 	(enable-timer 12 1200)
-	(enable-timer 14 60)
+	(enable-timer 14 120)
 	(enable-timer 15 2)
+	(enable-timer 16 10)
 	(disable-self)
 )
 
@@ -4407,7 +5120,9 @@
 	(timer-triggered 3)
 =>
 	(disable-timer 3)
-	(chat-local-to-self "-- AI: First Resize Timing --")
+	(chat-local-to-self "--------------------------------------------------------------------------------------------------------------------")
+	(chat-local-to-self " Town Size Minimum: 0")
+	(chat-local-to-self " Town Size Maximum: 15")
 	(set-strategic-number sn-minimum-town-size 0)
 	(set-strategic-number sn-maximum-town-size 15)
 	(disable-self)
@@ -4417,7 +5132,9 @@
 	(timer-triggered 4)
 =>
 	(disable-timer 4)
-	(chat-local-to-self "-- AI: Second Resize Timing --")
+	(chat-local-to-self "--------------------------------------------------------------------------------------------------------------------")
+	(chat-local-to-self " Town Size Minimum: 0")
+	(chat-local-to-self " Town Size Maximum: 20")
 	(set-strategic-number sn-minimum-town-size 0)
 	(set-strategic-number sn-maximum-town-size 20)
 	(disable-self)
@@ -4427,7 +5144,9 @@
 	(timer-triggered 5)
 =>
 	(disable-timer 5)
-	(chat-local-to-self "-- AI: Third Resize Timing --")
+	(chat-local-to-self "--------------------------------------------------------------------------------------------------------------------")
+	(chat-local-to-self " Town Size Minimum: 0")
+	(chat-local-to-self " Town Size Maximum: 25")
 	(set-strategic-number sn-minimum-town-size 0)
 	(set-strategic-number sn-maximum-town-size 25)
 	(disable-self)
@@ -4437,7 +5156,9 @@
 	(timer-triggered 6)
 =>
 	(disable-timer 6)
-	(chat-local-to-self "-- AI: Fourth Resize Timing --")
+	(chat-local-to-self "--------------------------------------------------------------------------------------------------------------------")
+	(chat-local-to-self " Town Size Minimum: 0")
+	(chat-local-to-self " Town Size Maximum: 30")
 	(set-strategic-number sn-minimum-town-size 0)
 	(set-strategic-number sn-maximum-town-size 30)
 	(disable-self)
@@ -4447,7 +5168,9 @@
 	(timer-triggered 7)
 =>
 	(disable-timer 7)
-	(chat-local-to-self "-- AI: Fifth Resize Timing --")
+	(chat-local-to-self "--------------------------------------------------------------------------------------------------------------------")
+	(chat-local-to-self " Town Size Minimum: 0")
+	(chat-local-to-self " Town Size Maximum: 35")
 	(set-strategic-number sn-minimum-town-size 0)
 	(set-strategic-number sn-maximum-town-size 35)
 	(disable-self)
@@ -4457,7 +5180,9 @@
 	(timer-triggered 8)
 =>
 	(disable-timer 8)
-	(chat-local-to-self "-- AI: Sixth Resize Timing --")
+	(chat-local-to-self "--------------------------------------------------------------------------------------------------------------------")
+	(chat-local-to-self " Town Size Minimum: 0")
+	(chat-local-to-self " Town Size Maximum: 40")
 	(set-strategic-number sn-minimum-town-size 0)
 	(set-strategic-number sn-maximum-town-size 40)
 	(disable-self)
@@ -4467,7 +5192,9 @@
 	(timer-triggered 9)
 =>
 	(disable-timer 9)
-	(chat-local-to-self "-- AI: Seventh Resize Timing --")
+	(chat-local-to-self "--------------------------------------------------------------------------------------------------------------------")
+	(chat-local-to-self " Town Size Minimum: 0")
+	(chat-local-to-self " Town Size Maximum: 45")
 	(set-strategic-number sn-minimum-town-size 0)
 	(set-strategic-number sn-maximum-town-size 45)
 	(disable-self)
@@ -4477,7 +5204,9 @@
 	(timer-triggered 10)
 =>
 	(disable-timer 10)
-	(chat-local-to-self "-- AI: Eighth Resize Timing --")
+	(chat-local-to-self "--------------------------------------------------------------------------------------------------------------------")
+	(chat-local-to-self " Town Size Minimum: 0")
+	(chat-local-to-self " Town Size Maximum: 50")
 	(set-strategic-number sn-minimum-town-size 0)
 	(set-strategic-number sn-maximum-town-size 50)
 	(disable-self)
@@ -4487,7 +5216,9 @@
 	(timer-triggered 11)
 =>
 	(disable-timer 11)
-	(chat-local-to-self "-- AI: Ninth Resize Timing --")
+	(chat-local-to-self "--------------------------------------------------------------------------------------------------------------------")
+	(chat-local-to-self " Town Size Minimum: 0")
+	(chat-local-to-self " Town Size Maximum: 55")
 	(set-strategic-number sn-minimum-town-size 0)
 	(set-strategic-number sn-maximum-town-size 55)
 	(disable-self)
@@ -4497,17 +5228,20 @@
 	(timer-triggered 12)
 =>
 	(disable-timer 12)
-	(chat-local-to-self "-- AI: Tenth Resize Timing --")
+	(chat-local-to-self "--------------------------------------------------------------------------------------------------------------------")
+	(chat-local-to-self " Town Size Minimum: 0")
+	(chat-local-to-self " Town Size Maximum: 60")
 	(set-strategic-number sn-minimum-town-size 0)
 	(set-strategic-number sn-maximum-town-size 60)
 	(disable-self)
 )
-
+	
 (defrule
 	(timer-triggered 14)
 =>
 	(disable-timer 14)
-	(chat-local-to-self "-- AI: Reset Attack/Defend/Explore --")
+	(chat-local-to-self "--------------------------------------------------------------------------------------------------------------------")
+	(chat-local-to-self " Reset Attack/Defend/Explore")
 	(set-strategic-number sn-number-explore-groups 0)
 	(set-strategic-number sn-minimum-explore-group-size 0)
 	(set-strategic-number sn-maximum-explore-group-size 0)
@@ -4517,7 +5251,16 @@
 	(set-strategic-number sn-number-defend-groups 0)
 	(set-strategic-number sn-minimum-defend-group-size 0)
 	(set-strategic-number sn-maximum-defend-group-size 0)
-	(enable-timer 14 60)
+	(set-strategic-number sn-number-boat-attack-groups 0)
+	(set-strategic-number sn-minimum-boat-attack-group-size 0)
+	(set-strategic-number sn-maximum-boat-attack-group-size 0)
+	(set-strategic-number sn-number-boat-defend-groups 0)
+	(set-strategic-number sn-minimum-boat-defend-group-size 0)
+	(set-strategic-number sn-maximum-boat-defend-group-size 0)
+	(set-strategic-number sn-number-boat-explore-groups 0)
+	(set-strategic-number sn-minimum-boat-explore-group-size 0)
+	(set-strategic-number sn-maximum-boat-explore-group-size 0)
+	(enable-timer 14 120)
 	(enable-timer 15 2)
 )
 
@@ -4526,20 +5269,28 @@
 	(game-time <= 300)
 	(players-building-count any-enemy <= 0)
 	=>
-	(chat-local-to-self "-- AI: I don't see any enemy buildings! Explore! --")
+	(chat-local-to-self "--------------------------------------------------------------------------------------------------------------------")
+	(chat-local-to-self " I don't see any enemy buildings! Explore!")
 	(set-strategic-number sn-number-explore-groups 500)
 	(set-strategic-number sn-minimum-explore-group-size 1)
 	(set-strategic-number sn-maximum-explore-group-size 1)
+	(set-strategic-number sn-number-boat-explore-groups 500)
+	(set-strategic-number sn-minimum-boat-explore-group-size 1)
+	(set-strategic-number sn-maximum-boat-explore-group-size 1)
 )
 
 (defrule
 	(timer-triggered 15)
 	(players-building-count any-enemy >= 1)
 	=>
-	(chat-local-to-self "-- AI: Found enemy buildings! Attack! --")
+	(chat-local-to-self "--------------------------------------------------------------------------------------------------------------------")
+	(chat-local-to-self " Found enemy buildings! Attack!")
 	(set-strategic-number sn-number-attack-groups 500)
 	(set-strategic-number sn-minimum-attack-group-size 1)
 	(set-strategic-number sn-maximum-attack-group-size 1)
+	(set-strategic-number sn-number-boat-attack-groups 500)
+	(set-strategic-number sn-minimum-boat-attack-group-size 1)
+	(set-strategic-number sn-maximum-boat-attack-group-size 1)
 )
 
 (defrule
@@ -4547,40 +5298,56 @@
 	(game-time <= 300)
 	(players-unit-count any-enemy <= 0)
 	=>
-	(chat-local-to-self "-- AI: I don't see any enemy units! Explore! --")
+	(chat-local-to-self "--------------------------------------------------------------------------------------------------------------------")
+	(chat-local-to-self " I don't see any enemy units! Explore!")
 	(set-strategic-number sn-number-explore-groups 500)
 	(set-strategic-number sn-minimum-explore-group-size 1)
 	(set-strategic-number sn-maximum-explore-group-size 1)
+	(set-strategic-number sn-number-boat-explore-groups 500)
+	(set-strategic-number sn-minimum-boat-explore-group-size 1)
+	(set-strategic-number sn-maximum-boat-explore-group-size 1)
 )
 
 (defrule
 	(timer-triggered 15)
 	(players-unit-count any-enemy >= 1)
 	=>
-	(chat-local-to-self "-- AI: Found enemy units! Attack! --")
+	(chat-local-to-self "--------------------------------------------------------------------------------------------------------------------")
+	(chat-local-to-self " Found enemy units! Attack!")
 	(set-strategic-number sn-number-attack-groups 500)
 	(set-strategic-number sn-minimum-attack-group-size 1)
 	(set-strategic-number sn-maximum-attack-group-size 1)
+	(set-strategic-number sn-number-boat-attack-groups 500)
+	(set-strategic-number sn-minimum-boat-attack-group-size 1)
+	(set-strategic-number sn-maximum-boat-attack-group-size 1)
 )
 
 (defrule
 	(timer-triggered 15)
 	(enemy-buildings-in-town)
 	=>
-	(chat-local-to-self "-- AI: Found enemy buildings in our Town! Attack! --")
+	(chat-local-to-self "--------------------------------------------------------------------------------------------------------------------")
+	(chat-local-to-self " Found enemy buildings in our Town! Attack!")
 	(set-strategic-number sn-number-attack-groups 500)
 	(set-strategic-number sn-minimum-attack-group-size 1)
 	(set-strategic-number sn-maximum-attack-group-size 1)
+	(set-strategic-number sn-number-boat-attack-groups 500)
+	(set-strategic-number sn-minimum-boat-attack-group-size 1)
+	(set-strategic-number sn-maximum-boat-attack-group-size 1)
 )
 
 (defrule
 	(timer-triggered 15)
 	(town-under-attack)
 	=>
-	(chat-local-to-self "-- AI: We are under attack! Defend! --")
+	(chat-local-to-self "--------------------------------------------------------------------------------------------------------------------")
+	(chat-local-to-self " We are under attack! Defend!")
 	(set-strategic-number sn-number-defend-groups 500)
 	(set-strategic-number sn-minimum-defend-group-size 1)
 	(set-strategic-number sn-maximum-defend-group-size 1)
+	(set-strategic-number sn-number-boat-defend-groups 500)
+	(set-strategic-number sn-minimum-boat-defend-group-size 1)
+	(set-strategic-number sn-maximum-boat-defend-group-size 1)
 	(up-retreat-now)
 )
 
@@ -4588,20 +5355,28 @@
 	(timer-triggered 15)
 	(enemy-captured-relics)
 	=>
-	(chat-local-to-self "-- AI: Relics have been captured! Attack! --")
+	(chat-local-to-self "--------------------------------------------------------------------------------------------------------------------")
+	(chat-local-to-self " Relics have been captured! Attack!")
 	(set-strategic-number sn-number-attack-groups 500)
 	(set-strategic-number sn-minimum-attack-group-size 1)
 	(set-strategic-number sn-maximum-attack-group-size 1)
+	(set-strategic-number sn-number-boat-attack-groups 500)
+	(set-strategic-number sn-minimum-boat-attack-group-size 1)
+	(set-strategic-number sn-maximum-boat-attack-group-size 1)
 )
 
 (defrule
 	(timer-triggered 15)
 	(building-type-count wonder >= 1)
 	=>
-	(chat-local-to-self "-- AI: We built a Wonder! Defend! --")
+	(chat-local-to-self "--------------------------------------------------------------------------------------------------------------------")
+	(chat-local-to-self " We built a Wonder! Defend!")
 	(set-strategic-number sn-number-defend-groups 500)
 	(set-strategic-number sn-minimum-defend-group-size 1)
 	(set-strategic-number sn-maximum-defend-group-size 1)
+	(set-strategic-number sn-number-boat-defend-groups 500)
+	(set-strategic-number sn-minimum-boat-defend-group-size 1)
+	(set-strategic-number sn-maximum-boat-defend-group-size 1)
 	(up-retreat-now)
 )
 
@@ -4609,20 +5384,28 @@
 	(timer-triggered 15)
 	(players-building-type-count any-enemy wonder >= 1)
 	=>
-	(chat-local-to-self "-- AI: Enemy built a Wonder! Attack! --")
+	(chat-local-to-self "--------------------------------------------------------------------------------------------------------------------")
+	(chat-local-to-self " Enemy built a Wonder! Attack!")
 	(set-strategic-number sn-number-attack-groups 500)
 	(set-strategic-number sn-minimum-attack-group-size 1)
 	(set-strategic-number sn-maximum-attack-group-size 1)
+	(set-strategic-number sn-number-boat-attack-groups 500)
+	(set-strategic-number sn-minimum-boat-attack-group-size 1)
+	(set-strategic-number sn-maximum-boat-attack-group-size 1)
 )
 
 (defrule
 	(timer-triggered 15)
 	(players-building-type-count any-enemy 826 >= 1) ; KotH Monument
 	=>
-	(chat-local-to-self "-- AI: Enemy captured the Monument! Attack! --")
+	(chat-local-to-self "--------------------------------------------------------------------------------------------------------------------")
+	(chat-local-to-self " Enemy captured the Monument! Attack!")
 	(set-strategic-number sn-number-attack-groups 500)
 	(set-strategic-number sn-minimum-attack-group-size 1)
 	(set-strategic-number sn-maximum-attack-group-size 1)
+	(set-strategic-number sn-number-boat-attack-groups 500)
+	(set-strategic-number sn-minimum-boat-attack-group-size 1)
+	(set-strategic-number sn-maximum-boat-attack-group-size 1)
 )
 
 (defrule
@@ -4631,1394 +5414,18 @@
 	(disable-timer 15)
 )
 
-; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-; (Priority 10) - Targeting
-; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-; Description: Experimental unit/building targeting... WIP...
-; 
-; Priority: We need to target building first... They only get in our way...
-; 
-; Priority: Target Wonders/Monasteries first... (game type)
-; 
-; Priority: Afterwords, target units...
-;
-; Priority: Target Kings first...
-;
-; Goal 1: (Found Target) 0 or 1. (boolean)
-;
-; Test Results: I may need to target units first... They seem to suicide too much focusing on buildings...
-;
-; Note: Reset any sn-special-attack-influence1 values if already set. (not sure if any set by default but, it may help...)
-; Note: I would love a for/while loop right about now...
-;
-; Test Results: Does not work as I intend... I am going to comment out for now...
-;
-; Test: I wonder if 32768 will fix it since that is max value. I was using 99999...
-;
-; Info: So, I found out about the types... type1 is relics, type2 is objects, and type3 is wonder... Much to update...
-; However, type2 influence doesn't work... So... I will do what I can...
-; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
 (defrule
-	(true)
+	(timer-triggered 16)
 	=>
-	(set-strategic-number sn-special-attack-type2 434) ; king
-	(set-strategic-number sn-special-attack-type2 trebuchet)
-	(set-strategic-number sn-special-attack-type2 42) ; packed treb
-	(set-strategic-number sn-special-attack-type2 bombard-cannon)
-	(set-strategic-number sn-special-attack-type2 mangonel)
-	(set-strategic-number sn-special-attack-type2 onager)
-	(set-strategic-number sn-special-attack-type2 siege-onager)
-	(disable-self)
-)
-
-(defrule
-	(true)
-	=>
-	(set-strategic-number sn-special-attack-type2 scorpion)
-	(set-strategic-number sn-special-attack-type2 heavy-scorpion)
-	(set-strategic-number sn-special-attack-type2 battering-ram)
-	(set-strategic-number sn-special-attack-type2 capped-ram)
-	(set-strategic-number sn-special-attack-type2 siege-ram)
-	(set-strategic-number sn-special-attack-type2 villager)
-	(set-strategic-number sn-special-attack-type2 monk)
-	(disable-self)
-)
-
-(defrule
-	(true)
-	=>
-	(set-strategic-number sn-special-attack-type2 missionary)
-	(set-strategic-number sn-special-attack-type2 trade-cart)
-	(set-strategic-number sn-special-attack-type2 trade-cog)
-	(set-strategic-number sn-special-attack-type2 fishing-ship)
-	(set-strategic-number sn-special-attack-type2 transport-ship)
-	(set-strategic-number sn-special-attack-type2 cannon-galleon)
-	(set-strategic-number sn-special-attack-type2 elite-cannon-galleon)
-	(disable-self)
-)
-
-(defrule
-	(true)
-	=>
-	(set-strategic-number sn-special-attack-type2 turtle-ship)
-	(set-strategic-number sn-special-attack-type2 elite-turtle-ship)
-	(set-strategic-number sn-special-attack-type2 archer)
-	(set-strategic-number sn-special-attack-type2 crossbowman)
-	(set-strategic-number sn-special-attack-type2 arbalest)
-	(set-strategic-number sn-special-attack-type2 skirmisher)
-	(set-strategic-number sn-special-attack-type2 elite-skirmisher)
-	(disable-self)
-)
-
-(defrule
-	(true)
-	=>
-	(set-strategic-number sn-special-attack-type2 cavalry-archer)
-	(set-strategic-number sn-special-attack-type2 heavy-cavalry-archer)
-	(set-strategic-number sn-special-attack-type2 hand-cannoneer)
-	(set-strategic-number sn-special-attack-type2 scout-cavalry)
-	(set-strategic-number sn-special-attack-type2 light-cavalry)
-	(set-strategic-number sn-special-attack-type2 hussar)
-	(set-strategic-number sn-special-attack-type2 knight)
-	(disable-self)
-)
-
-(defrule
-	(true)
-	=>
-	(set-strategic-number sn-special-attack-type2 cavalier)
-	(set-strategic-number sn-special-attack-type2 paladin)
-	(set-strategic-number sn-special-attack-type2 camel)
-	(set-strategic-number sn-special-attack-type2 heavy-camel)
-	(set-strategic-number sn-special-attack-type2 militiaman)
-	(set-strategic-number sn-special-attack-type2 man-at-arms)
-	(set-strategic-number sn-special-attack-type2 long-swordsman)
-	(disable-self)
-)
-
-(defrule
-	(true)
-	=>
-	(set-strategic-number sn-special-attack-type2 two-handed-swordsman)
-	(set-strategic-number sn-special-attack-type2 champion)
-	(set-strategic-number sn-special-attack-type2 spearman)
-	(set-strategic-number sn-special-attack-type2 pikeman)
-	(set-strategic-number sn-special-attack-type2 halberdier)
-	(set-strategic-number sn-special-attack-type2 eagle-warrior)
-	(set-strategic-number sn-special-attack-type2 elite-eagle-warrior)
-	(disable-self)
-)
-
-(defrule
-	(true)
-	=>
-	(set-strategic-number sn-special-attack-type2 725) ; jaguar warrior
-	(set-strategic-number sn-special-attack-type2 726) ; elite jaguar warrior
-	(set-strategic-number sn-special-attack-type2 longbowman)
-	(set-strategic-number sn-special-attack-type2 elite-longbowman)
-	(set-strategic-number sn-special-attack-type2 cataphract)
-	(set-strategic-number sn-special-attack-type2 elite-cataphract)
-	(set-strategic-number sn-special-attack-type2 woad-raider)
-	(disable-self)
-)
-
-(defrule
-	(true)
-	=>
-	(set-strategic-number sn-special-attack-type2 elite-woad-raider)
-	(set-strategic-number sn-special-attack-type2 chu-ko-nu)
-	(set-strategic-number sn-special-attack-type2 elite-chu-ko-nu)
-	(set-strategic-number sn-special-attack-type2 throwing-axeman)
-	(set-strategic-number sn-special-attack-type2 elite-throwing-axeman)
-	(set-strategic-number sn-special-attack-type2 huskarl)
-	(set-strategic-number sn-special-attack-type2 elite-huskarl)
-	(disable-self)
-)
-
-(defrule
-	(true)
-	=>
-	(set-strategic-number sn-special-attack-type2 tarkan)
-	(set-strategic-number sn-special-attack-type2 elite-tarkan)
-	(set-strategic-number sn-special-attack-type2 samurai)
-	(set-strategic-number sn-special-attack-type2 elite-samurai)
-	(set-strategic-number sn-special-attack-type2 war-wagon)
-	(set-strategic-number sn-special-attack-type2 elite-war-wagon)
-	(set-strategic-number sn-special-attack-type2 plumed-archer)
-	(disable-self)
-)
-
-(defrule
-	(true)
-	=>
-	(set-strategic-number sn-special-attack-type2 elite-plumed-archer)
-	(set-strategic-number sn-special-attack-type2 mangudai)
-	(set-strategic-number sn-special-attack-type2 elite-mangudai)
-	(set-strategic-number sn-special-attack-type2 war-elephant)
-	(set-strategic-number sn-special-attack-type2 elite-war-elephant)
-	(set-strategic-number sn-special-attack-type2 mameluke)
-	(set-strategic-number sn-special-attack-type2 elite-mameluke)
-	(disable-self)
-)
-
-(defrule
-	(true)
-	=>
-	(set-strategic-number sn-special-attack-type2 conquistador)
-	(set-strategic-number sn-special-attack-type2 elite-conquistador)
-	(set-strategic-number sn-special-attack-type2 teutonic-knight)
-	(set-strategic-number sn-special-attack-type2 elite-teutonic-knight)
-	(set-strategic-number sn-special-attack-type2 janissary)
-	(set-strategic-number sn-special-attack-type2 elite-janissary)
-	(set-strategic-number sn-special-attack-type2 berserk)
-	(disable-self)
-)
-
-(defrule
-	(true)
-	=>
-	(set-strategic-number sn-special-attack-type2 elite-berserk)
-	(set-strategic-number sn-special-attack-type2 petard)
-	(set-strategic-number sn-special-attack-type2 galley)
-	(set-strategic-number sn-special-attack-type2 war-galley)
-	(set-strategic-number sn-special-attack-type2 galleon)
-	(set-strategic-number sn-special-attack-type2 fire-ship)
-	(set-strategic-number sn-special-attack-type2 fast-fire-ship)
-	(disable-self)
-)
-
-(defrule
-	(true)
-	=>
-	(set-strategic-number sn-special-attack-type2 demolition-ship)
-	(set-strategic-number sn-special-attack-type2 heavy-demolition-ship)
-	(set-strategic-number sn-special-attack-type2 longboat)
-	(set-strategic-number sn-special-attack-type2 elite-longboat)
-	(disable-self)
-)
-
-(defrule
-	(true)
-	=>
-	(set-strategic-number sn-special-attack-type2 wonder)
-	(set-strategic-number sn-special-attack-type2 monastery)
-	(set-strategic-number sn-special-attack-type2 palisade-wall)
-	(set-strategic-number sn-special-attack-type2 stone-wall)
-	(set-strategic-number sn-special-attack-type2 fortified-wall)
-	(set-strategic-number sn-special-attack-type2 gate)
-	(set-strategic-number sn-special-attack-type2 castle)
-	(disable-self)
-)
-
-(defrule
-	(true)
-	=>
-	(set-strategic-number sn-special-attack-type2 watch-tower)
-	(set-strategic-number sn-special-attack-type2 guard-tower)
-	(set-strategic-number sn-special-attack-type2 keep)
-	(set-strategic-number sn-special-attack-type2 bombard-tower)
-	(set-strategic-number sn-special-attack-type2 outpost)
-	(set-strategic-number sn-special-attack-type2 town-center)
-	(set-strategic-number sn-special-attack-type2 house)
-	(disable-self)
-)
-
-(defrule
-	(true)
-	=>
-	(set-strategic-number sn-special-attack-type2 archery-range)
-	(set-strategic-number sn-special-attack-type2 barracks)
-	(set-strategic-number sn-special-attack-type2 stable)
-	(set-strategic-number sn-special-attack-type2 siege-workshop)
-	(set-strategic-number sn-special-attack-type2 lumber-camp)
-	(set-strategic-number sn-special-attack-type2 mill)
-	(set-strategic-number sn-special-attack-type2 mining-camp)
-	(disable-self)
-)
-
-(defrule
-	(true)
-	=>
-	(set-strategic-number sn-special-attack-type2 blacksmith)
-	(set-strategic-number sn-special-attack-type2 market)
-	(set-strategic-number sn-special-attack-type2 university)
-	(set-strategic-number sn-special-attack-type2 dock)
-	(set-strategic-number sn-special-attack-type2 826) ; KotH Monument
-	(disable-self)
-)
-
-(defrule
-	(true)
-	=>
-	(set-goal 1 0)
-	(chat-local-to-self "-- AI: Finding Target --")
-	(enable-timer 13 30)
-	(disable-self)
-)
-
-(defrule
-	(timer-triggered 13)
-	=>
-	(disable-timer 13)
-	(chat-local-to-self "-- AI: Finding New Target --")
-	(set-goal 1 0)
-	(enable-timer 13 30)
+	(disable-timer 16)
+	(chat-local-to-self "--------------------------------------------------------------------------------------------------------------------")
+	(chat-local-to-self " RANDOM RESET")
+	(set-goal gl-random-status 0)
+	(enable-timer 16 10)
 )
 
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-; Note: king is 434. (AI is bugged.)
-; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-(defrule
-	(players-unit-type-count any-enemy 434 >= 1)
-	(goal 1 0)
-	=>
-	(set-strategic-number sn-special-attack-type2 434)
-	(set-goal 1 1)
-	(chat-local-to-self "-- AI: Targeting King --")
-)
-
-; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-; Note: KotH Monument is 826. (AI is bugged.)
-; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-(defrule
-	(players-building-type-count any-enemy 826 >= 1)
-	(goal 1 0)
-	=>
-	(set-strategic-number sn-special-attack-type2 826)
-	(set-goal 1 1)
-	(chat-local-to-self "-- AI: Targeting KotH --")
-)
-
-(defrule
-	(players-building-type-count any-enemy wonder >= 1)
-	(goal 1 0)
-	=>
-	(set-strategic-number sn-special-attack-type2 wonder)
-	(set-strategic-number sn-special-attack-type3 1)
-	(set-goal 1 1)
-	(chat-local-to-self "-- AI: Targeting Wonder --")
-)
-
-(defrule
-	(players-building-type-count any-enemy monastery >= 1)
-	(goal 1 0)
-	=>
-	(set-strategic-number sn-special-attack-type2 monastery)
-	(set-strategic-number sn-special-attack-type1 1)
-	(set-goal 1 1)
-	(chat-local-to-self "-- AI: Targeting Monastery --")
-)
-
-(defrule
-	(players-unit-type-count any-enemy trebuchet >= 5)
-	(goal 1 0)
-	=>
-	(set-strategic-number sn-special-attack-type2 trebuchet)
-	(set-goal 1 1)
-	(chat-local-to-self "-- AI: Targeting Unpacked Trebuchet --")
-)
-
-; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-; Note: trebuchet packed is 42. (AI is bugged.)
-; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-(defrule
-	(players-unit-type-count any-enemy 42 >= 5)
-	(goal 1 0)
-	=>
-	(set-strategic-number sn-special-attack-type2 42)
-	(set-goal 1 1)
-	(chat-local-to-self "-- AI: Targeting Packed Trebuchet --")
-)
-
-(defrule
-	(players-unit-type-count any-enemy bombard-cannon >= 5)
-	(goal 1 0)
-	=>
-	(set-strategic-number sn-special-attack-type2 bombard-cannon)
-	(set-goal 1 1)
-	(chat-local-to-self "-- AI: Targeting Bombard Cannon --")
-)
-
-(defrule
-	(players-unit-type-count any-enemy mangonel >= 5)
-	(goal 1 0)
-	=>
-	(set-strategic-number sn-special-attack-type2 mangonel)
-	(set-goal 1 1)
-	(chat-local-to-self "-- AI: Targeting Mangonel --")
-)
-
-(defrule
-	(players-unit-type-count any-enemy onager >= 5)
-	(goal 1 0)
-	=>
-	(set-strategic-number sn-special-attack-type2 onager)
-	(set-goal 1 1)
-	(chat-local-to-self "-- AI: Targeting Onager --")
-)
-
-(defrule
-	(players-unit-type-count any-enemy siege-onager >= 5)
-	(goal 1 0)
-	=>
-	(set-strategic-number sn-special-attack-type2 siege-onager)
-	(set-goal 1 1)
-	(chat-local-to-self "-- AI: Targeting Siege Onager --")
-)
-
-(defrule
-	(players-unit-type-count any-enemy scorpion >= 5)
-	(goal 1 0)
-	=>
-	(set-strategic-number sn-special-attack-type2 scorpion)
-	(set-goal 1 1)
-	(chat-local-to-self "-- AI: Targeting Scorpion --")
-)
-
-(defrule
-	(players-unit-type-count any-enemy heavy-scorpion >= 5)
-	(goal 1 0)
-	=>
-	(set-strategic-number sn-special-attack-type2 heavy-scorpion)
-	(set-goal 1 1)
-	(chat-local-to-self "-- AI: Targeting Heavy Scorpion --")
-)
-
-(defrule
-	(players-unit-type-count any-enemy battering-ram >= 5)
-	(goal 1 0)
-	=>
-	(set-strategic-number sn-special-attack-type2 battering-ram)
-	(set-goal 1 1)
-	(chat-local-to-self "-- AI: Targeting Battering Ram --")
-)
-
-(defrule
-	(players-unit-type-count any-enemy capped-ram >= 5)
-	(goal 1 0)
-	=>
-	(set-strategic-number sn-special-attack-type2 capped-ram)
-	(set-goal 1 1)
-	(chat-local-to-self "-- AI: Targeting Capped Ram --")
-)
-
-(defrule
-	(players-unit-type-count any-enemy siege-ram >= 5)
-	(goal 1 0)
-	=>
-	(set-strategic-number sn-special-attack-type2 siege-ram)
-	(set-goal 1 1)
-	(chat-local-to-self "-- AI: Targeting Siege Ram --")
-)
-
-(defrule
-	(players-unit-type-count any-enemy villager >= 5)
-	(goal 1 0)
-	=>
-	(set-strategic-number sn-special-attack-type2 villager)
-	(set-goal 1 1)
-	(chat-local-to-self "-- AI: Targeting Villager --")
-)
-
-(defrule
-	(players-unit-type-count any-enemy monk >= 5)
-	(goal 1 0)
-	=>
-	(set-strategic-number sn-special-attack-type2 monk)
-	(set-goal 1 1)
-	(chat-local-to-self "-- AI: Targeting Monk --")
-)
-
-(defrule
-	(players-unit-type-count any-enemy missionary >= 5)
-	(goal 1 0)
-	=>
-	(set-strategic-number sn-special-attack-type2 missionary)
-	(set-goal 1 1)
-	(chat-local-to-self "-- AI: Targeting Missionary --")
-)
-
-(defrule
-	(players-unit-type-count any-enemy trade-cart >= 5)
-	(goal 1 0)
-	=>
-	(set-strategic-number sn-special-attack-type2 trade-cart)
-	(set-goal 1 1)
-	(chat-local-to-self "-- AI: Targeting Trade Cart --")
-)
-
-(defrule
-	(players-unit-type-count any-enemy trade-cog >= 5)
-	(goal 1 0)
-	=>
-	(set-strategic-number sn-special-attack-type2 trade-cog)
-	(set-goal 1 1)
-	(chat-local-to-self "-- AI: Targeting Trade Cog --")
-)
-
-(defrule
-	(players-unit-type-count any-enemy fishing-ship >= 5)
-	(goal 1 0)
-	=>
-	(set-strategic-number sn-special-attack-type2 fishing-ship)
-	(set-goal 1 1)
-	(chat-local-to-self "-- AI: Targeting Fishing Ship --")
-)
-
-(defrule
-	(players-unit-type-count any-enemy transport-ship >= 5)
-	(goal 1 0)
-	=>
-	(set-strategic-number sn-special-attack-type2 transport-ship)
-	(set-goal 1 1)
-	(chat-local-to-self "-- AI: Targeting Transport Ship --")
-)
-
-(defrule
-	(players-unit-type-count any-enemy cannon-galleon >= 5)
-	(goal 1 0)
-	=>
-	(set-strategic-number sn-special-attack-type2 cannon-galleon)
-	(set-goal 1 1)
-	(chat-local-to-self "-- AI: Targeting Cannon Galleon --")
-)
-
-(defrule
-	(players-unit-type-count any-enemy elite-cannon-galleon >= 5)
-	(goal 1 0)
-	=>
-	(set-strategic-number sn-special-attack-type2 elite-cannon-galleon)
-	(set-goal 1 1)
-	(chat-local-to-self "-- AI: Targeting Elite Cannon Galleon --")
-)
-
-(defrule
-	(players-unit-type-count any-enemy turtle-ship >= 5)
-	(goal 1 0)
-	=>
-	(set-strategic-number sn-special-attack-type2 turtle-ship)
-	(set-goal 1 1)
-	(chat-local-to-self "-- AI: Targeting Turtle Ship --")
-)
-
-(defrule
-	(players-unit-type-count any-enemy elite-turtle-ship >= 5)
-	(goal 1 0)
-	=>
-	(set-strategic-number sn-special-attack-type2 elite-turtle-ship)
-	(set-goal 1 1)
-	(chat-local-to-self "-- AI: Targeting Elite Turtle Ship --")
-)
-
-(defrule
-	(players-unit-type-count any-enemy archer >= 10)
-	(goal 1 0)
-	=>
-	(set-strategic-number sn-special-attack-type2 archer)
-	(set-goal 1 1)
-	(chat-local-to-self "-- AI: Targeting Archer --")
-)
-
-(defrule
-	(players-unit-type-count any-enemy crossbowman >= 10)
-	(goal 1 0)
-	=>
-	(set-strategic-number sn-special-attack-type2 crossbowman)
-	(set-goal 1 1)
-	(chat-local-to-self "-- AI: Targeting Crossbowman --")
-)
-
-(defrule
-	(players-unit-type-count any-enemy arbalest >= 10)
-	(goal 1 0)
-	=>
-	(set-strategic-number sn-special-attack-type2 arbalest)
-	(set-goal 1 1)
-	(chat-local-to-self "-- AI: Targeting Arbalest --")
-)
-
-(defrule
-	(players-unit-type-count any-enemy skirmisher >= 10)
-	(goal 1 0)
-	=>
-	(set-strategic-number sn-special-attack-type2 skirmisher)
-	(set-goal 1 1)
-	(chat-local-to-self "-- AI: Targeting Skirmisher --")
-)
-
-(defrule
-	(players-unit-type-count any-enemy elite-skirmisher >= 10)
-	(goal 1 0)
-	=>
-	(set-strategic-number sn-special-attack-type2 elite-skirmisher)
-	(set-goal 1 1)
-	(chat-local-to-self "-- AI: Targeting Elite Skirmisher --")
-)
-
-(defrule
-	(players-unit-type-count any-enemy cavalry-archer  >= 10)
-	(goal 1 0)
-	=>
-	(set-strategic-number sn-special-attack-type2 cavalry-archer)
-	(set-goal 1 1)
-	(chat-local-to-self "-- AI: Targeting Cavalry Archer --")
-)
-
-(defrule
-	(players-unit-type-count any-enemy heavy-cavalry-archer >= 10)
-	(goal 1 0)
-	=>
-	(set-strategic-number sn-special-attack-type2 heavy-cavalry-archer)
-	(set-goal 1 1)
-	(chat-local-to-self "-- AI: Targeting Heavy Cavalry Archer --")
-)
-
-(defrule
-	(players-unit-type-count any-enemy hand-cannoneer >= 10)
-	(goal 1 0)
-	=>
-	(set-strategic-number sn-special-attack-type2 hand-cannoneer)
-	(set-goal 1 1)
-	(chat-local-to-self "-- AI: Targeting Hand Cannoneer --")
-)
-
-(defrule
-	(players-unit-type-count any-enemy scout-cavalry >= 10)
-	(goal 1 0)
-	=>
-	(set-strategic-number sn-special-attack-type2 scout-cavalry)
-	(set-goal 1 1)
-	(chat-local-to-self "-- AI: Targeting Scout Cavalry --")
-)
-
-(defrule
-	(players-unit-type-count any-enemy light-cavalry >= 10)
-	(goal 1 0)
-	=>
-	(set-strategic-number sn-special-attack-type2 light-cavalry)
-	(set-goal 1 1)
-	(chat-local-to-self "-- AI: Targeting Light Cavalry --")
-)
-
-(defrule
-	(players-unit-type-count any-enemy hussar >= 10)
-	(goal 1 0)
-	=>
-	(set-strategic-number sn-special-attack-type2 hussar)
-	(set-goal 1 1)
-	(chat-local-to-self "-- AI: Targeting Hussar --")
-)
-
-(defrule
-	(players-unit-type-count any-enemy knight >= 10)
-	(goal 1 0)
-	=>
-	(set-strategic-number sn-special-attack-type2 knight)
-	(set-goal 1 1)
-	(chat-local-to-self "-- AI: Targeting Knight --")
-)
-
-(defrule
-	(players-unit-type-count any-enemy cavalier >= 10)
-	(goal 1 0)
-	=>
-	(set-strategic-number sn-special-attack-type2 cavalier)
-	(set-goal 1 1)
-	(chat-local-to-self "-- AI: Targeting Cavalier --")
-)
-
-(defrule
-	(players-unit-type-count any-enemy paladin >= 10)
-	(goal 1 0)
-	=>
-	(set-strategic-number sn-special-attack-type2 paladin)
-	(set-goal 1 1)
-	(chat-local-to-self "-- AI: Targeting Paladin --")
-)
-
-(defrule
-	(players-unit-type-count any-enemy camel >= 10)
-	(goal 1 0)
-	=>
-	(set-strategic-number sn-special-attack-type2 camel)
-	(set-goal 1 1)
-	(chat-local-to-self "-- AI: Targeting Camel --")
-)
-
-(defrule
-	(players-unit-type-count any-enemy heavy-camel >= 10)
-	(goal 1 0)
-	=>
-	(set-strategic-number sn-special-attack-type2 heavy-camel)
-	(set-goal 1 1)
-	(chat-local-to-self "-- AI: Targeting Heavy Camel --")
-)
-
-(defrule
-	(players-unit-type-count any-enemy militiaman >= 10)
-	(goal 1 0)
-	=>
-	(set-strategic-number sn-special-attack-type2 militiaman)
-	(set-goal 1 1)
-	(chat-local-to-self "-- AI: Targeting Militia --")
-)
-
-(defrule
-	(players-unit-type-count any-enemy man-at-arms >= 10)
-	(goal 1 0)
-	=>
-	(set-strategic-number sn-special-attack-type2 man-at-arms)
-	(set-goal 1 1)
-	(chat-local-to-self "-- AI: Targeting Men-At-Arms --")
-)
-
-(defrule
-	(players-unit-type-count any-enemy long-swordsman >= 10)
-	(goal 1 0)
-	=>
-	(set-strategic-number sn-special-attack-type2 long-swordsman)
-	(set-goal 1 1)
-	(chat-local-to-self "-- AI: Targeting Long Swordsman --")
-)
-
-(defrule
-	(players-unit-type-count any-enemy two-handed-swordsman >= 10)
-	(goal 1 0)
-	=>
-	(set-strategic-number sn-special-attack-type2 two-handed-swordsman)
-	(set-goal 1 1)
-	(chat-local-to-self "-- AI: Targeting Two-Handed Swordsman --")
-)
-
-(defrule
-	(players-unit-type-count any-enemy champion >= 10)
-	(goal 1 0)
-	=>
-	(set-strategic-number sn-special-attack-type2 champion)
-	(set-goal 1 1)
-	(chat-local-to-self "-- AI: Targeting Champion --")
-)
-
-(defrule
-	(players-unit-type-count any-enemy spearman >= 10)
-	(goal 1 0)
-	=>
-	(set-strategic-number sn-special-attack-type2 spearman)
-	(set-goal 1 1)
-	(chat-local-to-self "-- AI: Targeting Spearman --")
-)
-
-(defrule
-	(players-unit-type-count any-enemy pikeman >= 10)
-	(goal 1 0)
-	=>
-	(set-strategic-number sn-special-attack-type2 pikeman)
-	(set-goal 1 1)
-	(chat-local-to-self "-- AI: Targeting Pikeman --")
-)
-
-(defrule
-	(players-unit-type-count any-enemy halberdier >= 10)
-	(goal 1 0)
-	=>
-	(set-strategic-number sn-special-attack-type2 halberdier)
-	(set-goal 1 1)
-	(chat-local-to-self "-- AI: Targeting Halberdier --")
-)
-
-(defrule
-	(players-unit-type-count any-enemy eagle-warrior >= 10)
-	(goal 1 0)
-	=>
-	(set-strategic-number sn-special-attack-type2 eagle-warrior)
-	(set-goal 1 1)
-	(chat-local-to-self "-- AI: Targeting Eagle Warrior --")
-)
-
-(defrule
-	(players-unit-type-count any-enemy elite-eagle-warrior >= 10)
-	(goal 1 0)
-	=>
-	(set-strategic-number sn-special-attack-type2 elite-eagle-warrior)
-	(set-goal 1 1)
-	(chat-local-to-self "-- AI: Targeting Elite Eagle Warrior --")
-)
-
-; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-; Note: jaguar-warrior is 725. (AI is bugged.)
-; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-(defrule
-	(players-unit-type-count any-enemy 725 >= 10)
-	(goal 1 0)
-	=>
-	(set-strategic-number sn-special-attack-type2 725)
-	(set-goal 1 1)
-	(chat-local-to-self "-- AI: Targeting Jaguar Warrior --")
-)
-
-; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-; Note: elite-jaguar-warrior is 726. (AI is bugged.)
-; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-(defrule
-	(players-unit-type-count any-enemy 726 >= 10)
-	(goal 1 0)
-	=>
-	(set-strategic-number sn-special-attack-type2 726)
-	(set-goal 1 1)
-	(chat-local-to-self "-- AI: Targeting Elite Jaguar Warrior --")
-)
-
-(defrule
-	(players-unit-type-count any-enemy longbowman >= 10)
-	(goal 1 0)
-	=>
-	(set-strategic-number sn-special-attack-type2 longbowman)
-	(set-goal 1 1)
-	(chat-local-to-self "-- AI: Targeting Longbowman --")
-)
-
-(defrule
-	(players-unit-type-count any-enemy elite-longbowman >= 10)
-	(goal 1 0)
-	=>
-	(set-strategic-number sn-special-attack-type2 elite-longbowman)
-	(set-goal 1 1)
-	(chat-local-to-self "-- AI: Targeting Elite Longbowman --")
-)
-
-(defrule
-	(players-unit-type-count any-enemy cataphract >= 10)
-	(goal 1 0)
-	=>
-	(set-strategic-number sn-special-attack-type2 cataphract)
-	(set-goal 1 1)
-	(chat-local-to-self "-- AI: Targeting Cataphract --")
-)
-
-(defrule
-	(players-unit-type-count any-enemy elite-cataphract >= 10)
-	(goal 1 0)
-	=>
-	(set-strategic-number sn-special-attack-type2 elite-cataphract)
-	(set-goal 1 1)
-	(chat-local-to-self "-- AI: Targeting Elite Cataphract --")
-)
-
-(defrule
-	(players-unit-type-count any-enemy woad-raider >= 10)
-	(goal 1 0)
-	=>
-	(set-strategic-number sn-special-attack-type2 woad-raider)
-	(set-goal 1 1)
-	(chat-local-to-self "-- AI: Targeting Woad Raider --")
-)
-
-(defrule
-	(players-unit-type-count any-enemy elite-woad-raider >= 10)
-	(goal 1 0)
-	=>
-	(set-strategic-number sn-special-attack-type2 elite-woad-raider)
-	(set-goal 1 1)
-	(chat-local-to-self "-- AI: Targeting Elite Woad Raider --")
-)
-
-(defrule
-	(players-unit-type-count any-enemy chu-ko-nu >= 10)
-	(goal 1 0)
-	=>
-	(set-strategic-number sn-special-attack-type2 chu-ko-nu)
-	(set-goal 1 1)
-	(chat-local-to-self "-- AI: Targeting Chu Ko Nu --")
-)
-
-(defrule
-	(players-unit-type-count any-enemy elite-chu-ko-nu >= 10)
-	(goal 1 0)
-	=>
-	(set-strategic-number sn-special-attack-type2 elite-chu-ko-nu)
-	(set-goal 1 1)
-	(chat-local-to-self "-- AI: Targeting Elite Chu Ko Nu --")
-)
-
-(defrule
-	(players-unit-type-count any-enemy throwing-axeman >= 10)
-	(goal 1 0)
-	=>
-	(set-strategic-number sn-special-attack-type2 throwing-axeman)
-	(set-goal 1 1)
-	(chat-local-to-self "-- AI: Targeting Throwing Axeman --")
-)
-
-(defrule
-	(players-unit-type-count any-enemy elite-throwing-axeman >= 10)
-	(goal 1 0)
-	=>
-	(set-strategic-number sn-special-attack-type2 elite-throwing-axeman)
-	(set-goal 1 1)
-	(chat-local-to-self "-- AI: Targeting Elite Throwing Axeman --")
-)
-
-(defrule
-	(players-unit-type-count any-enemy huskarl >= 10)
-	(goal 1 0)
-	=>
-	(set-strategic-number sn-special-attack-type2 huskarl)
-	(set-goal 1 1)
-	(chat-local-to-self "-- AI: Targeting Huskarl --")
-)
-
-(defrule
-	(players-unit-type-count any-enemy elite-huskarl >= 10)
-	(goal 1 0)
-	=>
-	(set-strategic-number sn-special-attack-type2 elite-huskarl)
-	(set-goal 1 1)
-	(chat-local-to-self "-- AI: Targeting Elite Huskarl --")
-)
-
-(defrule
-	(players-unit-type-count any-enemy tarkan >= 10)
-	(goal 1 0)
-	=>
-	(set-strategic-number sn-special-attack-type2 tarkan)
-	(set-goal 1 1)
-	(chat-local-to-self "-- AI: Targeting Tarkan --")
-)
-
-(defrule
-	(players-unit-type-count any-enemy elite-tarkan >= 10)
-	(goal 1 0)
-	=>
-	(set-strategic-number sn-special-attack-type2 elite-tarkan)
-	(set-goal 1 1)
-	(chat-local-to-self "-- AI: Targeting Elite Tarkan --")
-)
-
-(defrule
-	(players-unit-type-count any-enemy samurai >= 10)
-	(goal 1 0)
-	=>
-	(set-strategic-number sn-special-attack-type2 samurai)
-	(set-goal 1 1)
-	(chat-local-to-self "-- AI: Targeting Samurai --")
-)
-
-(defrule
-	(players-unit-type-count any-enemy elite-samurai >= 10)
-	(goal 1 0)
-	=>
-	(set-strategic-number sn-special-attack-type2 elite-samurai)
-	(set-goal 1 1)
-	(chat-local-to-self "-- AI: Targeting Elite Samurai --")
-)
-
-(defrule
-	(players-unit-type-count any-enemy war-wagon >= 10)
-	(goal 1 0)
-	=>
-	(set-strategic-number sn-special-attack-type2 war-wagon)
-	(set-goal 1 1)
-	(chat-local-to-self "-- AI: Targeting War Wagon --")
-)
-
-(defrule
-	(players-unit-type-count any-enemy elite-war-wagon >= 10)
-	(goal 1 0)
-	=>
-	(set-strategic-number sn-special-attack-type2 elite-war-wagon)
-	(set-goal 1 1)
-	(chat-local-to-self "-- AI: Targeting Elite War Wagon --")
-)
-
-(defrule
-	(players-unit-type-count any-enemy plumed-archer >= 10)
-	(goal 1 0)
-	=>
-	(set-strategic-number sn-special-attack-type2 plumed-archer)
-	(set-goal 1 1)
-	(chat-local-to-self "-- AI: Targeting Plumed Archer --")
-)
-
-(defrule
-	(players-unit-type-count any-enemy elite-plumed-archer >= 10)
-	(goal 1 0)
-	=>
-	(set-strategic-number sn-special-attack-type2 elite-plumed-archer)
-	(set-goal 1 1)
-	(chat-local-to-self "-- AI: Targeting Elite Plumed Archer --")
-)
-
-(defrule
-	(players-unit-type-count any-enemy mangudai >= 10)
-	(goal 1 0)
-	=>
-	(set-strategic-number sn-special-attack-type2 mangudai)
-	(set-goal 1 1)
-	(chat-local-to-self "-- AI: Targeting Mangudai --")
-)
-
-(defrule
-	(players-unit-type-count any-enemy elite-mangudai >= 10)
-	(goal 1 0)
-	=>
-	(set-strategic-number sn-special-attack-type2 elite-mangudai)
-	(set-goal 1 1)
-	(chat-local-to-self "-- AI: Targeting Mangudai --")
-)
-
-(defrule
-	(players-unit-type-count any-enemy war-elephant >= 10)
-	(goal 1 0)
-	=>
-	(set-strategic-number sn-special-attack-type2 war-elephant)
-	(set-goal 1 1)
-	(chat-local-to-self "-- AI: Targeting War Elephant --")
-)
-
-(defrule
-	(players-unit-type-count any-enemy elite-war-elephant >= 10)
-	(goal 1 0)
-	=>
-	(set-strategic-number sn-special-attack-type2 elite-war-elephant)
-	(set-goal 1 1)
-	(chat-local-to-self "-- AI: Targeting Elite War Elephant --")
-)
-
-(defrule
-	(players-unit-type-count any-enemy mameluke >= 10)
-	(goal 1 0)
-	=>
-	(set-strategic-number sn-special-attack-type2 mameluke)
-	(set-goal 1 1)
-	(chat-local-to-self "-- AI: Targeting Mameluke --")
-)
-
-(defrule
-	(players-unit-type-count any-enemy elite-mameluke >= 10)
-	(goal 1 0)
-	=>
-	(set-strategic-number sn-special-attack-type2 elite-mameluke)
-	(set-goal 1 1)
-	(chat-local-to-self "-- AI: Targeting Elite Mameluke --")
-)
-
-(defrule
-	(players-unit-type-count any-enemy conquistador >= 10)
-	(goal 1 0)
-	=>
-	(set-strategic-number sn-special-attack-type2 conquistador)
-	(set-goal 1 1)
-	(chat-local-to-self "-- AI: Targeting Conquistador --")
-)
-
-(defrule
-	(players-unit-type-count any-enemy elite-conquistador >= 10)
-	(goal 1 0)
-	=>
-	(set-strategic-number sn-special-attack-type2 elite-conquistador)
-	(set-goal 1 1)
-	(chat-local-to-self "-- AI: Targeting Elite Conquistador --")
-)
-
-(defrule
-	(players-unit-type-count any-enemy teutonic-knight >= 10)
-	(goal 1 0)
-	=>
-	(set-strategic-number sn-special-attack-type2 teutonic-knight)
-	(set-goal 1 1)
-	(chat-local-to-self "-- AI: Targeting Teutonic Knight --")
-)
-
-(defrule
-	(players-unit-type-count any-enemy elite-teutonic-knight >= 10)
-	(goal 1 0)
-	=>
-	(set-strategic-number sn-special-attack-type2 elite-teutonic-knight)
-	(set-goal 1 1)
-	(chat-local-to-self "-- AI: Targeting Elite Teutonic Knight --")
-)
-
-(defrule
-	(players-unit-type-count any-enemy janissary >= 10)
-	(goal 1 0)
-	=>
-	(set-strategic-number sn-special-attack-type2 janissary)
-	(set-goal 1 1)
-	(chat-local-to-self "-- AI: Targeting Janissary --")
-)
-
-(defrule
-	(players-unit-type-count any-enemy elite-janissary >= 10)
-	(goal 1 0)
-	=>
-	(set-strategic-number sn-special-attack-type2 elite-janissary)
-	(set-goal 1 1)
-	(chat-local-to-self "-- AI: Targeting Elite Janissary --")
-)
-
-(defrule
-	(players-unit-type-count any-enemy berserk >= 10)
-	(goal 1 0)
-	=>
-	(set-strategic-number sn-special-attack-type2 berserk)
-	(set-goal 1 1)
-	(chat-local-to-self "-- AI: Targeting Berserk --")
-)
-
-(defrule
-	(players-unit-type-count any-enemy elite-berserk >= 10)
-	(goal 1 0)
-	=>
-	(set-strategic-number sn-special-attack-type2 elite-berserk)
-	(set-goal 1 1)
-	(chat-local-to-self "-- AI: Targeting Elite Berserk --")
-)
-
-(defrule
-	(players-unit-type-count any-enemy petard >= 10)
-	(goal 1 0)
-	=>
-	(set-strategic-number sn-special-attack-type2 petard)
-	(set-goal 1 1)
-	(chat-local-to-self "-- AI: Targeting Petard --")
-)
-
-(defrule
-	(players-unit-type-count any-enemy galley >= 10)
-	(goal 1 0)
-	=>
-	(set-strategic-number sn-special-attack-type2 galley)
-	(set-goal 1 1)
-	(chat-local-to-self "-- AI: Targeting Galley --")
-)
-
-(defrule
-	(players-unit-type-count any-enemy war-galley >= 10)
-	(goal 1 0)
-	=>
-	(set-strategic-number sn-special-attack-type2 war-galley)
-	(set-goal 1 1)
-	(chat-local-to-self "-- AI: Targeting War Galley --")
-)
-
-(defrule
-	(players-unit-type-count any-enemy galleon >= 10)
-	(goal 1 0)
-	=>
-	(set-strategic-number sn-special-attack-type2 galleon)
-	(set-goal 1 1)
-	(chat-local-to-self "-- AI: Targeting Galleon --")
-)
-
-(defrule
-	(players-unit-type-count any-enemy fire-ship >= 10)
-	(goal 1 0)
-	=>
-	(set-strategic-number sn-special-attack-type2 fire-ship)
-	(set-goal 1 1)
-	(chat-local-to-self "-- AI: Targeting Fire Ship --")
-)
-
-(defrule
-	(players-unit-type-count any-enemy fast-fire-ship >= 10)
-	(goal 1 0)
-	=>
-	(set-strategic-number sn-special-attack-type2 fast-fire-ship)
-	(set-goal 1 1)
-	(chat-local-to-self "-- AI: Targeting Fast Fire Ship --")
-)
-
-(defrule
-	(players-unit-type-count any-enemy demolition-ship >= 10)
-	(goal 1 0)
-	=>
-	(set-strategic-number sn-special-attack-type2 demolition-ship)
-	(set-goal 1 1)
-	(chat-local-to-self "-- AI: Targeting Demolition Ship --")
-)
-
-(defrule
-	(players-unit-type-count any-enemy heavy-demolition-ship >= 10)
-	(goal 1 0)
-	=>
-	(set-strategic-number sn-special-attack-type2 heavy-demolition-ship)
-	(set-goal 1 1)
-	(chat-local-to-self "-- AI: Targeting Heavy Demolition Ship --")
-)
-
-(defrule
-	(players-unit-type-count any-enemy longboat >= 10)
-	(goal 1 0)
-	=>
-	(set-strategic-number sn-special-attack-type2 longboat)
-	(set-goal 1 1)
-	(chat-local-to-self "-- AI: Targeting Longboat --")
-)
-
-(defrule
-	(players-unit-type-count any-enemy elite-longboat >= 10)
-	(goal 1 0)
-	=>
-	(set-strategic-number sn-special-attack-type2 elite-longboat)
-	(set-goal 1 1)
-	(chat-local-to-self "-- AI: Targeting Elite Longboat --")
-)
-
-(defrule
-	(players-building-type-count any-enemy palisade-wall >= 10)
-	(goal 1 0)
-	=>
-	(set-strategic-number sn-special-attack-type2 palisade-wall)
-	(set-goal 1 1)
-	(chat-local-to-self "-- AI: Targeting Palisade Wall --")
-)
-
-(defrule
-	(players-building-type-count any-enemy stone-wall >= 10)
-	(goal 1 0)
-	=>
-	(set-strategic-number sn-special-attack-type2 stone-wall)
-	(set-goal 1 1)
-	(chat-local-to-self "-- AI: Targeting Stone Wall --")
-)
-
-(defrule
-	(players-building-type-count any-enemy fortified-wall >= 10)
-	(goal 1 0)
-	=>
-	(set-strategic-number sn-special-attack-type2 fortified-wall)
-	(set-goal 1 1)
-	(chat-local-to-self "-- AI: Targeting Fortified Wall --")
-)
-
-(defrule
-	(players-building-type-count any-enemy gate >= 1)
-	(goal 1 0)
-	=>
-	(set-strategic-number sn-special-attack-type2 gate)
-	(set-goal 1 1)
-	(chat-local-to-self "-- AI: Targeting Gate --")
-)
-
-(defrule
-	(players-building-type-count any-enemy castle >= 1)
-	(goal 1 0)
-	=>
-	(set-strategic-number sn-special-attack-type2 castle)
-	(set-goal 1 1)
-	(chat-local-to-self "-- AI: Targeting Castle --")
-)
-
-(defrule
-	(players-building-type-count any-enemy watch-tower >= 1)
-	(goal 1 0)
-	=>
-	(set-strategic-number sn-special-attack-type2 watch-tower)
-	(set-goal 1 1)
-	(chat-local-to-self "-- AI: Targeting Watch Tower --")
-)
-
-(defrule
-	(players-building-type-count any-enemy guard-tower >= 1)
-	(goal 1 0)
-	=>
-	(set-strategic-number sn-special-attack-type2 guard-tower)
-	(set-goal 1 1)
-	(chat-local-to-self "-- AI: Targeting Guard Tower --")
-)
-
-(defrule
-	(players-building-type-count any-enemy keep >= 1)
-	(goal 1 0)
-	=>
-	(set-strategic-number sn-special-attack-type2 keep)
-	(set-goal 1 1)
-	(chat-local-to-self "-- AI: Targeting Keep --")
-)
-
-(defrule
-	(players-building-type-count any-enemy bombard-tower >= 1)
-	(goal 1 0)
-	=>
-	(set-strategic-number sn-special-attack-type2 bombard-tower)
-	(set-goal 1 1)
-	(chat-local-to-self "-- AI: Targeting Bombard Tower --")
-)
-
-(defrule
-	(players-building-type-count any-enemy outpost >= 2)
-	(goal 1 0)
-	=>
-	(set-strategic-number sn-special-attack-type2 outpost)
-	(set-goal 1 1)
-	(chat-local-to-self "-- AI: Targeting Outpost --")
-)
-
-(defrule
-	(players-building-type-count any-enemy town-center >= 1)
-	(goal 1 0)
-	=>
-	(set-strategic-number sn-special-attack-type2 town-center)
-	(set-goal 1 1)
-	(chat-local-to-self "-- AI: Targeting Town Center --")
-)
-
-(defrule
-	(players-building-type-count any-enemy house >= 5)
-	(goal 1 0)
-	=>
-	(set-strategic-number sn-special-attack-type2 house)
-	(set-goal 1 1)
-	(chat-local-to-self "-- AI: Targeting House --")
-)
-
-(defrule
-	(players-building-type-count any-enemy archery-range >= 1)
-	(goal 1 0)
-	=>
-	(set-strategic-number sn-special-attack-type2 archery-range)
-	(set-goal 1 1)
-	(chat-local-to-self "-- AI: Targeting Archery Range --")
-)
-
-(defrule
-	(players-building-type-count any-enemy barracks >= 1)
-	(goal 1 0)
-	=>
-	(set-strategic-number sn-special-attack-type2 barracks)
-	(set-goal 1 1)
-	(chat-local-to-self "-- AI: Targeting Barracks --")
-)
-
-(defrule
-	(players-building-type-count any-enemy stable >= 1)
-	(goal 1 0)
-	=>
-	(set-strategic-number sn-special-attack-type2 stable)
-	(set-goal 1 1)
-	(chat-local-to-self "-- AI: Targeting Stable --")
-)
-
-(defrule
-	(players-building-type-count any-enemy siege-workshop >= 1)
-	(goal 1 0)
-	=>
-	(set-strategic-number sn-special-attack-type2 siege-workshop)
-	(set-goal 1 1)
-	(chat-local-to-self "-- AI: Targeting Siege Workshop --")
-)
-
-(defrule
-	(players-building-type-count any-enemy lumber-camp >= 5)
-	(goal 1 0)
-	=>
-	(set-strategic-number sn-special-attack-type2 lumber-camp)
-	(set-goal 1 1)
-	(chat-local-to-self "-- AI: Targeting Lumber Camp --")
-)
-
-(defrule
-	(players-building-type-count any-enemy mill >= 2)
-	(goal 1 0)
-	=>
-	(set-strategic-number sn-special-attack-type2 mill)
-	(set-goal 1 1)
-	(chat-local-to-self "-- AI: Targeting Mill --")
-)
-
-(defrule
-	(players-building-type-count any-enemy mining-camp >= 3)
-	(goal 1 0)
-	=>
-	(set-strategic-number sn-special-attack-type2 mining-camp)
-	(set-goal 1 1)
-	(chat-local-to-self "-- AI: Targeting Mining Camp --")
-)
-
-(defrule
-	(players-building-type-count any-enemy blacksmith >= 1)
-	(goal 1 0)
-	=>
-	(set-strategic-number sn-special-attack-type2 blacksmith)
-	(set-goal 1 1)
-	(chat-local-to-self "-- AI: Targeting Blacksmith --")
-)
-
-(defrule
-	(players-building-type-count any-enemy market >= 1)
-	(goal 1 0)
-	=>
-	(set-strategic-number sn-special-attack-type2 market)
-	(set-goal 1 1)
-	(chat-local-to-self "-- AI: Targeting Market --")
-)
-
-(defrule
-	(players-building-type-count any-enemy university >= 1)
-	(goal 1 0)
-	=>
-	(set-strategic-number sn-special-attack-type2 university)
-	(set-goal 1 1)
-	(chat-local-to-self "-- AI: Targeting University --")
-)
-
-(defrule
-	(players-building-type-count any-enemy dock >= 1)
-	(goal 1 0)
-	=>
-	(set-strategic-number sn-special-attack-type2 dock)
-	(set-goal 1 1)
-	(chat-local-to-self "-- AI: Targeting Dock --")
-)
-
-; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-; (Priority 11) - Resign
+; (Priority 10) - Resign
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ; Description: Only resign if it's pointless to continue.
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -6031,8 +5438,8 @@
 	(unit-type-count-total villager < 1)
 	(unit-type-count-total 434 < 1)
 	=>
-	(chat-to-all "My empire is destroyed! ...I shall resign.")
-	(chat-local-to-self "-- AI: Resigned --")
+	(chat-local-to-self "--------------------------------------------------------------------------------------------------------------------")
+	(chat-local-to-self " Pointless to continue. Resign.")
 	(resign)
 	(disable-self)
 )
