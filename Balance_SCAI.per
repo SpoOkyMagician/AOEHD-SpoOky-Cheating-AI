@@ -1,5 +1,5 @@
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-; SpoOky Cheating AI Balance V 5.3
+; SpoOky Cheating AI Balance V 5.4
 ; Created By: SpoOkyMagician
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ; Description: This AI plays any land based map. (Making good water map AI's is tough/annoying.) It can play on Land Nomad but, it has issues at times trying to build a starting town center. (You have been warned.)
@@ -14,6 +14,12 @@
 ; Update: Now checks for expansion units/techs.
 ;
 ; Update: Training was updated. Also, AI now builds walls/gates.
+;
+; Update: I fixed the counter training for ships and swapped counter/goal training units. It makes more sense to counter before training preferred units.
+;
+; Update: In multiple building, I decided to remove camps/mills. I do know they are important buildings but I don't need to check for them there. They screw up building anyhow.
+;
+; Update: In the special case of a DM/Standard Victory, let's not build a wonder until later...
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -113,7 +119,7 @@
 	(true)
 	=>
 	(chat-local-to-self "--------------------------------------------------------------------------------------------------------------------")
-	(chat-local-to-self " SpoOky Cheating AI Balance (Version 5.3)")
+	(chat-local-to-self " SpoOky Cheating AI Balance (Version 5.4)")
 	(chat-local-to-self " Created by: SpoOkyMagician")
 	(disable-self)
 )
@@ -3194,9 +3200,6 @@
 
 (defrule
 	(current-age == feudal-age)
-	(building-type-count mill >= 1)
-	(building-type-count lumber-camp >= 1)
-	(building-type-count mining-camp >= 1)
 	(building-type-count barracks >= 1)
 	(building-type-count archery-range >= 1)
 	(building-type-count blacksmith >= 1)
@@ -3211,9 +3214,6 @@
 
 (defrule
 	(current-age == feudal-age)
-	(building-type-count mill >= 1)
-	(building-type-count lumber-camp >= 1)
-	(building-type-count mining-camp >= 1)
 	(building-type-count barracks >= 1)
 	(building-type-count archery-range >= 1)
 	(building-type-count blacksmith >= 1)
@@ -3228,9 +3228,6 @@
 
 (defrule
 	(current-age == feudal-age)
-	(building-type-count mill >= 1)
-	(building-type-count lumber-camp >= 1)
-	(building-type-count mining-camp >= 1)
 	(building-type-count barracks >= 1)
 	(building-type-count archery-range >= 1)
 	(building-type-count blacksmith >= 1)
@@ -3245,9 +3242,6 @@
 
 (defrule
 	(current-age == feudal-age)
-	(building-type-count mill >= 1)
-	(building-type-count lumber-camp >= 1)
-	(building-type-count mining-camp >= 1)
 	(building-type-count barracks >= 1)
 	(building-type-count archery-range >= 1)
 	(building-type-count blacksmith >= 1)
@@ -3262,9 +3256,6 @@
 
 (defrule
 	(current-age == feudal-age)
-	(building-type-count mill >= 1)
-	(building-type-count lumber-camp >= 1)
-	(building-type-count mining-camp >= 1)
 	(building-type-count barracks >= 1)
 	(building-type-count archery-range >= 1)
 	(building-type-count blacksmith >= 1)
@@ -3346,9 +3337,6 @@
 
 (defrule
 	(current-age == castle-age)
-	(building-type-count mill >= 1)
-	(building-type-count lumber-camp >= 1)
-	(building-type-count mining-camp >= 1)
 	(building-type-count barracks >= 1)
 	(building-type-count archery-range >= 1)
 	(building-type-count blacksmith >= 1)
@@ -3367,9 +3355,6 @@
 
 (defrule
 	(current-age == castle-age)
-	(building-type-count mill >= 1)
-	(building-type-count lumber-camp >= 1)
-	(building-type-count mining-camp >= 1)
 	(building-type-count barracks >= 1)
 	(building-type-count archery-range >= 1)
 	(building-type-count blacksmith >= 1)
@@ -3388,9 +3373,6 @@
 
 (defrule
 	(current-age == castle-age)
-	(building-type-count mill >= 1)
-	(building-type-count lumber-camp >= 1)
-	(building-type-count mining-camp >= 1)
 	(building-type-count barracks >= 1)
 	(building-type-count archery-range >= 1)
 	(building-type-count blacksmith >= 1)
@@ -3409,9 +3391,6 @@
 
 (defrule
 	(current-age == castle-age)
-	(building-type-count mill >= 1)
-	(building-type-count lumber-camp >= 1)
-	(building-type-count mining-camp >= 1)
 	(building-type-count barracks >= 1)
 	(building-type-count archery-range >= 1)
 	(building-type-count blacksmith >= 1)
@@ -3430,9 +3409,6 @@
 
 (defrule
 	(current-age == castle-age)
-	(building-type-count mill >= 1)
-	(building-type-count lumber-camp >= 1)
-	(building-type-count mining-camp >= 1)
 	(building-type-count barracks >= 1)
 	(building-type-count archery-range >= 1)
 	(building-type-count blacksmith >= 1)
@@ -3451,9 +3427,6 @@
 
 (defrule
 	(current-age == castle-age)
-	(building-type-count mill >= 1)
-	(building-type-count lumber-camp >= 1)
-	(building-type-count mining-camp >= 1)
 	(building-type-count barracks >= 1)
 	(building-type-count archery-range >= 1)
 	(building-type-count blacksmith >= 1)
@@ -3472,9 +3445,6 @@
 
 (defrule
 	(current-age == castle-age)
-	(building-type-count mill >= 1)
-	(building-type-count lumber-camp >= 1)
-	(building-type-count mining-camp >= 1)
 	(building-type-count barracks >= 1)
 	(building-type-count archery-range >= 1)
 	(building-type-count blacksmith >= 1)
@@ -3493,9 +3463,6 @@
 
 (defrule
 	(current-age == castle-age)
-	(building-type-count mill >= 1)
-	(building-type-count lumber-camp >= 1)
-	(building-type-count mining-camp >= 1)
 	(building-type-count barracks >= 1)
 	(building-type-count archery-range >= 1)
 	(building-type-count blacksmith >= 1)
@@ -3514,9 +3481,6 @@
 
 (defrule
 	(current-age == castle-age)
-	(building-type-count mill >= 1)
-	(building-type-count lumber-camp >= 1)
-	(building-type-count mining-camp >= 1)
 	(building-type-count barracks >= 1)
 	(building-type-count archery-range >= 1)
 	(building-type-count blacksmith >= 1)
@@ -3664,13 +3628,30 @@
 )
 
 #load-if-defined VICTORY-STANDARD
-(defrule
-	(building-type-count wonder == 0)
-	(up-pending-objects c: wonder < 1)
-	(can-build wonder)
-	=>
-	(build wonder)
-)
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: we should not be building a wonder so fast in a DM game.
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+	#load-if-defined DEATH-MATCH
+	(defrule
+		(building-type-count wonder == 0)
+		(up-pending-objects c: wonder < 1)
+		(game-time >= 1800)
+		(can-build wonder)
+		=>
+		(build wonder)
+	)
+	#else
+	(defrule
+		(building-type-count wonder == 0)
+		(up-pending-objects c: wonder < 1)
+		(can-build wonder)
+		=>
+		(build wonder)
+	)
+	#end-if
+
 #end-if
 
 (defrule
@@ -3693,9 +3674,6 @@
 
 (defrule
 	(current-age >= imperial-age)
-	(building-type-count mill >= 1)
-	(building-type-count lumber-camp >= 1)
-	(building-type-count mining-camp >= 1)
 	(building-type-count barracks >= 1)
 	(building-type-count archery-range >= 1)
 	(building-type-count blacksmith >= 1)
@@ -3714,9 +3692,6 @@
 
 (defrule
 	(current-age >= imperial-age)
-	(building-type-count mill >= 1)
-	(building-type-count lumber-camp >= 1)
-	(building-type-count mining-camp >= 1)
 	(building-type-count barracks >= 1)
 	(building-type-count archery-range >= 1)
 	(building-type-count blacksmith >= 1)
@@ -3735,9 +3710,6 @@
 
 (defrule
 	(current-age >= imperial-age)
-	(building-type-count mill >= 1)
-	(building-type-count lumber-camp >= 1)
-	(building-type-count mining-camp >= 1)
 	(building-type-count barracks >= 1)
 	(building-type-count archery-range >= 1)
 	(building-type-count blacksmith >= 1)
@@ -3756,9 +3728,6 @@
 
 (defrule
 	(current-age >= imperial-age)
-	(building-type-count mill >= 1)
-	(building-type-count lumber-camp >= 1)
-	(building-type-count mining-camp >= 1)
 	(building-type-count barracks >= 1)
 	(building-type-count archery-range >= 1)
 	(building-type-count blacksmith >= 1)
@@ -3777,9 +3746,6 @@
 
 (defrule
 	(current-age >= imperial-age)
-	(building-type-count mill >= 1)
-	(building-type-count lumber-camp >= 1)
-	(building-type-count mining-camp >= 1)
 	(building-type-count barracks >= 1)
 	(building-type-count archery-range >= 1)
 	(building-type-count blacksmith >= 1)
@@ -3798,9 +3764,6 @@
 
 (defrule
 	(current-age >= imperial-age)
-	(building-type-count mill >= 1)
-	(building-type-count lumber-camp >= 1)
-	(building-type-count mining-camp >= 1)
 	(building-type-count barracks >= 1)
 	(building-type-count archery-range >= 1)
 	(building-type-count blacksmith >= 1)
@@ -3819,9 +3782,6 @@
 
 (defrule
 	(current-age >= imperial-age)
-	(building-type-count mill >= 1)
-	(building-type-count lumber-camp >= 1)
-	(building-type-count mining-camp >= 1)
 	(building-type-count barracks >= 1)
 	(building-type-count archery-range >= 1)
 	(building-type-count blacksmith >= 1)
@@ -3840,9 +3800,6 @@
 
 (defrule
 	(current-age >= imperial-age)
-	(building-type-count mill >= 1)
-	(building-type-count lumber-camp >= 1)
-	(building-type-count mining-camp >= 1)
 	(building-type-count barracks >= 1)
 	(building-type-count archery-range >= 1)
 	(building-type-count blacksmith >= 1)
@@ -3861,9 +3818,6 @@
 
 (defrule
 	(current-age >= imperial-age)
-	(building-type-count mill >= 1)
-	(building-type-count lumber-camp >= 1)
-	(building-type-count mining-camp >= 1)
 	(building-type-count barracks >= 1)
 	(building-type-count archery-range >= 1)
 	(building-type-count blacksmith >= 1)
@@ -3882,9 +3836,6 @@
 
 (defrule
 	(current-age >= imperial-age)
-	(building-type-count mill >= 1)
-	(building-type-count lumber-camp >= 1)
-	(building-type-count mining-camp >= 1)
 	(building-type-count barracks >= 1)
 	(building-type-count archery-range >= 1)
 	(building-type-count stable >= 1)
@@ -4034,22 +3985,14 @@
 ; Note: + INFANTRY - MILITIA
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-(defrule
-	(goal gl-make-militia 1)
-	(goal gl-random-barracks 1)
-	(can-train militiaman-line)
-	=>
-	(train militiaman-line)
-)
-
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ; Note: Let's counter!
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 (defrule
 	(can-train militiaman-line)
-	(or (players-unit-type-count any-enemy spearman-line >= 10)
-		(players-unit-type-count any-enemy eagle-warrior-line >= 10)
+	(or (players-unit-type-count any-enemy spearman-line >= 25)
+		(players-unit-type-count any-enemy eagle-warrior-line >= 25)
 	)
 	=>
 	(train militiaman-line)
@@ -4060,16 +4003,20 @@
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-; Note: + INFANTRY - SPEARMAN
+; Note: Train if good for me.
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 (defrule
-	(goal gl-make-spearmen 1)
-	(goal gl-random-barracks 2)
-	(can-train spearman-line)
+	(goal gl-make-militia 1)
+	(goal gl-random-barracks 1)
+	(can-train militiaman-line)
 	=>
-	(train spearman-line)
+	(train militiaman-line)
 )
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: + INFANTRY - SPEARMAN
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ; Note: Let's counter!
@@ -4077,16 +4024,15 @@
 
 (defrule
 	(can-train spearman-line)
-	(or (players-unit-type-count any-enemy scout-cavalry-line >= 10)
-		(or (players-unit-type-count any-enemy knight-line >= 10)
-			(or (players-unit-type-count any-enemy cataphract-line >= 10)
-				(or (players-unit-type-count any-enemy tarkan-line >= 10)
-					(or (players-unit-type-count any-enemy mameluke-line >= 10)
-						(or (players-unit-type-count any-enemy camel-line >= 10)
-							(players-unit-type-count any-enemy war-elephant-line >= 10)
+	(or (players-unit-type-count any-enemy scout-cavalry-line >= 25)
+		(or (players-unit-type-count any-enemy knight-line >= 25)
+			(or (players-unit-type-count any-enemy cataphract-line >= 25)
+				(or (players-unit-type-count any-enemy tarkan-line >= 25)
+					(or (players-unit-type-count any-enemy mameluke-line >= 25)
+						(or (players-unit-type-count any-enemy camel-line >= 25)
+							(players-unit-type-count any-enemy war-elephant-line >= 25)
 						)
 					)
-					
 				)
 			)
 		)
@@ -4100,16 +4046,20 @@
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-; Note: + INFANTRY - EAGLE WARRIOR
+; Note: Train if good for me.
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 (defrule
-	(goal gl-make-eagle-warriors 1)
-	(goal gl-random-barracks 3)
-	(can-train eagle-warrior-line)
+	(goal gl-make-spearmen 1)
+	(goal gl-random-barracks 2)
+	(can-train spearman-line)
 	=>
-	(train eagle-warrior-line)
+	(train spearman-line)
 )
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: + INFANTRY - EAGLE WARRIOR
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ; Note: Let's counter!
@@ -4117,17 +4067,17 @@
 
 (defrule
 	(can-train eagle-warrior-line)
-	(or (players-unit-type-count any-enemy camel-line >= 10)
-		(or (players-unit-type-count any-enemy scout-cavalry-line >= 10)
-			(or (players-unit-type-count any-enemy knight-line >= 10)
-				(or (players-unit-type-count any-enemy monk >= 10)
-					(or (players-unit-type-count any-enemy missionary >= 10)
-						(or (players-unit-type-count any-enemy battering-ram-line >= 10)
-							(or (players-unit-type-count any-enemy mangonel-line >= 10)
-								(or (players-unit-type-count any-enemy cataphract-line >= 10)
-									(or (players-unit-type-count any-enemy tarkan-line >= 10)
-										(or (players-unit-type-count any-enemy mameluke-line >= 10)
-											(players-unit-type-count any-enemy scorpion-line >= 10)
+	(or (players-unit-type-count any-enemy camel-line >= 25)
+		(or (players-unit-type-count any-enemy scout-cavalry-line >= 25)
+			(or (players-unit-type-count any-enemy knight-line >= 25)
+				(or (players-unit-type-count any-enemy monk >= 25)
+					(or (players-unit-type-count any-enemy missionary >= 25)
+						(or (players-unit-type-count any-enemy battering-ram-line >= 25)
+							(or (players-unit-type-count any-enemy mangonel-line >= 25)
+								(or (players-unit-type-count any-enemy cataphract-line >= 25)
+									(or (players-unit-type-count any-enemy tarkan-line >= 25)
+										(or (players-unit-type-count any-enemy mameluke-line >= 25)
+											(players-unit-type-count any-enemy scorpion-line >= 25)
 										)
 									)
 								)
@@ -4147,15 +4097,20 @@
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-; Note: + INFANTRY - CONDOTTIERO
+; Note: Train if good for me.
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 (defrule
-	(goal gl-random-barracks 4)
-	(can-train condottiero)
+	(goal gl-make-eagle-warriors 1)
+	(goal gl-random-barracks 3)
+	(can-train eagle-warrior-line)
 	=>
-	(train condottiero)
+	(train eagle-warrior-line)
 )
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: + INFANTRY - CONDOTTIERO
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ; Note: Let's counter!
@@ -4163,9 +4118,9 @@
 
 (defrule
 	(can-train condottiero)
-	(or (players-unit-type-count any-enemy hand-cannoneer >= 10)
-		(or (players-unit-type-count any-enemy janissary-line >= 10)
-			(players-unit-type-count any-enemy bombard-cannon >= 10)
+	(or (players-unit-type-count any-enemy hand-cannoneer >= 25)
+		(or (players-unit-type-count any-enemy janissary-line >= 25)
+			(players-unit-type-count any-enemy bombard-cannon >= 25)
 		)
 	)
 	=>
@@ -4177,11 +4132,43 @@
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: Train if good for me.
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+(defrule
+	(goal gl-random-barracks 4)
+	(can-train condottiero)
+	=>
+	(train condottiero)
+)
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ; Note: + ARCHERS
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ; Note: + ARCHERS - ARCHER
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: Let's counter!
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+(defrule
+	(can-train archer-line)
+	(or (players-unit-type-count any-enemy spearman-line >= 25)
+		(players-unit-type-count any-enemy eagle-warrior-line >= 25)
+	)
+	=>
+	(train archer-line)
+)
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: Alternative counter!
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: Train if good for me.
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 (defrule
@@ -4193,50 +4180,25 @@
 )
 
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-; Note: Let's counter!
-; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-(defrule
-	(can-train archer-line)
-	(or (players-unit-type-count any-enemy spearman-line >= 10)
-		(players-unit-type-count any-enemy eagle-warrior-line >= 10)
-	)
-	=>
-	(train archer-line)
-)
-
-; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-; Note: Alternative counter!
-; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ; Note: + ARCHERS - SKIRMISHER
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-(defrule
-	(goal gl-make-skirmishers 1)
-	(goal gl-random-archery-range 2)
-	(can-train skirmisher-line)
-	=>
-	(train skirmisher-line)
-)
-
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ; Note: Let's counter!
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 (defrule
 	(can-train skirmisher-line)
-	(or (players-unit-type-count any-enemy archer-line >= 10)
-		(or (players-unit-type-count any-enemy cavalry-archer-line >= 10)
-			(or (players-unit-type-count any-enemy hand-cannoneer >= 10)
-				(or (players-unit-type-count any-enemy mangudai-line >= 10)
-					(or (players-unit-type-count any-enemy conquistador-line >= 10)
-						(or (players-unit-type-count any-enemy chu-ko-nu-line >= 10)
-							(or (players-unit-type-count any-enemy longbowman-line >= 10)
-								(or (players-unit-type-count any-enemy plumed-archer-line >= 10)
-									(or (players-unit-type-count any-enemy war-wagon-line >= 10)
-										(players-unit-type-count any-enemy janissary-line >= 10)
+	(or (players-unit-type-count any-enemy archer-line >= 25)
+		(or (players-unit-type-count any-enemy cavalry-archer-line >= 25)
+			(or (players-unit-type-count any-enemy hand-cannoneer >= 25)
+				(or (players-unit-type-count any-enemy mangudai-line >= 25)
+					(or (players-unit-type-count any-enemy conquistador-line >= 25)
+						(or (players-unit-type-count any-enemy chu-ko-nu-line >= 25)
+							(or (players-unit-type-count any-enemy longbowman-line >= 25)
+								(or (players-unit-type-count any-enemy plumed-archer-line >= 25)
+									(or (players-unit-type-count any-enemy war-wagon-line >= 25)
+										(players-unit-type-count any-enemy janissary-line >= 25)
 									)
 								)
 							)
@@ -4255,16 +4217,20 @@
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-; Note: + ARCHERS - CAVALRY ARCHER
+; Note: Train if good for me.
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 (defrule
-	(goal gl-make-cavalry-archers 1)
-	(goal gl-random-archery-range 3)
-	(can-train cavalry-archer-line)
+	(goal gl-make-skirmishers 1)
+	(goal gl-random-archery-range 2)
+	(can-train skirmisher-line)
 	=>
-	(train cavalry-archer-line)
+	(train skirmisher-line)
 )
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: + ARCHERS - CAVALRY ARCHER
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ; Note: Let's counter!
@@ -4272,13 +4238,13 @@
 
 (defrule
 	(can-train cavalry-archer-line)
-	(or (players-unit-type-count any-enemy archer-line >= 10)
-		(or (players-unit-type-count any-enemy hand-cannoneer >= 10)
-			(or (players-unit-type-count any-enemy chu-ko-nu-line >= 10)
-				(or (players-unit-type-count any-enemy longbowman-line >= 10)
-					(or (players-unit-type-count any-enemy plumed-archer-line >= 10)
-						(or (players-unit-type-count any-enemy war-wagon-line >= 10)
-							(players-unit-type-count any-enemy janissary-line >= 10)
+	(or (players-unit-type-count any-enemy archer-line >= 25)
+		(or (players-unit-type-count any-enemy hand-cannoneer >= 25)
+			(or (players-unit-type-count any-enemy chu-ko-nu-line >= 25)
+				(or (players-unit-type-count any-enemy longbowman-line >= 25)
+					(or (players-unit-type-count any-enemy plumed-archer-line >= 25)
+						(or (players-unit-type-count any-enemy war-wagon-line >= 25)
+							(players-unit-type-count any-enemy janissary-line >= 25)
 						)
 					)
 				)
@@ -4294,16 +4260,20 @@
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-; Note: + ARCHERS - HAND CANNONEER
+; Note: Train if good for me.
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 (defrule
-	(goal gl-make-hand-cannoneers 1)
-	(goal gl-random-archery-range 4)
-	(can-train hand-cannoneer)
+	(goal gl-make-cavalry-archers 1)
+	(goal gl-random-archery-range 3)
+	(can-train cavalry-archer-line)
 	=>
-	(train hand-cannoneer)
+	(train cavalry-archer-line)
 )
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: + ARCHERS - HAND CANNONEER
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ; Note: Let's counter!
@@ -4311,15 +4281,15 @@
 
 (defrule
 	(can-train hand-cannoneer)
-	(or (players-unit-type-count any-enemy militiaman-line >= 10)
-		(or (players-unit-type-count any-enemy spearman-line >= 10)
-			(or (players-unit-type-count any-enemy eagle-warrior-line >= 10)
-				(or (players-unit-type-count any-enemy berserk-line >= 10)
-					(or (players-unit-type-count any-enemy huskarl-line >= 10)
-						(or (players-unit-type-count any-enemy jaguar-man-line >= 10)
-							(or (players-unit-type-count any-enemy samurai-line >= 10)
-								(or (players-unit-type-count any-enemy throwing-axeman-line >= 10)
-									(players-unit-type-count any-enemy woad-raider-line >= 10)
+	(or (players-unit-type-count any-enemy militiaman-line >= 25)
+		(or (players-unit-type-count any-enemy spearman-line >= 25)
+			(or (players-unit-type-count any-enemy eagle-warrior-line >= 25)
+				(or (players-unit-type-count any-enemy berserk-line >= 25)
+					(or (players-unit-type-count any-enemy huskarl-line >= 25)
+						(or (players-unit-type-count any-enemy jaguar-man-line >= 25)
+							(or (players-unit-type-count any-enemy samurai-line >= 25)
+								(or (players-unit-type-count any-enemy throwing-axeman-line >= 25)
+									(players-unit-type-count any-enemy woad-raider-line >= 25)
 								)
 							)
 						)
@@ -4337,15 +4307,20 @@
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-; Note: + ARCHERS - GENITOUR
+; Note: Train if good for me.
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 (defrule
-	(goal gl-random-archery-range 5)
-	(can-train genitour-placeholder)
+	(goal gl-make-hand-cannoneers 1)
+	(goal gl-random-archery-range 4)
+	(can-train hand-cannoneer)
 	=>
-	(train genitour-placeholder)
+	(train hand-cannoneer)
 )
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: + ARCHERS - GENITOUR
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ; Note: Let's counter!
@@ -4353,16 +4328,16 @@
 
 (defrule
 	(can-train genitour-placeholder)
-	(or (players-unit-type-count any-enemy archer-line >= 10)
-		(or (players-unit-type-count any-enemy cavalry-archer-line >= 10)
-			(or (players-unit-type-count any-enemy hand-cannoneer >= 10)
-				(or (players-unit-type-count any-enemy mangudai-line >= 10)
-					(or (players-unit-type-count any-enemy conquistador-line >= 10)
-						(or (players-unit-type-count any-enemy chu-ko-nu-line >= 10)
-							(or (players-unit-type-count any-enemy longbowman-line >= 10)
-								(or (players-unit-type-count any-enemy plumed-archer-line >= 10)
-									(or (players-unit-type-count any-enemy war-wagon-line >= 10)
-										(players-unit-type-count any-enemy janissary-line >= 10)
+	(or (players-unit-type-count any-enemy archer-line >= 25)
+		(or (players-unit-type-count any-enemy cavalry-archer-line >= 25)
+			(or (players-unit-type-count any-enemy hand-cannoneer >= 25)
+				(or (players-unit-type-count any-enemy mangudai-line >= 25)
+					(or (players-unit-type-count any-enemy conquistador-line >= 25)
+						(or (players-unit-type-count any-enemy chu-ko-nu-line >= 25)
+							(or (players-unit-type-count any-enemy longbowman-line >= 25)
+								(or (players-unit-type-count any-enemy plumed-archer-line >= 25)
+									(or (players-unit-type-count any-enemy war-wagon-line >= 25)
+										(players-unit-type-count any-enemy janissary-line >= 25)
 									)
 								)
 							)
@@ -4381,15 +4356,19 @@
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-; Note: + ARCHERS - SLINGER
+; Note: Train if good for me.
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 (defrule
 	(goal gl-random-archery-range 5)
-	(can-train slinger)
+	(can-train genitour-placeholder)
 	=>
-	(train slinger)
+	(train genitour-placeholder)
 )
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: + ARCHERS - SLINGER
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ; Note: Let's counter!
@@ -4397,18 +4376,17 @@
 
 (defrule
 	(can-train slinger)
-	(or (players-unit-type-count any-enemy militiaman-line >= 10)
-		(or (players-unit-type-count any-enemy spearman-line >= 10)
-			(or (players-unit-type-count any-enemy eagle-warrior-line >= 10)
-				(or (players-unit-type-count any-enemy berserk-line >= 10)
-					(or (players-unit-type-count any-enemy huskarl-line >= 10)
-						(or (players-unit-type-count any-enemy jaguar-man-line >= 10)
-							(or (players-unit-type-count any-enemy samurai-line >= 10)
-								(or (players-unit-type-count any-enemy throwing-axeman-line >= 10)
-									(or (players-unit-type-count any-enemy woad-raider-line >= 10)
-										(players-unit-type-count any-enemy battering-ram-line >= 10)
+	(or (players-unit-type-count any-enemy militiaman-line >= 25)
+		(or (players-unit-type-count any-enemy spearman-line >= 25)
+			(or (players-unit-type-count any-enemy eagle-warrior-line >= 25)
+				(or (players-unit-type-count any-enemy berserk-line >= 25)
+					(or (players-unit-type-count any-enemy huskarl-line >= 25)
+						(or (players-unit-type-count any-enemy jaguar-man-line >= 25)
+							(or (players-unit-type-count any-enemy samurai-line >= 25)
+								(or (players-unit-type-count any-enemy throwing-axeman-line >= 25)
+									(or (players-unit-type-count any-enemy woad-raider-line >= 25)
+										(players-unit-type-count any-enemy battering-ram-line >= 25)
 									)
-									
 								)
 							)
 						)
@@ -4426,11 +4404,43 @@
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: Train if good for me.
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+(defrule
+	(goal gl-random-archery-range 5)
+	(can-train slinger)
+	=>
+	(train slinger)
+)
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ; Note: + CAVALRY
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ; Note: + CAVALRY - SCOUT CAVALRY
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Let's counter!
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+(defrule
+	(can-train scout-cavalry-line)
+	(or (players-unit-type-count any-enemy monk >= 25)
+		(players-unit-type-count any-enemy missionary >= 25)
+	)
+	=>
+	(train scout-cavalry-line)
+)
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: Alternative counter!
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: Train if good for me.
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 (defrule
@@ -4442,16 +4452,30 @@
 )
 
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-; Let's counter!
+; Note: + CAVALRY - KNIGHT
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: Let's counter!
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+; oddly enough, knights do not counter anything directly. (No bonus attack vs anything.) I will add some useful counters though... later...
+
 (defrule
-	(can-train scout-cavalry-line)
-	(or (players-unit-type-count any-enemy monk >= 10)
-		(players-unit-type-count any-enemy missionary >= 10)
+	(can-train knight-line)
+	(or (players-unit-type-count any-enemy skirmisher-line >= 25)
+		(or (players-unit-type-count any-enemy battering-ram-line >= 25)
+			(or (players-unit-type-count any-enemy mangonel-line >= 25)
+				(or (players-unit-type-count any-enemy scorpion-line >= 25)
+					(or (players-unit-type-count any-enemy trebuchet >= 25)
+						(players-unit-type-count any-enemy 42 >= 25)
+					)
+				)
+			)
+		)
 	)
 	=>
-	(train scout-cavalry-line)
+	(train knight-line)
 )
 
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -4459,7 +4483,7 @@
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-; Note: + CAVALRY - KNIGHT
+; Note: Train if good for me.
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 (defrule
@@ -4471,26 +4495,28 @@
 )
 
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: + CAVALRY - CAMEL
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ; Note: Let's counter!
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-; oddly enough, knights do not counter anything directly. (No bonus attack vs anything.) I will add some useful counters though...
-
 (defrule
-	(can-train knight-line)
-	(or (players-unit-type-count any-enemy skirmisher-line >= 10)
-		(or (players-unit-type-count any-enemy battering-ram-line >= 10)
-			(or (players-unit-type-count any-enemy mangonel-line >= 10)
-				(or (players-unit-type-count any-enemy scorpion-line >= 10)
-					(or (players-unit-type-count any-enemy trebuchet >= 10)
-						(players-unit-type-count any-enemy 42 >= 10)
+	(can-train camel-line)
+	(or (players-unit-type-count any-enemy scout-cavalry-line >= 25)
+		(or (players-unit-type-count any-enemy knight-line >= 25)
+			(or (players-unit-type-count any-enemy camel-line >= 25)
+				(or (players-unit-type-count any-enemy cataphract-line >= 25)
+					(or (players-unit-type-count any-enemy mameluke-line >= 25)
+						(players-unit-type-count any-enemy tarkan-line >= 25)
 					)
 				)
 			)
 		)
 	)
 	=>
-	(train knight-line)
+	(train camel-line)
 )
 
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -4498,7 +4524,7 @@
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-; Note: + CAVALRY - CAMEL
+; Note: Train if good for me.
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 (defrule
@@ -4510,41 +4536,8 @@
 )
 
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-; Note: Let's counter!
-; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-(defrule
-	(can-train camel-line)
-	(or (players-unit-type-count any-enemy scout-cavalry-line >= 10)
-		(or (players-unit-type-count any-enemy knight-line >= 10)
-			(or (players-unit-type-count any-enemy camel-line >= 10)
-				(or (players-unit-type-count any-enemy cataphract-line >= 10)
-					(or (players-unit-type-count any-enemy mameluke-line >= 10)
-						(players-unit-type-count any-enemy tarkan-line >= 10)
-					)
-				)
-			)
-		)
-	)
-	=>
-	(train camel-line)
-)
-
-; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-; Note: Alternative counter!
-; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ; Note: + CAVALRY - BATTLE ELEPHANT
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-(defrule
-	(goal gl-make-battle-elephants 1)
-	(goal gl-random-stable 4)
-	(can-train battle-elephant-line)
-	=>
-	(train battle-elephant-line)
-)
 
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ; Note: Let's counter!
@@ -4568,11 +4561,44 @@
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: Train if good for me.
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+(defrule
+	(goal gl-make-battle-elephants 1)
+	(goal gl-random-stable 4)
+	(can-train battle-elephant-line)
+	=>
+	(train battle-elephant-line)
+)
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ; Note: + SHIPS
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ; Note: + SHIPS - GALLEY
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: Let's counter!
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+(defrule
+	(can-train galley-line)
+	(or (players-unit-type-count any-enemy battering-ram-line >= 25)
+		(players-unit-type-count any-enemy galley-line >= 25)
+	)
+	=>
+	(train galley-line)
+)
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: Alternative counter!
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: Train if good for me.
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 (defrule
@@ -4584,13 +4610,22 @@
 )
 
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: + SHIPS - FIRE SHIP
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ; Note: Let's counter!
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 (defrule
-	(can-train galley-line)
+	(can-train fire-ship-line)
+	(or (players-unit-type-count any-enemy demolition-ship-line >= 25)
+		(or (players-unit-type-count any-enemy galley-line >= 25)
+			(players-unit-type-count any-enemy turtle-ship-line >= 25)
+		)
+	)
 	=>
-	(train galley-line)
+	(train fire-ship-line)
 )
 
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -4598,7 +4633,7 @@
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-; Note: + SHIPS - FIRE SHIP
+; Note: Train if good for me.
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 (defrule
@@ -4610,13 +4645,20 @@
 )
 
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: + SHIPS - DEMOLITION SHIP
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ; Note: Let's counter!
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 (defrule
-	(can-train fire-ship-line)
+	(can-train demolition-ship-line)
+	(or (players-unit-type-count any-enemy galley-line >= 25)
+		(players-building-type-count any-enemy dock >= 1)
+	)
 	=>
-	(train fire-ship-line)
+	(train demolition-ship-line)
 )
 
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -4624,7 +4666,7 @@
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-; Note: + SHIPS - DEMOLITION SHIP
+; Note: Train if good for me.
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 (defrule
@@ -4636,13 +4678,42 @@
 )
 
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: + SHIPS - CANNON GALLEONS
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ; Note: Let's counter!
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 (defrule
-	(can-train demolition-ship-line)
+	(can-train cannon-galleon-line)
+	(or (players-unit-type-count any-enemy eagle-warrior-line >= 25)
+		(or (players-unit-type-count any-enemy militiaman-line >= 25)
+			(or (players-unit-type-count any-enemy spearman-line >= 25)
+				(or (players-unit-type-count any-enemy archer-line >= 25)
+					(or (players-unit-type-count any-enemy skirmisher-line >= 25)
+						(or (players-unit-type-count any-enemy hand-cannoneer >= 25)
+							(or (players-unit-type-count any-enemy scout-cavalry-line >= 25)
+								(or (players-unit-type-count any-enemy knight-line >= 25)
+									(or (players-unit-type-count any-enemy camel-line >= 25)
+										(or (players-unit-type-count any-enemy battering-ram-line >= 25)
+											(or (players-unit-type-count any-enemy mangonel-line >= 25)
+												(or (players-unit-type-count any-enemy scorpion-line >= 25)
+													(players-unit-type-count any-enemy battle-elephant-line >= 25)
+												)
+											)
+										)
+									)
+								)
+							)
+						)
+					)
+				)
+			)
+		)
+	)
 	=>
-	(train demolition-ship-line)
+	(train cannon-galleon-line)
 )
 
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -4650,7 +4721,7 @@
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-; Note: + SHIPS - CANNON GALLEONS
+; Note: Train if good for me.
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 (defrule
@@ -4662,65 +4733,27 @@
 )
 
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-; Note: Let's counter!
-; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-(defrule
-	(can-train cannon-galleon-line)
-	=>
-	(train cannon-galleon-line)
-)
-
-; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-; Note: Alternative counter!
-; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ; Note: + SHIPS - UNIQUE SHIPS
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-(defrule
-	(goal gl-make-unique-ships 1)
-	(goal gl-random-dock 5)
-	(can-train longboat-line)
-	=>
-	(train longboat-line)
-)
-
-(defrule
-	(goal gl-make-unique-ships 1)
-	(goal gl-random-dock 5)
-	(can-train turtle-ship-line)
-	=>
-	(train turtle-ship-line)
-)
-
-(defrule
-	(goal gl-make-unique-ships 1)
-	(goal gl-random-dock 5)
-	(can-train caravel-line)
-	=>
-	(train caravel-line)
-)
-
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ; Note: Let's counter!
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 (defrule
 	(can-train longboat-line)
+	(or (players-unit-type-count any-enemy galley-line >= 25)
+		(players-unit-type-count any-enemy battering-ram-line >= 25)
+	)
 	=>
 	(train longboat-line)
 )
 
 (defrule
-	(can-train turtle-ship-line)
-	=>
-	(train turtle-ship-line)
-)
-
-(defrule
 	(can-train caravel-line)
+	(or (players-unit-type-count any-enemy galley-line >= 25)
+		(players-unit-type-count any-enemy battering-ram-line >= 25)
+	)
 	=>
 	(train caravel-line)
 )
@@ -4728,6 +4761,34 @@
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ; Note: Alternative counter!
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: Train if good for me.
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+(defrule
+	(goal gl-make-unique-ships 1)
+	(goal gl-random-dock 5)
+	(can-train longboat-line)
+	=>
+	(train longboat-line)
+)
+
+(defrule
+	(goal gl-make-unique-ships 1)
+	(goal gl-random-dock 5)
+	(can-train turtle-ship-line)
+	=>
+	(train turtle-ship-line)
+)
+
+(defrule
+	(goal gl-make-unique-ships 1)
+	(goal gl-random-dock 5)
+	(can-train caravel-line)
+	=>
+	(train caravel-line)
+)
 
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ; Note: + MONKS
@@ -4735,6 +4796,37 @@
 
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ; Note: + MONKS - MONK
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: Let's counter!
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+; does not specify...
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: Alternative counter!
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+; ...but, I do know a few of the counters.
+
+(defrule
+	(can-train monk)
+	(or (players-unit-type-count any-enemy militiaman-line >= 25)
+		(or (players-unit-type-count any-enemy knight-line >= 25)
+			(or (players-unit-type-count any-enemy war-elephant-line >= 25)
+				(or (players-unit-type-count any-enemy teutonic-knight-line >= 25)
+					(players-unit-type-count any-enemy battle-elephant-line >= 25)
+				)
+			)
+		)
+	)
+	=>
+	(train monk)
+)
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: Train if good for me.
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 (defrule
@@ -4746,6 +4838,10 @@
 )
 
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: + MONKS - MISSIONARY
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ; Note: Let's counter!
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -4758,46 +4854,27 @@
 ; ...but, I do know a few of the counters.
 
 (defrule
-	(can-train monk)
-	(or (players-unit-type-count any-enemy militiaman-line >= 10)
-		(or (players-unit-type-count any-enemy knight-line >= 10)
-			(players-unit-type-count any-enemy war-elephant-line >= 10)
+	(can-train missionary)
+	(or (players-unit-type-count any-enemy militiaman-line >= 25)
+		(or (players-unit-type-count any-enemy knight-line >= 25)
+			(or (players-unit-type-count any-enemy war-elephant-line >= 25)
+				(or (players-unit-type-count any-enemy teutonic-knight-line >= 25)
+					(players-unit-type-count any-enemy battle-elephant-line >= 25)
+				)
+			)
 		)
 	)
-	=>
-	(train monk)
-)
-
-; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-; Note: + MONKS - MISSIONARY
-; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-(defrule
-	(goal gl-random-monastery 2)
-	(can-train missionary)
 	=>
 	(train missionary)
 )
 
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-; Note: Let's counter!
+; Note: Train if good for me.
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-; does not specify...
-
-; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-; Note: Alternative counter!
-; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-; ...but, I do know a few of the counters.
 
 (defrule
+	(goal gl-random-monastery 2)
 	(can-train missionary)
-	(or (players-unit-type-count any-enemy militiaman-line >= 10)
-		(or (players-unit-type-count any-enemy knight-line >= 10)
-			(players-unit-type-count any-enemy war-elephant-line >= 10)
-		)
-	)
 	=>
 	(train missionary)
 )
@@ -4810,26 +4887,18 @@
 ; Note: + SIEGE - RAM
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-(defrule
-	(goal gl-make-rams 1)
-	(goal gl-random-siege-workshop 1)
-	(can-train battering-ram-line)
-	=>
-	(train battering-ram-line)
-)
-
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ; Note: Let's counter!
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 (defrule
-	(can-train bombard-cannon)
+	(can-train battering-ram-line)
 	(or (players-building-type-count any-enemy watch-tower-line >= 1)
 		(or (players-building-type-count any-enemy bombard-tower >= 1)
 			(or (players-building-type-count any-enemy castle >= 1)
 				(or (players-building-type-count any-enemy wonder >= 1)
-					(or (players-unit-type-count any-enemy battering-ram-line >= 10)
-						(players-unit-type-count any-enemy scorpion-line >= 10)
+					(or (players-unit-type-count any-enemy battering-ram-line >= 25)
+						(players-unit-type-count any-enemy scorpion-line >= 25)
 					)
 				)
 			)
@@ -4844,16 +4913,20 @@
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-; Note: + SIEGE - MANGONEL
+; Note: Train if good for me.
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 (defrule
-	(goal gl-make-mangonels 1)
-	(goal gl-random-siege-workshop 2)
-	(can-train mangonel-line)
+	(goal gl-make-rams 1)
+	(goal gl-random-siege-workshop 1)
+	(can-train battering-ram-line)
 	=>
-	(train mangonel-line)
+	(train battering-ram-line)
 )
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: + SIEGE - MANGONEL
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ; Note: Let's counter!
@@ -4861,13 +4934,13 @@
 
 (defrule
 	(can-train mangonel-line)
-	(or (players-unit-type-count any-enemy battering-ram-line >= 10)
-		(or (players-unit-type-count any-enemy scorpion-line >= 10)
-			(or (players-unit-type-count any-enemy mangonel-line >= 10)
-				(or (players-unit-type-count any-enemy bombard-cannon >= 10)
-					(or (players-unit-type-count any-enemy trebuchet >= 10)
-						(or (players-unit-type-count any-enemy 42 >= 10)
-							(players-unit-type-count any-enemy petard >= 10)
+	(or (players-unit-type-count any-enemy battering-ram-line >= 25)
+		(or (players-unit-type-count any-enemy scorpion-line >= 25)
+			(or (players-unit-type-count any-enemy mangonel-line >= 25)
+				(or (players-unit-type-count any-enemy bombard-cannon >= 25)
+					(or (players-unit-type-count any-enemy trebuchet >= 25)
+						(or (players-unit-type-count any-enemy 42 >= 25)
+							(players-unit-type-count any-enemy petard >= 25)
 						)
 					)
 				)
@@ -4886,20 +4959,20 @@
 
 (defrule
 	(can-train mangonel-line)
-	(or (players-unit-type-count any-enemy militiaman-line >= 10)
-		(or (players-unit-type-count any-enemy spearman-line >= 10)
-			(or (players-unit-type-count any-enemy archer-line >= 10)
-				(or (players-unit-type-count any-enemy skirmisher-line >= 10)
-					(or (players-unit-type-count any-enemy berserk-line >= 10)
-						(or (players-unit-type-count any-enemy chu-ko-nu-line >= 10)
-							(or (players-unit-type-count any-enemy huskarl-line >= 10)
-								(or (players-unit-type-count any-enemy jaguar-man-line >= 10)
-									(or (players-unit-type-count any-enemy janissary-line >= 10)
-										(or (players-unit-type-count any-enemy longbowman-line >= 10)
-											(or (players-unit-type-count any-enemy plumed-archer-line >= 10)
-												(or (players-unit-type-count any-enemy samurai-line >= 10)
-													(or (players-unit-type-count any-enemy teutonic-knight-line >= 10)
-														(players-unit-type-count any-enemy hand-cannoneer >= 10)
+	(or (players-unit-type-count any-enemy militiaman-line >= 25)
+		(or (players-unit-type-count any-enemy spearman-line >= 25)
+			(or (players-unit-type-count any-enemy archer-line >= 25)
+				(or (players-unit-type-count any-enemy skirmisher-line >= 25)
+					(or (players-unit-type-count any-enemy berserk-line >= 25)
+						(or (players-unit-type-count any-enemy chu-ko-nu-line >= 25)
+							(or (players-unit-type-count any-enemy huskarl-line >= 25)
+								(or (players-unit-type-count any-enemy jaguar-man-line >= 25)
+									(or (players-unit-type-count any-enemy janissary-line >= 25)
+										(or (players-unit-type-count any-enemy longbowman-line >= 25)
+											(or (players-unit-type-count any-enemy plumed-archer-line >= 25)
+												(or (players-unit-type-count any-enemy samurai-line >= 25)
+													(or (players-unit-type-count any-enemy teutonic-knight-line >= 25)
+														(players-unit-type-count any-enemy hand-cannoneer >= 25)
 													)
 												)
 											)
@@ -4919,18 +4992,56 @@
 
 (defrule
 	(can-train mangonel-line)
-	(or (players-unit-type-count any-enemy kamayuk-line >= 10)
-		(or (players-unit-type-count any-enemy genoese-crossbowman-line >= 10)
-			(or (players-unit-type-count any-enemy karambit-warrior-line >= 10)
-				(players-unit-type-count any-enemy organ-gun-line >= 10)
+	(or (players-unit-type-count any-enemy kamayuk-line >= 25)
+		(or (players-unit-type-count any-enemy genoese-crossbowman-line >= 25)
+			(or (players-unit-type-count any-enemy karambit-warrior-line >= 25)
+				(players-unit-type-count any-enemy organ-gun-line >= 25)
 			)
 		)
 	)
 	=>
 	(train mangonel-line)
 )
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: Train if good for me.
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+(defrule
+	(goal gl-make-mangonels 1)
+	(goal gl-random-siege-workshop 2)
+	(can-train mangonel-line)
+	=>
+	(train mangonel-line)
+)
+
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ; Note: + SIEGE - SCORPION
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: Let's counter!
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+(defrule
+	(can-train scorpion-line)
+	(or (players-unit-type-count any-enemy war-elephant-line >= 25)
+		(or (players-unit-type-count any-enemy battle-elephant-line >= 25)
+			(or (players-unit-type-count any-enemy elephant-archer-line >= 25)
+				(players-unit-type-count any-enemy ballista-elephant-line >= 25)
+			)
+		)
+	)
+	=>
+	(train scorpion-line)
+)
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: Alternative counter!
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: Train if good for me.
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 (defrule
@@ -4942,31 +5053,8 @@
 )
 
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-; Note: Let's counter!
-; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-(defrule
-	(can-train scorpion-line)
-	(players-unit-type-count any-enemy war-elephant-line >= 10)
-	=>
-	(train scorpion-line)
-)
-
-; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-; Note: Alternative counter!
-; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ; Note: + SIEGE - BOMBARD CANNON
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-(defrule
-	(goal gl-make-bombard-cannons 1)
-	(goal gl-random-siege-workshop 4)
-	(can-train bombard-cannon)
-	=>
-	(train bombard-cannon)
-)
 
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ; Note: Let's counter!
@@ -4978,9 +5066,9 @@
 		(or (players-building-type-count any-enemy bombard-tower >= 1)
 			(or (players-building-type-count any-enemy castle >= 1)
 				(or (players-building-type-count any-enemy wonder >= 1)
-					(or (players-unit-type-count any-enemy camel-line >= 10)
-						(or (players-unit-type-count any-enemy trebuchet >= 10)
-							(players-unit-type-count any-enemy 42 >= 10)
+					(or (players-unit-type-count any-enemy camel-line >= 25)
+						(or (players-unit-type-count any-enemy trebuchet >= 25)
+							(players-unit-type-count any-enemy 42 >= 25)
 						)
 					)
 				)
@@ -4994,6 +5082,18 @@
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ; Note: Alternative counter!
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+; Note: Train if good for me.
+; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+(defrule
+	(goal gl-make-bombard-cannons 1)
+	(goal gl-random-siege-workshop 4)
+	(can-train bombard-cannon)
+	=>
+	(train bombard-cannon)
+)
 
 ; ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ; Note: + SIEGE - PETARD
